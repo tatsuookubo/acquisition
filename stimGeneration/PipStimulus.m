@@ -6,7 +6,7 @@ classdef PipStimulus < AuditoryStimulus
     properties (Constant,Hidden)
         defaultModulationDepth  = 1
         defaultModulationFreqHz = 8
-        defaultCarrierFreqHz    = 150
+        defaultCarrierFreqHz    = 300
         defaultDutyCycle        = .5
         defaultEnvelope         = 'sinusoid'
      end
@@ -28,7 +28,6 @@ classdef PipStimulus < AuditoryStimulus
                 obj.setPipParameters(params);
             end
             obj.generateStim();
-            obj.makeAlignmentOutput();
 
             if obj.debug
                 obj.plot

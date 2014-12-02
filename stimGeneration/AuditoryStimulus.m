@@ -6,6 +6,9 @@ classdef AuditoryStimulus < handle
         % Default setting for duration and rate
         defaultStimDurMs = 10
         defaultSampleRate = 1E5
+        
+        % Default pad duration - time with zero output before and after the stimulus  
+        defaultPadDur = 1 
 
         % Default setting for amplifier input maximum
         defaultMaxVoltage = 1
@@ -25,9 +28,9 @@ classdef AuditoryStimulus < handle
     properties
         stimulusDur
         sampleRate
+        padDur
         maxVoltage
         stimulus
-        alignment
         speakerOrder
         speaker
     end
@@ -38,18 +41,19 @@ classdef AuditoryStimulus < handle
             if nargin < 1
                 obj.sampleRate = obj.defaultSampleRate;
                 obj.stimulusDur = obj.defaultStimDurMs;
+                obj.padDur = obj.defaultPadDur; 
                 obj.maxVoltage = obj.defaultMaxVoltage;
                 obj.speakerOrder = obj.defaultSpeakerOrder;
                 obj.speaker = obj.defaultSpeaker;
             else
                 obj.sampleRate = params.sampleRate;
                 obj.stimulusDur = params.stimulusDur;
+                obj.padDur = params.padDur; 
                 obj.maxVoltage = params.maxVoltage;
                 obj.speakerOrder = params.speakerOrder;
                 obj.speaker = params.speaker;
             end
             obj.stimulus = [];
-            obj.alignment = [];
         end
 
 %%------Common Utilities---------------------------------------------------------
@@ -58,16 +62,10 @@ classdef AuditoryStimulus < handle
             carrier = sin(2*pi*frequency*ts)';
         end
         
-        function static = makeStatic(obj,frequency)
+        function static = makeStatic(obj)
             static = ones(obj.sampleRate*obj.stimulusDur,1);
         end
 
-        function obj = makeAlignmentOutput(obj)
-            % Alignment is set to an arbitrary large fraction to ensure even slow daq
-            % sampling will pick it up
-            obj.alignment = zeros(length(obj.stimulus),1);
-            obj.alignment(1) = 1; %:ceil(numel(obj.stimulus)/4)) = 1;
-        end
 
 %%------Plotting--------------------------------------------------------------------
         function [figHandle,plotHandle] = plot(obj,varargin)

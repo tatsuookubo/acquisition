@@ -115,12 +115,14 @@ mean(data.voltage)
 
 % Plot 
 figure() 
-hV(1) = subplot(3,1,1); 
+h(1) = subplot(3,1,1); 
+plot(stim.stimulus) 
+h(2) = subplot(4,1,2); 
 plot(data.voltage)
 title(['voltage, softGain = ',num2str(meta.vSettings.softGain)])
 ylabel('mV') 
 ylimV = ylim; 
-hI(1) = subplot(3,1,3); 
+h(4) = subplot(4,1,4); 
 plot(data.current,'r')
 title(['current, softGain = ',num2str(meta.iSettings.softGain)]) 
 ylabel('pA') 
@@ -136,12 +138,12 @@ switch meta.scSettings.mode
         meta.scSettings.gain
         meta.scSettings.alpha = meta.scSettings.gain/meta.scSettings.beta;
         data.scaledCurrent = meta.scSettings.softGain .* rawData(:,meta.bob.scalCh+1); 
-        hI(3) = subplot(3,1,2); 
+        h(3) = subplot(4,1,3); 
         plot(data.scaledCurrent,'r')
         title(['scaled current, softGain = ',num2str(meta.scSettings.softGain)])
         ylabel('pA')   
         ylim(ylimI);
-        linkaxes(hI,'y')
+%         linkaxes(hI,'y')
 %         h = [hV,hI];
 %         linkaxes(h,'x')
          fprintf('\n mean scaled current = ')
@@ -152,18 +154,21 @@ mean(data.scaledCurrent)
     case {'I=0','I-Clamp Normal','I-Clamp Fast'}
         meta.scSettings.softGain = 1000/(meta.scSettings.gain);
         data.scaledVoltage = meta.scSettings.softGain .* rawData(:,meta.bob.scalCh+1); 
-        hV(2) = subplot(3,1,2);
+        h(3) = subplot(4,1,3);
         plot(data.scaledVoltage)
         title(['scaled voltage, softGain = ',num2str(meta.scSettings.softGain)])
         ylabel('mV') 
         ylim(ylimV); 
-        linkaxes(hV,'y')
+%         linkaxes(hV,'y')
 %         h = [hV,hI];
-%         linkaxes(h,'x')
+
 fprintf('\n mean scaled voltage = ')
 mean(data.scaledVoltage) 
     fprintf('\n gain = x%4.1f\n freq = %d kHz\n mode = %s\n',meta.scSettings.gain,meta.scSettings.freq,meta.scSettings.mode) 
 end
+       linkaxes(h,'x')
+       
+     plotData(stim,meta,data)
 
 %% Save data 
 save(fileName, 'data','meta','stim');
