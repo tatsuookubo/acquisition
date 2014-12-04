@@ -25,6 +25,7 @@ function obj = selectPip(pt,obj)
             obj.carrierFreqHz    = 150;
             obj.dutyCycle        = .1;
             obj.envelope         = 'sinusoid';
+            obj.speaker = 2; 
         case {'b'}
             % faster hunting pip
             obj.stimulusDur      = 1;

@@ -1,4 +1,4 @@
-function acquireTrial(stim,prefixCode,expNum,flyNum,flyExpNum,meta)
+function acquireTrial(stim,prefixCode,expNum,flyNum,flyExpNum)
 
 %% Meta data 
 meta.pre        = prefixCode; 
@@ -6,7 +6,7 @@ meta.expNum     = expNum;
 meta.flyNum     = flyNum; 
 meta.flyExpNum  = flyExpNum; 
 
-meta.codeStamp = getCodeStamp(1); 
+meta.codeStamp = 
 
 
 %% Parameters 

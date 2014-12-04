@@ -1,0 +1,24 @@
+function [flyNum, flyExpNum] = getFlyNum(prefixCode, expNum, newFly)
+
+        % Make numbers strings
+    eNum = num2str(expNum,'%03d');
+    microCzarSettings;   % Loads settings
+    
+    path = [dataDirectory,prefixCode,'\expNum',eNum,'\flyNum'];
+    % Determine fly number 
+    flyNum = 1;
+    while( isdir([path,num2str(flyNum,'%03d')]) )
+        flyNum = flyNum + 1;
+    end
+    
+    if strcmp(newFly,'y')
+        flyExpNum = 1;
+    else
+        flyNum = flyNum - 1;
+        while( isdir([path,num2str(flyNum,'%03d')]) )
+            flyNum = flyNum + 1;
+        end
+        
+    end
+    % Put together full file name 
+    fullFileName = [path,fileNamePreamble,num2str(flyNum,'%03d'),'.mat'];

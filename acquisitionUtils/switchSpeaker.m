@@ -2,9 +2,9 @@ function switchSpeaker(spNum)
 
 % spNum = speaker number
 % spNum = 0 All speakers off 
-% spNum = 1 Left speaker 
-% spNum = 2 Middle speaker 
-% spNum = 3 Right speaker 
+% spNum = 1 Fly's left 
+% spNum = 2 Fly's middle 
+% spNum = 3 Fly's right 
 
 output = [0,0,0];
 

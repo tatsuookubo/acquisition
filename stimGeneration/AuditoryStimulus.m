@@ -14,7 +14,7 @@ classdef AuditoryStimulus < handle
         defaultMaxVoltage = 1
         
         % Default setting for speaker arrangment 
-        defaultSpeakerOrder = {'L','M','R'};
+        defaultSpeakerOrder = {'L','M','R'}; % From fly's point of view
         defaultSpeaker = 1;
 
         % Default setting for plotting

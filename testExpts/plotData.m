@@ -1,6 +1,6 @@
-function plotData%(stim,meta,data)
+function plotData(stim,meta,data)
 
-uiopen; 
+
 
 stimTime = [1/stim.sampleRate:1/stim.sampleRate:stim.stimulusDur]';
 figure() 
