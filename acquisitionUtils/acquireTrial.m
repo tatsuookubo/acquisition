@@ -1,4 +1,4 @@
-function acquireTrial(stim,prefixCode,expNum,flyNum,flyExpNum,meta)
+function acquireTrial(stim,prefixCode,expNum,flyNum,flyExpNum,Iclamp)
 
 %% Meta data 
 meta.pre        = prefixCode; 
@@ -23,20 +23,29 @@ meta.bob.modeCh = 5;
 
 meta.bob.aiType = 'SingleEnded'; 
 
-% Current output settings
-meta.iSettings.betaRear   = 100; % Rear switch for current output set to beta = 100mV/pA 
-meta.iSettings.betaFront  = 0.1; % Front swtich for current output set to beta = .1mV/pA 
+% Current input settings
+meta.iSettings.betaRear   = 1; % Rear switch for current output set to beta = 100mV/pA 
+meta.iSettings.betaFront  = 1; % Front swtich for current output set to beta = .1mV/pA 
 meta.iSettings.sigCond.Ch = 1; 
-meta.iSettings.sigCond.gain = 1;
+meta.iSettings.sigCond.gain = 10;
 meta.iSettings.sigCond.freq = 5; 
 meta.iSettings.softGain   = 1000/(meta.iSettings.betaRear * meta.iSettings.betaFront * meta.iSettings.sigCond.gain); 
 
-% Voltage output settings 
+% Voltage input settings 
 meta.vSettings.sigCond.Ch = 2; 
 meta.vSettings.sigCond.gain = 10;
 meta.vSettings.sigCond.freq = 5; 
 meta.vSettings.softGain = 1000/(meta.vSettings.sigCond.gain * 10); % To get voltage in mV 
 
+% External current pulse command 
+meta.iPulseAmp = 0.0394; 
+meta.iPulseDur = 1;
+meta.iPulseStart = 1*meta.outRate + 1; 
+meta.iPulseEnd = 2*meta.outRate; 
+meta.iCommand = zeros(size(stim.stimulus)); 
+if strcmp(Iclamp,'y')
+    meta.iCommand(meta.iPulseStart:meta.iPulseEnd) = meta.iPulseAmp.*ones(meta.iPulseDur*meta.outRate,1); 
+end
 
 
 
@@ -61,7 +70,7 @@ sOut = daq.createSession('ni');
 sOut.Rate = meta.outRate;
 
 % Analog Channels / names for documentation
-aO = sOut.addAnalogOutputChannel(devID,0,'Voltage');
+aO = sOut.addAnalogOutputChannel(devID,0:1,'Voltage');
 
 % Add trigger 
 sOut.addTriggerConnection('External','Dev1/PFI3','StartTrigger');
@@ -81,7 +90,7 @@ end
 sIn.addTriggerConnection('Dev1/PFI1','External','StartTrigger'); 
 
 %% Run trials
-sOut.queueOutputData([stim.stimulus]);
+sOut.queueOutputData([stim.stimulus,meta.iCommand]);
 fprintf('**** Starting acquisition ****\n')
 sOut.startBackground; % Start the session that receives start trigger first 
 rawData = sIn.startForeground;

@@ -22,6 +22,11 @@ title('Current')
 ylabel('Current (pA)') 
 
 linkaxes(h,'x') 
+normVolt = data.voltage - mean(data.voltage); 
+figure() 
+plot(sampTime,normVolt) 
+xlabel('Time (s)')
+fftPlot(meta.inRate,data.voltage)
 
 %% Plot average 
 % find the start and end of each pip 
@@ -73,5 +78,6 @@ title('current')
 
 linkaxes(h,'x') 
 
+fftPlot(meta.inRate,mean(volt))
 % find(logi>0,1,'first') 
 % logiStart(1) 
