@@ -1,29 +1,20 @@
-classdef PipStimulus < AuditoryStimulus
+classdef PipStimulus2 < AuditoryStimulus
 % Basic subclass for making (amplitude modulated) pips
 % 
 % SLH 2014
- 
-    properties (Constant,Hidden)
-        defaultModulationDepth  = 1
-        defaultModulationFreqHz = 2
-        defaultCarrierFreqHz    = 300
-        defaultDutyCycle        = .1
-        defaultEnvelope         = 'sinusoid'
-     end
 
     properties
-        modulationDepth
-        modulationFreqHz
-        carrierFreqHz
-        dutyCycle
-        envelope
+        modulationDepth = 1;
+        modulationFreqHz = 2;
+        carrierFreqHz = 300;
+        dutyCycle = 0.1;
+        envelope = 'sinusoid';
     end
     
     methods
 %%------Constructor-----------------------------------------------------------------
         function obj = PipStimulus(params)
             if nargin < 1
-                obj.setDefaultPipParameters();
             else
                 obj.setPipParameters(params);
             end
@@ -35,14 +26,7 @@ classdef PipStimulus < AuditoryStimulus
         end
 
 %%------Pip Making Utilities---------------------------------------------------------
-        function obj = setDefaultPipParameters(obj)
-            obj.modulationDepth  = obj.defaultModulationDepth;
-            obj.modulationFreqHz = obj.defaultModulationFreqHz;
-            obj.carrierFreqHz    = obj.defaultCarrierFreqHz;
-            obj.dutyCycle        = obj.defaultDutyCycle;
-            obj.envelope         = obj.defaultEnvelope;
-        end
-        
+       
         function obj = setPipParameters(obj,params)
             try
                 obj.modulationDepth  = params.modulationDepth;

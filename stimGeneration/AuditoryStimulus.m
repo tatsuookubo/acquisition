@@ -5,10 +5,10 @@ classdef AuditoryStimulus < handle
     properties (Constant,Hidden)
         % Default setting for duration and rate
         defaultStimDurMs = 10
-        defaultSampleRate = 1E5
+        defaultSampleRate = 4E4
         
         % Default pad duration - time with zero output before and after the stimulus  
-        defaultPadDur = 1 
+        defaultPadDur = 3 
 
         % Default setting for amplifier input maximum
         defaultMaxVoltage = 1
@@ -34,6 +34,10 @@ classdef AuditoryStimulus < handle
         speakerOrder
         speaker
     end
+    
+    properties (Dependent = true, SetAccess = private)
+        totalDur 
+    end 
 
     methods
 %%------Constructor-----------------------------------------------------------------
@@ -55,7 +59,11 @@ classdef AuditoryStimulus < handle
             end
             obj.stimulus = [];
         end
-
+        
+        function totalDur = get.totalDur(obj) 
+            totalDur = obj.stimulusDur + obj.padDur;
+        end 
+        
 %%------Common Utilities---------------------------------------------------------
         function carrier = makeSine(obj,frequency)
             ts = (1/obj.sampleRate):(1/obj.sampleRate):(obj.stimulusDur);
@@ -64,6 +72,10 @@ classdef AuditoryStimulus < handle
         
         function static = makeStatic(obj)
             static = ones(obj.sampleRate*obj.stimulusDur,1);
+        end
+        
+        function pad = addPad(obj) 
+            pad = zeros(obj.sampleRate*obj.padDur,1);
         end
 
 
