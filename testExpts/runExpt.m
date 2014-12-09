@@ -8,29 +8,30 @@ newFly = input('New fly? ','s');
 %% Archive this code 
 archiveExpCode(prefixCode,expNum,flyNum,flyExpNum)
 
-%% Run a trial in voltage clamp
-fprintf('**** Running Voltage Clamp Trial ****\n')
-zeroStim = noStimulus; 
-acquireTrial(zeroStim,prefixCode,expNum,flyNum,flyExpNum,'n');
-contAns = input('Would you like to run a trial in I=0? ','s');
-if strcmp(contAns,'n')
-    return
-end
+% %% Run a trial in voltage clamp
+% fprintf('**** Running Voltage Clamp Trial ****\n')
+% zeroStim = noStimulus; 
+% acquireTrial(zeroStim,prefixCode,expNum,flyNum,flyExpNum,'n');
+% contAns = input('Would you like to run a trial in I=0? ','s');
+% if strcmp(contAns,'n')
+%     return
+% end
 
-%% Run a trial in I=0
-fprintf('**** Running I=0 Trial ****\n')
-zeroStim = noStimulus; 
-acquireTrial(zeroStim,prefixCode,expNum,flyNum,flyExpNum,'y');
-contAns = input('Would you like to start the experiment? ','s');
-if strcmp(contAns,'n')
-    return
-end
-
+% %% Run a trial in I=0
+% fprintf('**** Running I=0 Trial ****\n')
+% zeroStim = noStimulus; 
+% acquireTrial(zeroStim,prefixCode,expNum,flyNum,flyExpNum,'y');
+% contAns = input('Would you like to start the experiment? ','s');
+% if strcmp(contAns,'n')
+%     return
+% end
+% 
 %% Generate stimulus 
 fprintf('**** Running Experiment ****\n')
 stim = PipStimulus;
 trialsPerBlock = 18;
-speakerNonRan = repmat(1:3,1,6);
+% speakerNonRan = repmat(1:3,1,6);
+speakerNonRan = repmat([3,3,3],1,6);
 speakerRan = speakerNonRan(randperm(trialsPerBlock));
 
 

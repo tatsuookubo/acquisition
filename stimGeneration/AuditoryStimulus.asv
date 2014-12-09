@@ -14,7 +14,7 @@ classdef AuditoryStimulus < handle
         startPadDur     = 3;
         endPadDur       = 1;
         maxVoltage      = 1;
-        stimulus        = [];
+        stim            = [];
         speakerOrder    = {'L','M','R'}; % From fly's point of view
         speaker         = 1;
     end
@@ -27,7 +27,7 @@ classdef AuditoryStimulus < handle
     methods
         %%------Calculate Dependents-----------------------------------------------------------------
         function totalDur = get.totalDur(obj)
-            totalDur = length(obj.stimulus)/obj.sampRate;
+            totalDur = length(obj.stim)/obj.sampRate;
         end
         
         function stimDur = get.stimDur(obj)
@@ -36,7 +36,7 @@ classdef AuditoryStimulus < handle
         
         %%------Common Utilities---------------------------------------------------------
         function carrier = makeSine(obj,frequency,dur)
-            ts = (1/obj.sampRate):(1/obj.sampRate):(dur);
+            ts = (1/obj.sampRate):(1/obj.sampRate):(obj.stimDur);
             carrier = sin(2*pi*frequency*ts)';
         end
         
@@ -48,24 +48,24 @@ classdef AuditoryStimulus < handle
             switch lower(padType)
                 case {'start'}
                     pad = zeros(obj.sampRate*obj.startPadDur,1);
-                    obj.stimulus = [pad;obj.stimulus];
+                    obj.stim = [pad;obj.stim];
                 case {'end'}
                     pad = zeros(obj.sampRate*obj.endPadDur,1);
-                    obj.stimulus = [obj.stimulus;pad];
+                    obj.stim = [obj.stim;pad];
             end
         end
         
         
         %%------Plotting--------------------------------------------------------------------
         function [figHandle,plotHandle] = plot(obj,varargin)
-            timeInMs = (1E3/obj.sampRate):(1E3/obj.sampRate):(1E3*length(obj.stimulus)/obj.sampRate);
+            timeInMs = (1E3/obj.sampRate):(1E3/obj.sampRate):(1E3*length(obj.stim)/obj.sampRate);
             figHandle = figure('Color',[1 1 1],'Name','AuditoryStimulus');
-            plotHandle = plot(timeInMs,obj.stimulus);
+            plotHandle = plot(timeInMs,obj.stim);
             set(plotHandle,'LineWidth',obj.defaultLineWidth)
             
             box off; axis on;
             set(gca,'TickDir','Out')
-            title('Current Auditory Stimulus','FontSize',obj.defaultFontSize)
+            title('Current AuditoryStimulus','FontSize',obj.defaultFontSize)
             ylabel('Amplitude (V)','FontSize',obj.defaultFontSize)
             xlabel('Time (ms)','FontSize',obj.defaultFontSize)
         end

@@ -7,7 +7,8 @@ classdef PipStimulus < AuditoryStimulus
         modulationDepth     = 1; 
         modulationFreqHz    = 2; 
         carrierFreqHz       = 300; 
-        envelope            = 'cos-theta';
+        dutyCycle           = 0.1;
+        envelope            = 'sinusoid';
         numPips             = 10; 
         pipDur              = 0.015;
         ipi                 = 0.034;
@@ -40,20 +41,64 @@ classdef PipStimulus < AuditoryStimulus
             pip = obj.ampModulate(pip);
             
             % generatePipTrain
-            obj.generatePipTrain(pip); 
+            obj.stim = obj.generatePipTrain(pip); 
             
+            
+%             % Use carrier frequency if wanted
+%             if ~isempty(obj.carrierFreqHz) || obj.carrierFreqHz ~= 0
+%                 obj.stim = obj.makeSine(obj.carrierFreqHz);
+%             else
+%                 obj.stim = obj.makeStatic();
+%             end
+% 
+%             % Apply duty cycle (or pass back if not wanted)
+%             [~,pulseBounds] = obj.applyDutyCycle();
+% 
+%             
+
             % Scale the stim to the maximum voltage in the amp
-            obj.stimulus = obj.stimulus*obj.maxVoltage; 
+            obj.stim = obj.stim*obj.maxVoltage; 
             
             % Add pause at the beginning of of the stim 
-            obj.addPad('start');
-            obj.addPad('end');
+            obj.addPad('start')
+            obj.addPad('end')
         end
         
         % Make pip 
         function pip = generatePip(obj)
             pip = obj.makeSine(obj.carrierFreqHz,obj.pipDur);
         end
+        
+%         % Apply duty cycle 
+%         function [obj,pulseBounds] = applyDutyCycle(obj)
+%             if obj.dutyCycle > 1 || obj.dutyCycle <= 0
+%                 error('dutyCycle must be <= 1 && > 0')
+%             elseif obj.dutyCycle == 1
+%                 pulseBounds = [1 length(obj.stim)];
+%             else
+%                 % Number of samples per modulation period, num modulations
+%                 sampsPerMod = ((1/obj.modulationFreqHz)*obj.sampleRate);
+%                 if ~~mod(sampsPerMod,1)
+%                     warning('modulation period not evenly divisible')
+%                     sampsPerMod = round(sampsPerMod);
+%                 end
+%                 nMods = (obj.stimDur*obj.sampleRate)/sampsPerMod;
+%                 if ~~mod(nMods,1)
+%                     warning('number modulations per stim not evenly divisible');
+%                     nMods = round(nMods);
+%                 end
+%                 pulseBounds = zeros(nMods,2);
+%                 for iMod = 1:nMods
+%                     pulseBounds(iMod,:) = (iMod-1)*sampsPerMod + [(1-obj.dutyCycle)*sampsPerMod sampsPerMod];
+%                 end
+%             end
+%             % Zero inter pulse intervals to establish a duty cycle over stim duration
+%             dutyCycleBinary = zeros(length(obj.stim),1);
+%             for iMod = 1:nMods
+%                 dutyCycleBinary(pulseBounds(iMod,1):pulseBounds(iMod,2)) = 1;
+%             end
+%             obj.stim = obj.stim.*dutyCycleBinary;
+%         end
 
         % Amplitude modulate
         function pip = ampModulate(obj,pip)
@@ -74,7 +119,7 @@ classdef PipStimulus < AuditoryStimulus
                 case {'cos-theta'}
                     sampsPerRamp = floor(sampsPerPip/10);
                     ramp = sin(linspace(0,pi/2,sampsPerRamp));
-                    modEnvelope = [ramp,ones(1,sampsPerPip - sampsPerRamp*2),fliplr(ramp)]';                
+                    modEnvelope = [ramp,ones(1,(sampsPerPip-1) - sampsPerRamp*2),fliplr(ramp)];                
                 otherwise
                     error(['Envelope ' obj.Envelope ' not accounted for.']);
             end
@@ -85,7 +130,7 @@ classdef PipStimulus < AuditoryStimulus
         % Generate pip train 
         function obj = generatePipTrain(obj,pip)
             spacePip = [zeros(obj.ipi*obj.sampRate,1);pip];
-            obj.stimulus = [pip;repmat(spacePip,obj.numPips,1)];
+            obj.stim = [pip;repmat(spacePip,obj.numPips,1)];
         end
         
         
