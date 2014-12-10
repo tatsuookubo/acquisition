@@ -1,7 +1,10 @@
 function plotData(stim,meta,data)
 
+
+figure(1) 
+setCurrentFigurePosition(2)
+
 stimTime = [1/stim.sampleRate:1/stim.sampleRate:stim.totalDur]';
-figure() 
 h(1) = subplot(3,1,1); 
 plot(stimTime,stim.stimulus) 
 ylabel('Voltage (V)') 

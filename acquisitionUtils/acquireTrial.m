@@ -1,4 +1,4 @@
-function acquireTrial(stim,prefixCode,expNum,flyNum,flyExpNum,Iclamp)
+function acquireTrial(stim,prefixCode,expNum,flyNum,flyExpNum,Ipulse)
 
 %% Meta data
 meta.pre        = prefixCode;
@@ -42,7 +42,7 @@ meta.iPulseDur = 1;
 meta.iPulseStart = 1*meta.outRate + 1;
 meta.iPulseEnd = 2*meta.outRate;
 meta.iCommand = zeros(size(stim.stimulus));
-if strcmp(Iclamp,'y')
+if strcmp(Ipulse,'y')
     meta.iCommand(meta.iPulseStart:meta.iPulseEnd) = meta.iPulseAmp.*ones(meta.iPulseDur*meta.outRate,1);
 end
 
@@ -60,7 +60,6 @@ end
 
 %% Configure daq
 fprintf('**** Initializing DAQ ****\n')
-close all force;
 % daqreset;
 devID = 'Dev1';
 

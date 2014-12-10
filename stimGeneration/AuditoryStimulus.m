@@ -10,7 +10,7 @@ classdef AuditoryStimulus < handle
     end
     
     properties
-        sampRate        = 4E4;
+        sampleRate        = 4E4;
         startPadDur     = 3;
         endPadDur       = 1;
         maxVoltage      = 1;
@@ -27,7 +27,7 @@ classdef AuditoryStimulus < handle
     methods
         %%------Calculate Dependents-----------------------------------------------------------------
         function totalDur = get.totalDur(obj)
-            totalDur = length(obj.stimulus)/obj.sampRate;
+            totalDur = length(obj.stimulus)/obj.sampleRate;
         end
         
         function stimDur = get.stimDur(obj)
@@ -36,21 +36,21 @@ classdef AuditoryStimulus < handle
         
         %%------Common Utilities---------------------------------------------------------
         function carrier = makeSine(obj,frequency,dur)
-            ts = (1/obj.sampRate):(1/obj.sampRate):(dur);
+            ts = (1/obj.sampleRate):(1/obj.sampleRate):(dur);
             carrier = sin(2*pi*frequency*ts)';
         end
         
         function static = makeStatic(obj,dur)
-            static = ones(obj.sampRate*dur,1);
+            static = ones(obj.sampleRate*dur,1);
         end
         
         function pad = addPad(obj,padType)
             switch lower(padType)
                 case {'start'}
-                    pad = zeros(obj.sampRate*obj.startPadDur,1);
+                    pad = zeros(obj.sampleRate*obj.startPadDur,1);
                     obj.stimulus = [pad;obj.stimulus];
                 case {'end'}
-                    pad = zeros(obj.sampRate*obj.endPadDur,1);
+                    pad = zeros(obj.sampleRate*obj.endPadDur,1);
                     obj.stimulus = [obj.stimulus;pad];
             end
         end
@@ -58,7 +58,7 @@ classdef AuditoryStimulus < handle
         
         %%------Plotting--------------------------------------------------------------------
         function [figHandle,plotHandle] = plot(obj,varargin)
-            timeInMs = (1E3/obj.sampRate):(1E3/obj.sampRate):(1E3*length(obj.stimulus)/obj.sampRate);
+            timeInMs = (1E3/obj.sampleRate):(1E3/obj.sampleRate):(1E3*length(obj.stimulus)/obj.sampleRate);
             figHandle = figure('Color',[1 1 1],'Name','AuditoryStimulus');
             plotHandle = plot(timeInMs,obj.stimulus);
             set(plotHandle,'LineWidth',obj.defaultLineWidth)

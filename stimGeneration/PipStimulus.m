@@ -84,7 +84,7 @@ classdef PipStimulus < AuditoryStimulus
         
         % Generate pip train 
         function obj = generatePipTrain(obj,pip)
-            spacePip = [zeros(obj.ipi*obj.sampRate,1);pip];
+            spacePip = [zeros(obj.ipi*obj.sampleRate,1);pip];
             obj.stimulus = [pip;repmat(spacePip,obj.numPips,1)];
         end
         
