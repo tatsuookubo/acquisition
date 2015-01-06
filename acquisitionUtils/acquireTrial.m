@@ -107,7 +107,7 @@ data.voltage = meta.vSettings.softGain .* rawData(:,meta.bob.voltCh+1);
 data.current = meta.iSettings.softGain .* rawData(:,meta.bob.currCh+1);
 
 
-%% Process and plot scaled data
+%% Process scaled data
 % Scaled output
 switch meta.scSettings.mode
     % Voltage Clamp
@@ -124,6 +124,10 @@ switch meta.scSettings.mode
         
 end
 
+%% Measure Access Resistance 
+if pulseType == 'i'
+    meta.membraneResistance = measureMembraneResistance(data,meta);
+end
 
 %% Only if saving data
 if nargin == 7 
