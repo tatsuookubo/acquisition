@@ -16,7 +16,7 @@ if strcmp(contAns,'y')
 end
 
 %% Measure access and membrane resistance and holding current
-disp('Switch off seal test, stay in voltage clamp')
+fprintf('\n*****Switch off seal test, stay in voltage clamp****\n')
 contAns = input('Would you like to measure access resistance? ','s');
 if strcmp(contAns,'y')
     [meta.holdingCurrent, meta.initialAccessResistance, meta.initialMembraneResistance] = measureAccessResistance;

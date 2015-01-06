@@ -92,7 +92,6 @@ sIn.addTriggerConnection('Dev1/PFI1','External','StartTrigger');
 
 %% Run trials
 sOut.queueOutputData([stim.stimulus,meta.pulseCommand]);
-fprintf('**** Starting acquisition ****\n')
 sOut.startBackground; % Start the session that receives start trigger first
 rawData = sIn.startForeground;
 
@@ -115,7 +114,6 @@ switch meta.scSettings.mode
     case {'Track','V-Clamp'}
         meta.scSettings.softGain = 1000/(meta.scSettings.gain);
         meta.scSettings.beta  = 0.1;
-        meta.scSettings.gain;
         meta.scSettings.alpha = meta.scSettings.gain/meta.scSettings.beta;
         data.scaledCurrent = meta.scSettings.softGain .* rawData(:,meta.bob.scalCh+1);
         
