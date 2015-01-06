@@ -1,12 +1,17 @@
-function acquireTrial(stim,prefixCode,expNum,flyNum,flyExpNum,Ipulse)
+function [data,meta,stim] = acquireTrial(pulseType,stim,prefixCode,expNum,flyNum,flyExpNum,meta,varargin)
 
-%% Meta data
-meta.pre        = prefixCode;
-meta.expNum     = expNum;
-meta.flyNum     = flyNum;
-meta.flyExpNum  = flyExpNum;
-
-meta.codeStamp = getCodeStamp(1);
+if nargin == 0 || nargin == 1 || nargin == 7
+else
+    disp('Number of arguments must be 0, 1 or 7')
+    return
+end
+    
+if nargin == 0  
+    stim = noStimulus; 
+    pulseType = 'none';
+elseif nargin == 1  
+    stim = noStimulus; 
+end
 
 
 %% Parameters
@@ -37,29 +42,27 @@ meta.vSettings.sigCond.freq = 5;
 meta.vSettings.softGain = 1000/(meta.vSettings.sigCond.gain * 10); % To get voltage in mV
 
 % External current pulse command
-meta.iPulseAmp = 0.0394;
-meta.iPulseDur = 1;
-meta.iPulseStart = 1*meta.outRate + 1;
-meta.iPulseEnd = 2*meta.outRate;
-meta.iCommand = zeros(size(stim.stimulus));
-if strcmp(Ipulse,'y')
-    meta.iCommand(meta.iPulseStart:meta.iPulseEnd) = meta.iPulseAmp.*ones(meta.iPulseDur*meta.outRate,1);
-end
-
+meta.pulseAmp = 0.0394;
+meta.pulseDur = 1;
+meta.pulseStart = 1*meta.outRate + 1;
+meta.pulseEnd = 2*meta.outRate;
+meta.pulseCommand = zeros(size(stim.stimulus));
+switch pulseType
+    case 'none'
+        meta.pulseAmp = 0;
+    case 'i'
+        meta.pulseAmp = 0.0394;
+    case 'v'
+        meta.pulseAmp = 5/6;
+end        
+meta.pulseCommand(meta.pulseStart:meta.pulseEnd) = meta.pulseAmp.*ones(meta.pulseDur*meta.outRate,1);
 
 
 %% Parameters not saved
 inChannelsUsed  = 0:5;
 
-%% Asign filename
-% Use dataCzar function
-[fileName,path] = getDataFileName(prefixCode, expNum, flyNum, flyExpNum);
-if ~isdir(path)
-    mkdir(path);
-end
 
 %% Configure daq
-fprintf('**** Initializing DAQ ****\n')
 % daqreset;
 devID = 'Dev1';
 
@@ -88,7 +91,7 @@ end
 sIn.addTriggerConnection('Dev1/PFI1','External','StartTrigger');
 
 %% Run trials
-sOut.queueOutputData([stim.stimulus,meta.iCommand]);
+sOut.queueOutputData([stim.stimulus,meta.pulseCommand]);
 fprintf('**** Starting acquisition ****\n')
 sOut.startBackground; % Start the session that receives start trigger first
 rawData = sIn.startForeground;
@@ -104,11 +107,6 @@ rawData = sIn.startForeground;
 data.voltage = meta.vSettings.softGain .* rawData(:,meta.bob.voltCh+1);
 data.current = meta.iSettings.softGain .* rawData(:,meta.bob.currCh+1);
 
-fprintf('\n mean current = ')
-mean(data.current)
-fprintf('\n mean voltage = ')
-mean(data.voltage)
-
 
 %% Process and plot scaled data
 % Scaled output
@@ -117,32 +115,34 @@ switch meta.scSettings.mode
     case {'Track','V-Clamp'}
         meta.scSettings.softGain = 1000/(meta.scSettings.gain);
         meta.scSettings.beta  = 0.1;
-        meta.scSettings.gain
+        meta.scSettings.gain;
         meta.scSettings.alpha = meta.scSettings.gain/meta.scSettings.beta;
         data.scaledCurrent = meta.scSettings.softGain .* rawData(:,meta.bob.scalCh+1);
-        
-        % Print calculated values 
-        fprintf('\n mean scaled current = ')
-        mean(data.scaledCurrent)        
-        fprintf('\n gain = x%4.1f\n freq = %d kHz\n mode = %s\n',meta.scSettings.alpha,meta.scSettings.freq,meta.scSettings.mode)
-    
         
     % Current Clamp
     case {'I=0','I-Clamp Normal','I-Clamp Fast'}
         meta.scSettings.softGain = 1000/(meta.scSettings.gain);
         data.scaledVoltage = meta.scSettings.softGain .* rawData(:,meta.bob.scalCh+1);
         
-        % Print calculated values
-        fprintf('\n mean scaled voltage = ')
-        mean(data.scaledVoltage)
-        fprintf('\n gain = x%4.1f\n freq = %d kHz\n mode = %s\n',meta.scSettings.gain,meta.scSettings.freq,meta.scSettings.mode)
 end
 
 
+%% Only if saving data
+if nargin == 7 
+    % Set meta data
+    meta.pre        = prefixCode;
+    meta.expNum     = expNum;
+    meta.flyNum     = flyNum;
+    meta.flyExpNum  = flyExpNum;
+    meta.codeStamp = getCodeStamp(1);
 
-
-%% Save data
-save(fileName, 'data','meta','stim');
+    % Get filename and save data
+    [fileName,path] = getDataFileName(prefixCode, expNum, flyNum, flyExpNum);
+    if ~isdir(path)
+        mkdir(path);
+    end
+    save(fileName, 'data','meta','stim');
+end
 
 %% Close daq objects
 sOut.stop;

@@ -1,4 +1,6 @@
-function stimSet_001(prefixCode,expNum,flyNum,flyExpNum)
+function stimSet_001(prefixCode,expNum,flyNum,flyExpNum,meta)
+
+% Produces the default pip train while switching between all three speakers
 
 %% Archive this code
 archiveExpCode(prefixCode,expNum,flyNum,flyExpNum)
@@ -15,7 +17,7 @@ while ~FS.Stop()
     
     stim.speaker = speakerRan(count);
     switchSpeaker(stim.speaker);
-    acquireTrial(stim,prefixCode,expNum,flyNum,flyExpNum,'y');
+    acquireTrial('i',stim,prefixCode,expNum,flyNum,flyExpNum,meta);
     if count == 18
         count = 1;
         speakerRan = speakerNonRan(randperm(18));

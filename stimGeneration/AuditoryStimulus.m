@@ -14,9 +14,9 @@ classdef AuditoryStimulus < handle
         startPadDur     = 3;
         endPadDur       = 1;
         maxVoltage      = 1;
-        stimulus        = [];
         speakerOrder    = {'L','M','R'}; % From fly's point of view
         speaker         = 1;
+        stimulus        = [];
     end
     
     properties (Dependent = true, SetAccess = private)

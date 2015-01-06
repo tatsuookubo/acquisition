@@ -8,9 +8,9 @@ classdef PipStimulus < AuditoryStimulus
         modulationFreqHz    = 2; 
         carrierFreqHz       = 300; 
         envelope            = 'cos-theta';
-        numPips             = 10; 
-        pipDur              = 0.015;
-        ipi                 = 0.034;
+        numPips             = 3;%10; 
+        pipDur              = 1;%0.015;
+        ipi                 = 0.5;%0.034;
     end
     
     properties (Dependent = true, SetAccess = private)

@@ -5,14 +5,14 @@ newFly = input('New fly? ','s');
 [flyNum, flyExpNum] = getFlyNum(prefixCode,expNum,newFly);
 
 %% Run pre-expt routines (measure pipette resistance etc.) 
-preExptRoutine(prefixCode,expNum,flyNum,flyExpNum)
+meta = preExptRoutine;
 
 %% Run experiment with stimulus
 contAns = input('Would you like to start the experiment? ','s');
 if strcmp(contAns,'y')
     fprintf('**** Running Experiment ****\n')
     eval(['stimSet_',num2str(stimSetNum,'%03d'),...
-        '(''',prefixCode,''',',num2str(expNum),',',num2str(flyNum),',',num2str(flyExpNum),')'])
+        '(''',prefixCode,''',',num2str(expNum),',',num2str(flyNum),',',num2str(flyExpNum),',','meta',')'])
 end
 
 %% Backup data
