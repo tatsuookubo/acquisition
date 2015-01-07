@@ -3,6 +3,8 @@ function runExpt(prefixCode,expNum,stimSetNum)
 %% Get fly and experiment details from experimenter
 newFly = input('New fly? ','s');
 [flyNum, flyExpNum] = getFlyNum(prefixCode,expNum,newFly);
+fprintf(['Fly Number = ',num2str(flyNum),'\n'])
+fprintf(['Fly Experiment Number = ',num2str(flyExpNum),'\n'])
 
 %% Run pre-expt routines (measure pipette resistance etc.) 
 meta = preExptRoutine;
