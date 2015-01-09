@@ -42,7 +42,7 @@ meta.vSettings.sigCond.freq = 5;
 meta.vSettings.softGain = 1000/(meta.vSettings.sigCond.gain * 10); % To get voltage in mV
 
 % External current pulse command
-meta.pulseAmp = 0.0394;
+meta.pulseAmp = 0.0394/2; % Made pulse a bit smaller 
 meta.pulseDur = 1;
 meta.pulseStart = 1*meta.outRate + 1;
 meta.pulseEnd = 2*meta.outRate;

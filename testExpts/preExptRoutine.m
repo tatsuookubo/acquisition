@@ -12,7 +12,7 @@ end
 contAns = input('Would you like to measure seal resistance? ','s');
 if strcmp(contAns,'y')
     meta.sealResistance = measurePipetteResistance;
-    fprintf(['\nSeal Resistance = ',num2str(meta.sealResistance),' MOhms\n\n'])
+    fprintf(['\nSeal Resistance = ',num2str(meta.sealResistance/1000),' GOhms\n\n'])
 end
 
 %% Measure access and membrane resistance and holding current
