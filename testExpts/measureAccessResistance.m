@@ -1,4 +1,4 @@
-function [holdingCurrent,accessResistance,membraneResistance] = measureAccessResistance
+function [holdingCurrent,accessResistance,membraneResistance,inputResistance] = measureAccessResistance
 
     [data,meta] = acquireTrial('v');
     df = meta.outRate/meta.inRate; 
@@ -20,4 +20,6 @@ function [holdingCurrent,accessResistance,membraneResistance] = measureAccessRes
     steadyCurrent = mean(data.current(pulseMid:pulseEnd));
     currDiff = steadyCurrent - baselineCurrent;
     membraneResistance = voltDiff/currDiff;
+    
+    inputResistance = accessResistance + membraneResistance; 
     

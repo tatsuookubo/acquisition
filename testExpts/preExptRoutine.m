@@ -19,10 +19,11 @@ end
 fprintf('\n*****Switch off seal test, stay in voltage clamp****\n')
 contAns = input('Would you like to measure access resistance? ','s');
 if strcmp(contAns,'y')
-    [meta.holdingCurrent, meta.initialAccessResistance, meta.initialMembraneResistance] = measureAccessResistance;
+    [meta.holdingCurrent, meta.initialAccessResistance, meta.initialMembraneResistance, meta.inputResistance] = measureAccessResistance;
     fprintf(['\nHolding Current = ',num2str(meta.holdingCurrent),' pA\n'])
     fprintf(['Access Resistance = ',num2str(meta.initialAccessResistance),' MOhms\n'])
     fprintf(['Membrane Resistance = ',num2str(meta.initialMembraneResistance),' MOhms\n\n'])
+    fprintf(['Input Resistance = ',num2str(meta.inputResistance),' MOhms\n\n'])
 end
 
 
