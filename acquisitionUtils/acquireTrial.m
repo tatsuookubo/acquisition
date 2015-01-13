@@ -51,9 +51,9 @@ switch pulseType
     case 'none'
         meta.pulseAmp = 0;
     case 'i'
-        meta.pulseAmp = 0.0394;
+        meta.pulseAmp = -0.0394;
     case 'v'
-        meta.pulseAmp = 5/6;
+        meta.pulseAmp = -5/6;
 end        
 meta.pulseCommand(meta.pulseStart:meta.pulseEnd) = meta.pulseAmp.*ones(meta.pulseDur*meta.outRate,1);
 

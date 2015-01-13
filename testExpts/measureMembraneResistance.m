@@ -15,8 +15,8 @@ function membraneResistance = measureMembraneResistance(data,meta)
     steadyVoltage = mean(data.voltage(pulseMid:pulseEnd));
     steadyCurrent = mean(data.current(pulseMid:pulseEnd));
     
-    voltDiff = steadyVoltage - baselineVoltage;
-    currDiff = steadyCurrent - baselineCurrent;
+    voltDiff = abs(steadyVoltage - baselineVoltage);
+    currDiff = abs(steadyCurrent - baselineCurrent);
     
     membraneResistance = voltDiff/currDiff;
     
