@@ -1,64 +1,44 @@
 classdef PipStimulus < AuditoryStimulus
-% Basic subclass for making (amplitude modulated) pips
-% 
-% SLH 2014
-
+    % Basic subclass for making (amplitude modulated) pips
+    %
+    % SLH 2014
+    
     properties
-        modulationDepth     = 1; 
-        modulationFreqHz    = 2; 
-        carrierFreqHz       = 300; 
+        modulationDepth     = 1;
+        modulationFreqHz    = 2;
+        carrierFreqHz       = 300;
         envelope            = 'cos-theta';
-        numPips             = 3;%10; 
+        numPips             = 3;%10;
         pipDur              = 1;%0.015;
         ipi                 = 0.5;%0.034;
     end
     
     properties (Dependent = true, SetAccess = private)
-        cyclesPerPip        
+        cyclesPerPip
+        stimulus
     end
     
     methods
-%%------Constructor-----------------------------------------------------------------
-        function obj = PipStimulus
-            obj.generateStim();
-        end
-
-%%------Calculate Dependents-----------------------------------------------------------------
+        % %%------Constructor-----------------------------------------------------------------
+        %         function obj = PipStimulus
+        %             obj.generateStim();
+        %         end
+        
+        %%------Calculate Dependents-----------------------------------------------------------------
         function cyclesPerPip = get.cyclesPerPip(obj)
             cyclesPerPip = obj.pipDur / (1/obj.carrierFreqHz);
             if ~isinteger(mod(cyclesPerPip,0.5))
                 error('numCyclesPerPip must be divisible by 0.5')
             end
         end
-
-%%------Pip Making Utilities---------------------------------------------------------
-        function obj = generateStim(obj)
-            % generatePip 
-            pip = obj.generatePip;
-            
-            % amplitude modulate the pip 
-            pip = obj.ampModulate(pip);
-            
-            % generatePipTrain
-            obj.generatePipTrain(pip); 
-            
-            % Scale the stim to the maximum voltage in the amp
-            obj.stimulus = obj.stimulus*obj.maxVoltage; 
-            
-            % Add pause at the beginning of of the stim 
-            obj.addPad('start');
-            obj.addPad('end');
-        end
         
-        % Make pip 
-        function pip = generatePip(obj)
+        function stimulus = get.stimulus(obj)
+            
+            % Make pip
             pip = obj.makeSine(obj.carrierFreqHz,obj.pipDur);
-        end
-
-        % Amplitude modulate
-        function pip = ampModulate(obj,pip)
+            
             % Calculate envelope
-            sampsPerPip = length(pip); 
+            sampsPerPip = length(pip);
             switch lower(obj.envelope)
                 case {'none',''}
                     % pass back unchanged
@@ -74,20 +54,29 @@ classdef PipStimulus < AuditoryStimulus
                 case {'cos-theta'}
                     sampsPerRamp = floor(sampsPerPip/10);
                     ramp = sin(linspace(0,pi/2,sampsPerRamp));
-                    modEnvelope = [ramp,ones(1,sampsPerPip - sampsPerRamp*2),fliplr(ramp)]';                
+                    modEnvelope = [ramp,ones(1,sampsPerPip - sampsPerRamp*2),fliplr(ramp)]';
                 otherwise
                     error(['Envelope ' obj.Envelope ' not accounted for.']);
             end
+            
             % apply the envelope to pip
             pip = modEnvelope.*pip;
+            
+            % generate pip train
+            spacePip = [zeros(obj.ipi*obj.sampleRate,1);pip];
+            stimulus = [pip;repmat(spacePip,obj.numPips,1)];
+            
+            % Scale the stim to the maximum voltage in the amp
+            stimulus = stimulus*obj.maxVoltage;
+            
+            % Add pause at the beginning of of the stim
+            stimulus = obj.addPad(stimulus);
         end
         
-        % Generate pip train 
-        function obj = generatePipTrain(obj,pip)
-            spacePip = [zeros(obj.ipi*obj.sampleRate,1);pip];
-            obj.stimulus = [pip;repmat(spacePip,obj.numPips,1)];
-        end
         
         
     end
+    
 end
+
+

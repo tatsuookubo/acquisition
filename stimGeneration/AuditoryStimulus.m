@@ -3,7 +3,7 @@ classdef AuditoryStimulus < handle
     %
     % SLH 2014
     
-    properties (Constant,Hidden)        
+    properties (Constant,Hidden)
         % Default setting for plotting
         defaultFontSize = 14
         defaultLineWidth = 2
@@ -16,7 +16,6 @@ classdef AuditoryStimulus < handle
         maxVoltage      = 1;
         speakerOrder    = {'L','M','R'}; % From fly's point of view
         speaker         = 1;
-        stimulus        = [];
     end
     
     properties (Dependent = true, SetAccess = private)
@@ -44,15 +43,10 @@ classdef AuditoryStimulus < handle
             static = ones(obj.sampleRate*dur,1);
         end
         
-        function pad = addPad(obj,padType)
-            switch lower(padType)
-                case {'start'}
-                    pad = zeros(obj.sampleRate*obj.startPadDur,1);
-                    obj.stimulus = [pad;obj.stimulus];
-                case {'end'}
-                    pad = zeros(obj.sampleRate*obj.endPadDur,1);
-                    obj.stimulus = [obj.stimulus;pad];
-            end
+        function stimulus = addPad(obj,stimulus)
+            startPad = zeros(obj.sampleRate*obj.startPadDur,1);
+            endPad = zeros(obj.sampleRate*obj.endPadDur,1);
+            stimulus = [startPad;stimulus;endPad];
         end
         
         
