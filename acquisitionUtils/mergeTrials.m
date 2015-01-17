@@ -23,11 +23,10 @@ for n = 1:numTrials;
     
     if any(stimSequence == stimNum)
     else
-        %         dataLength    = length(data.voltage);
-        %         stimLength    = length(stim.stimulus);
-        %         GroupData(stimNum).current = NaN(numTrials,dataLength);
-        %         GroupData(stimNum).voltage = NaN(numTrials,dataLength);
+        GroupStim(stimNum).stimTime = [1/stim.sampleRate:1/stim.sampleRate:stim.totalDur]';
         GroupStim(stimNum).stimulus = stim.stimulus;
+        GroupData(stimNum).sampTime = [1/meta.inRate:1/meta.inRate:stim.totalDur]';
+
     end
     stimSequence = [stimSequence, meta.stimNum];
     trialInd = sum(stimSequence == stimNum);
