@@ -6,11 +6,11 @@ classdef AuditoryStimulus < handle
     properties (Constant,Hidden)
         % Default setting for plotting
         defaultFontSize = 14
-        defaultLineWidth = 2
+        defaultLineWidth = 1
     end
     
     properties
-        sampleRate        = 4E4;
+        sampleRate      = 4E4;
         startPadDur     = 3;
         endPadDur       = 1;
         maxVoltage      = 1;
@@ -52,16 +52,16 @@ classdef AuditoryStimulus < handle
         
         %%------Plotting--------------------------------------------------------------------
         function [figHandle,plotHandle] = plot(obj,varargin)
-            timeInMs = (1E3/obj.sampleRate):(1E3/obj.sampleRate):(1E3*length(obj.stimulus)/obj.sampleRate);
+            timeInS = (1/obj.sampleRate):(1/obj.sampleRate):(1*length(obj.stimulus)/obj.sampleRate);
             figHandle = figure('Color',[1 1 1],'Name','AuditoryStimulus');
-            plotHandle = plot(timeInMs,obj.stimulus);
+            plotHandle = plot(timeInS,obj.stimulus);
             set(plotHandle,'LineWidth',obj.defaultLineWidth)
             
             box off; axis on;
             set(gca,'TickDir','Out')
             title('Current Auditory Stimulus','FontSize',obj.defaultFontSize)
             ylabel('Amplitude (V)','FontSize',obj.defaultFontSize)
-            xlabel('Time (ms)','FontSize',obj.defaultFontSize)
+            xlabel('Time (seconds)','FontSize',obj.defaultFontSize)
         end
     end
     

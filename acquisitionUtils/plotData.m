@@ -1,4 +1,4 @@
-function plotData(stim,meta,data)
+function plotData(stim,settings,data)
 
 
 figure(1) 
@@ -10,7 +10,7 @@ plot(stimTime,stim.stimulus)
 ylabel('Voltage (V)') 
 title('Sound Stimulus') 
 
-sampTime = [1/meta.inRate:1/meta.inRate:stim.totalDur]';
+sampTime = [1/settings.sampRate.in:1/settings.sampRate.in:stim.totalDur]';
 h(3) = subplot(3,1,2); 
 plot(sampTime,data.voltage) 
 title('Voltage') 

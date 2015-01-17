@@ -1,12 +1,12 @@
-function membraneResistance = measureMembraneResistance(data,meta)
+function membraneResistance = measureMembraneResistance(data,settings)
 
-    df = meta.outRate/meta.inRate; 
+    df = settings.sampRate.out/settings.sampRate.in; 
     
     % Access Resistance
-    baselineStart = round(meta.pulseStart/df/2);
-    baselineEnd = round(meta.pulseStart/df)-1;
+    baselineStart = round(settings.pulse.Start/df/2);
+    baselineEnd = round(settings.pulse.Start/df)-1;
     
-    pulseEnd = round(meta.pulseEnd/df);
+    pulseEnd = round(settings.pulse.End/df);
     pulseMid = pulseEnd - 1000; 
     
     baselineVoltage = mean(data.voltage(baselineStart:baselineEnd));

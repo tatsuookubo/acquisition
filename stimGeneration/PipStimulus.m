@@ -19,11 +19,7 @@ classdef PipStimulus < AuditoryStimulus
     end
     
     methods
-        % %%------Constructor-----------------------------------------------------------------
-        %         function obj = PipStimulus
-        %             obj.generateStim();
-        %         end
-        
+       
         %%------Calculate Dependents-----------------------------------------------------------------
         function cyclesPerPip = get.cyclesPerPip(obj)
             cyclesPerPip = obj.pipDur / (1/obj.carrierFreqHz);

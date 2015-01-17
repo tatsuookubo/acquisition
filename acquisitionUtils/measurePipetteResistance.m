@@ -1,7 +1,6 @@
-function pipetteResistance = measurePipetteResistance
-
-
-    data = acquireTrial;
+function pipetteResistance = measurePipetteResistance(exptInfo,type,varargin)
+    
+    [data,~,~,trialMeta,~] = acquireTrial;
     
     highVoltageLog1 = data.voltage > mean(data.voltage);
     
@@ -29,6 +28,16 @@ function pipetteResistance = measurePipetteResistance
     
     pipetteResistance = ((voltDiff*1e-3)/(currDiff*1e-12))/1e6;  
     
+    if nargin ~= 0 
+        [~, path, ~, idString] = getDataFileName(exptInfo);
+        switch type
+            case 'pipette'
+                filename = [path,'\preExptTrials\',idString,'pipetteResistance'];    
+            case 'seal'
+                filename = [path,'\preExptTrials\',idString,'sealResistance'];
+        end
+        save(filename,'data','exptInfo','trialMeta'); 
+    end
 
 
 
