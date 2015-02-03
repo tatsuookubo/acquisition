@@ -2,15 +2,18 @@ function runExpt(prefixCode,expNum,stimSetNum)
 
 %% Get fly and experiment details from experimenter
 newFly = input('New fly? ','s');
-[flyNum, flyExpNum] = getFlyNum(prefixCode,expNum,newFly);
+newCell = input('New cell? ','s');
+[flyNum, cellNum, cellExpNum] = getFlyNum(prefixCode,expNum,newFly,newCell);
 fprintf(['Fly Number = ',num2str(flyNum),'\n'])
-fprintf(['Fly Experiment Number = ',num2str(flyExpNum),'\n'])
+fprintf(['Cell Number = ',num2str(cellNum),'\n'])
+fprintf(['Cell Experiment Number = ',num2str(cellExpNum),'\n'])
 
 %% Set meta data
 exptInfo.prefixCode     = prefixCode;
 exptInfo.expNum         = expNum;
 exptInfo.flyNum         = flyNum;
-exptInfo.flyExpNum      = flyExpNum;
+exptInfo.cellNum        = cellNum;
+exptInfo.cellExpNum     = cellExpNum;
 exptInfo.dNum           = datestr(now,'YYmmDD');
 exptInfo.exptStartTime  = datestr(now,'HH:MM:SS'); 
 
