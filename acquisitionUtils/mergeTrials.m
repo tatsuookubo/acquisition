@@ -20,6 +20,22 @@ for n = 1:numTrials;
     %     trialNum = trailMeta.trialNum;
     stimNum = meta.stimNum;
     
+    figure(1) 
+    subplot(2,1,1)
+    plot(data.voltage)
+    hold on 
+    subplot(2,1,2) 
+    plot(data.current) 
+
+    
+    keepTrial = input('Keep Trial? ','s');
+    if strcmp(keepTrial,'y')
+        stimSequence = [stimSequence, meta.stimNum];
+        trialInd = sum(stimSequence == stimNum);
+        GroupData(stimNum).current(trialInd,:) = data.current;
+        GroupData(stimNum).voltage(trialInd,:) = data.voltage;
+    end
+        close all
     
     if any(stimSequence == stimNum)
     else
@@ -28,13 +44,7 @@ for n = 1:numTrials;
         GroupData(stimNum).sampTime = [1/meta.inRate:1/meta.inRate:stim.totalDur]';
 
     end
-    stimSequence = [stimSequence, meta.stimNum];
-    trialInd = sum(stimSequence == stimNum);
-    GroupData(stimNum).current(trialInd,:) = data.current;
-    GroupData(stimNum).voltage(trialInd,:) = data.voltage;
-    
-    
-    
+ 
 end
 
 %% save processed data
