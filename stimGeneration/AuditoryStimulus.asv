@@ -3,6 +3,12 @@ classdef AuditoryStimulus < handle
     %
     % SLH 2014
     
+    properties (Constant,Hidden)
+        % Default setting for plotting
+        defaultFontSize = 14
+        defaultLineWidth = 1
+    end
+    
     properties
         sampleRate      = 4E4;
         startPadDur     = 3;
@@ -17,7 +23,10 @@ classdef AuditoryStimulus < handle
         stimDur
     end
     
-    methods       
+    methods
+        %%------Save object -----------------------------------------------------------------
+        function s = struct(object);
+        
         
         %%------Calculate Dependents-----------------------------------------------------------------
         function totalDur = get.totalDur(obj)
@@ -47,18 +56,16 @@ classdef AuditoryStimulus < handle
         
         %%------Plotting--------------------------------------------------------------------
         function [figHandle,plotHandle] = plot(obj,varargin)
-            fontSize = 14;
-            lineWidth = 1; 
             timeInS = (1/obj.sampleRate):(1/obj.sampleRate):(1*length(obj.stimulus)/obj.sampleRate);
             figHandle = figure('Color',[1 1 1],'Name','AuditoryStimulus');
             plotHandle = plot(timeInS,obj.stimulus);
-            set(plotHandle,'LineWidth',lineWidth)
+            set(plotHandle,'LineWidth',obj.defaultLineWidth)
             
             box off; axis on;
             set(gca,'TickDir','Out')
-            title('Current Auditory Stimulus','FontSize',fontSize)
-            ylabel('Amplitude (V)','FontSize',fontSize)
-            xlabel('Time (seconds)','FontSize',fontSize)
+            title('Current Auditory Stimulus','FontSize',obj.defaultFontSize)
+            ylabel('Amplitude (V)','FontSize',obj.defaultFontSize)
+            xlabel('Time (seconds)','FontSize',obj.defaultFontSize)
         end
     end
     

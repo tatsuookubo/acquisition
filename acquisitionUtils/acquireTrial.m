@@ -104,7 +104,10 @@ if nargin ~= 0 && nargin ~= 1
     if ~isdir(path)
         mkdir(path);
     end
-    save(fileName, 'data','trialMeta','stim','exptInfo');
+    % Convert stim object to structure for saving 
+    warning('off','MATLAB:structOnObject')
+    Stim = struct(stim); 
+    save(fileName, 'data','trialMeta','Stim','exptInfo');
     
     % Save expt data 
     if trialMeta.trialNum == 1
