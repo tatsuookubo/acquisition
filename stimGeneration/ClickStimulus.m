@@ -20,7 +20,7 @@ classdef ClickStimulus < AuditoryStimulus
             
             % generate click train
             spacePip = [zeros(obj.ici*obj.sampleRate,1);click];
-            stimulus = [click;repmat(spacePip,obj.numPips,1)];
+            stimulus = [click;repmat(spacePip,obj.numClicks-1,1)];
             
             % Scale the stim to the maximum voltage in the amp
             stimulus = stimulus*obj.maxVoltage;

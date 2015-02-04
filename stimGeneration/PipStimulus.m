@@ -60,7 +60,7 @@ classdef PipStimulus < AuditoryStimulus
             
             % generate pip train
             spacePip = [zeros(obj.ipi*obj.sampleRate,1);pip];
-            stimulus = [pip;repmat(spacePip,obj.numPips,1)];
+            stimulus = [pip;repmat(spacePip,obj.numPips-1,1)];
             
             % Scale the stim to the maximum voltage in the amp
             stimulus = stimulus*obj.maxVoltage;
