@@ -18,7 +18,7 @@ function [flyNum, cellNum, cellExpNum] = getFlyNum(prefixCode, expNum, newFly, n
             flyNum = flyNum - 1;
         end
         cellNum = 1; 
-        while( isdir([path,num2str(flyNum,'%03d'),'\cellExpNum',num2str(cellNum,'%03d')]) )
+        while( isdir([path,num2str(flyNum,'%03d'),'\cellNum',num2str(cellNum,'%03d')]) )
             cellNum = cellNum + 1;
         end
         if ~strcmp(newCell,'y')
