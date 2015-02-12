@@ -22,7 +22,7 @@ switch pulseType
     case 'none'
         settings.pulse.Amp = 0;
     case 'i'
-        settings.pulse.Amp = -0.0394;
+        settings.pulse.Amp = -0.0394/4;
     case 'v'
         settings.pulse.Amp = -5/6;
 end   
