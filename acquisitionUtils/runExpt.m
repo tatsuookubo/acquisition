@@ -16,6 +16,10 @@ exptInfo.cellNum        = cellNum;
 exptInfo.cellExpNum     = cellExpNum;
 exptInfo.dNum           = datestr(now,'YYmmDD');
 exptInfo.exptStartTime  = datestr(now,'HH:MM:SS'); 
+exptInfo.stimSetNum     = stimSetNum; 
+
+%% Get fly details 
+getFlyDetails(exptInfo)
 
 %% Run pre-expt routines (measure pipette resistance etc.)
 contAns = input('Run preExptRoutine? ','s');
@@ -36,6 +40,12 @@ if strcmp(contAns,'y')
     fprintf('**** Running Experiment ****\n')
     eval(['stimSet_',num2str(stimSetNum,'%03d'),...
         '(','exptInfo,','preExptData',')'])
+end
+
+%% Get post experiment info and write to excel file 
+if ~strcmp(prefixCode,'test')
+    getPostExperimentInfo(exptInfo)
+    writeToRecordingNotebook(exptInfo)
 end
 
 %% Backup data
