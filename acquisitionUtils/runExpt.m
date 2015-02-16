@@ -19,7 +19,9 @@ exptInfo.exptStartTime  = datestr(now,'HH:MM:SS');
 exptInfo.stimSetNum     = stimSetNum; 
 
 %% Get fly details 
-getFlyDetails(exptInfo)
+if strcmp(newFly,'y')
+    getFlyDetails(exptInfo)
+end
 
 %% Run pre-expt routines (measure pipette resistance etc.)
 contAns = input('Run preExptRoutine? ','s');
