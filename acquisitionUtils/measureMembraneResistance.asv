@@ -18,13 +18,8 @@ function membraneResistance = measureMembraneResistance(data,settings)
     voltDiff = abs(steadyVoltage - baselineVoltage);
     currDiff = abs(steadyCurrent - baselineCurrent);
     
-    membraneResistance = 1000*voltDiff/currDiff;
+    membraneResistance = ((voltDiff*10^-3)/(currDiff*10^-12))/(10^6);
     
-    if membraneResistance < 1000
-        fprintf(['\nMembrane Resistance = ',num2str(membraneResistance),' MOhms\n\n'])
-    else
-        fprintf(['\nMembrane Resistance = ',num2str(membraneResistance/1000),' GOhms\n\n'])
-    end
-
+    fprintf(['\nMembrane Resistance = ',num2str(membraneResistance),' MOhms\n\n'])
 
     

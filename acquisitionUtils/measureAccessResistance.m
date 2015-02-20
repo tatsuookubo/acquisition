@@ -12,14 +12,14 @@ baselineEnd = round(settings.pulse.Start/df)-1;
 baselineCurrent = mean(data.current(baselineStart:baselineEnd));
 peakCurrent = max(data.current(baselineEnd:round(settings.pulse.End/df)));
 currDiff = abs(peakCurrent - baselineCurrent);
-accessResistance = voltDiff/currDiff;
+accessResistance = 1000*voltDiff/currDiff;
 
 % Membrane Resistance
 pulseEnd = round(settings.pulse.End/df);
 pulseMid = pulseEnd - 1000;
 steadyCurrent = mean(data.current(pulseMid:pulseEnd));
 currDiff = abs(steadyCurrent - baselineCurrent);
-membraneResistance = voltDiff/currDiff;
+membraneResistance = 1000*voltDiff/currDiff;
 
 inputResistance = accessResistance + membraneResistance;
 

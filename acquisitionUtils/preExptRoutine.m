@@ -25,7 +25,7 @@ if strcmp(contAns,'y')
     fprintf(['\nHolding Current = ',num2str(preExptData.initialHoldingCurrent),' pA\n'])
     fprintf(['Access Resistance = ',num2str(preExptData.initialAccessResistance),' MOhms\n'])
     fprintf(['Membrane Resistance = ',num2str(preExptData.initialMembraneResistance),' MOhms\n\n'])
-    fprintf(['Input Resistance = ',num2str(preExptData.initialInputResistance),' MOhms\n\n'])
+%     fprintf(['Input Resistance = ',num2str(preExptData.initialInputResistance),' MOhms\n\n'])
 end
 
 
