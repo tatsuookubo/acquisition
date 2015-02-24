@@ -13,7 +13,6 @@ count = 1;
 FS = stoploop('Stop Experiment');
 while ~FS.Stop()
     trialMeta.stimNum = stimRan(count);
-    fprintf(['\nStimNum = ',num2str(trialMeta.stimNum)])
     stim = pickStimulus(trialMeta.stimNum);
     switchSpeaker(stim.speaker);
     acquireTrial('i',stim,exptInfo,preExptData,trialMeta);

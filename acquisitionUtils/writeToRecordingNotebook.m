@@ -39,8 +39,8 @@ dateAsString = datestr(dateNumber,'yy-mm-dd');
 
 %% Put data in array 
 dataArray = {dateAsString,exptInfo.exptStartTime,FlyData.eclosionDate,FlyData.freenessLeft,FlyData.freenessRight,FlyData.notesOnDissection,...
-    FlyData.line,exptInfo.cellType,exptInfo.prefixCode,exptInfo.expNum,exptInfo.flyNum,exptInfo.cellNum,...
-    exptInfo.cellExpNum,exptInfo.stimSetNum,exptInfo.worthAnalysing,exptInfo.notesOnRecording};
+    FlyData.line,exptInfo.cellType,exptInfo.hemisphere,exptInfo.prefixCode,exptInfo.expNum,exptInfo.flyNum,exptInfo.cellNum,...
+    exptInfo.cellExpNum,exptInfo.stimSetNum,exptInfo.aim,exptInfo.worthAnalysing,exptInfo.notesOnRecording};
 
 %% Close excel worksheet 
 h = actxGetRunningServer('Excel.Application');

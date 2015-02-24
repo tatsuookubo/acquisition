@@ -10,6 +10,7 @@ classdef AuditoryStimulus < handle
         maxVoltage      = 1;
         speakerOrder    = {'L','M','R'}; % From fly's point of view
         speaker         = 1;
+        probe           = 'off';
     end
     
     properties (Dependent = true, SetAccess = private)

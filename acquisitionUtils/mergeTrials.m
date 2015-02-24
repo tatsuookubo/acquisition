@@ -1,58 +1,53 @@
-function mergeTrials
+function mergeTrials(exptInfo,varargin)
 
-% (prefixCode,expNum,flyNum,flyExpNum)
-% 
-% exptInfo.prefixCode     = prefixCode;
-% exptInfo.expNum         = expNum;
-% exptInfo.flyNum         = flyNum;
-% exptInfo.flyExpNum      = flyExpNum;
+%% Get path
+if nargin == 0
+    path = uigetdir;
+else
+    [~,path] = getDataFileName(exptInfo);
+end
 
-%% load raw data and process (filter, interpolate, calculate velocity)
-% [~,path] = getDataFileName(exptInfo);
-path = uigetdir;
+%
+
+%% Calculate number of trials
 cd(path)
 fileNames = dir('*trial*.mat');
 numTrials = length(fileNames);
-
 stimSequence = [];
-% load and process data
+
+%%  Group data
 for n = 1:numTrials;
-    clear data stim meta
+    % Load file
+    clear data Stim exptInfo trialMeta
     load([path,'\',fileNames(n).name]);
     
-    %     trialNum = trailMeta.trialNum;
-    stimNum = trialMeta.stimNum;
+    % Load overall experiment data
+    if n == 1
+        [~, path, ~, idString] = getDataFileName(exptInfo);
+        settingsFileName = [path,idString,'exptData.mat'];
+        load(settingsFileName)
+    end
     
-%     figure(1) 
-%     subplot(2,1,1)
-%     plot(data.voltage)
-%     hold on 
-%     subplot(2,1,2) 
-%     plot(data.current) 
-% 
-%     
-%     keepTrial = input('Keep Trial? ','s');
-%     if strcmp(keepTrial,'y')
-
+    
+    % Create stimulus matrix
+    stimNum = trialMeta.stimNum;
     if any(stimSequence == stimNum)
     else
         GroupStim(stimNum).stimTime = [1/Stim.sampleRate:1/Stim.sampleRate:Stim.totalDur]';
         GroupStim(stimNum).stimulus = Stim.stimulus;
-        GroupData(stimNum).sampTime = [1/10e3:1/10e3:Stim.totalDur]';
-
+        GroupData(stimNum).sampTime = [1/settings.sampRate.in:1/settings.sampRate.in:Stim.totalDur]';
+        
     end
- 
-        stimSequence = [stimSequence, stimNum];
-        trialInd = sum(stimSequence == stimNum);
-        GroupData(stimNum).current(trialInd,:) = data.current;
-        GroupData(stimNum).voltage(trialInd,:) = data.voltage;
-%     end
-%         close all
     
-
+    % Create data matrix
+    stimSequence = [stimSequence, stimNum];
+    trialInd = sum(stimSequence == stimNum);
+    GroupData(stimNum).current(trialInd,:) = data.current;
+    GroupData(stimNum).voltage(trialInd,:) = data.voltage;
+    
+    
 end
 
 %% save processed data
-% [~, path, ~, idString] = getDataFileName(exptInfo);
 saveFileName = [path,'groupedData.mat'];
 save(saveFileName,'GroupData','GroupStim');

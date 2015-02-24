@@ -1,5 +1,7 @@
 function [data,settings,stim,trialMeta,exptInfo] = acquireTrial(pulseType,stim,exptInfo,preExptData,trialMeta,varargin)
 
+fprintf('\n*********** Acquiring Trial ***********') 
+
 %% Trial time 
 trialMeta.trialStartTime = datestr(now,'HH:MM:SS'); 
 
@@ -101,6 +103,8 @@ end
 if nargin ~= 0 && nargin ~= 1
     % Get filename and save trial data
     [fileName,path,trialMeta.trialNum] = getDataFileName(exptInfo);
+    fprintf(['\nTrial Number ', num2str(trialMeta.trialNum)])
+    fprintf(['\nStimNum = ',num2str(trialMeta.stimNum)])
     if ~isdir(path)
         mkdir(path);
     end

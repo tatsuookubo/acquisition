@@ -18,16 +18,12 @@ close all
 prefixCode  = exptInfo.prefixCode;
 expNum      = exptInfo.expNum;
 flyNum      = exptInfo.flyNum;
-cellNum     = exptInfo.cellNum;
-cellExpNum  = exptInfo.cellExpNum;
 
 microCzarSettings;   % Loads settings
 
 % Make numbers strings
 eNum = num2str(expNum,'%03d');
 fNum = num2str(flyNum,'%03d');
-cNum = num2str(cellNum,'%03d');
-cENum = num2str(cellExpNum,'%03d');
 
 path = [dataDirectory,prefixCode,'\expNum',eNum,...
         '\flyNum',fNum];
