@@ -57,10 +57,7 @@ for n = 1:numStim
     set(gca,'xtick',[])
     set(gca,'XColor','white')
     if n == 1 
-%         t = title({[dateAsString,', ',prefixCode,', ','ExpNum ',num2str(expNum),', CellNum ',num2str(cellNum),', CellExpNum ',num2str(cellExpNum)];...
-%             ['Membrane Resistance = ',num2str(preExptData.initialMembraneResistance/1000),' G{\Omega}',', Access Resistance = ',num2str(preExptData.initialAccessResistance/1000),' G{\Omega}']});
         t = title(h(1),[dateAsString,', ',prefixCode,', ','ExpNum ',num2str(expNum),', FlyNum ',num2str(flyNum),', CellNum ',num2str(cellNum),', CellExpNum ',num2str(cellExpNum)]);
-%         set(t, 'horizontalAlignment', 'left','units', 'normalized','position', [0 1 0])
         set(t,'Fontsize',20);
     end
     

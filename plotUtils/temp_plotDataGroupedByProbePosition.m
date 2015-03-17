@@ -26,17 +26,17 @@ if ~isdir(saveFolder)
     mkdir(saveFolder);
 end
 
-%% Load fly details 
+%% Load fly details
 microCzarSettings;   % Loads settings
 filename = [dataDirectory,prefixCode,'\expNum',num2str(expNum,'%03d'),...
-        '\flyNum',num2str(flyNum,'%03d'),'\flyData'];
+    '\flyNum',num2str(flyNum,'%03d'),'\flyData'];
 load(filename);
 
-%% Load experiment details 
+%% Load experiment details
 settingsFileName = [path,idString,'exptData.mat'];
 load(settingsFileName);
 
-% Convert date into text 
+% Convert date into text
 dateNumber = datenum(exptInfo.dNum,'yymmdd');
 dateAsString = datestr(dateNumber,'mm-dd-yy');
 
@@ -44,66 +44,68 @@ dateAsString = datestr(dateNumber,'mm-dd-yy');
 numStim = length(GroupData);
 
 
-for n = 1:numStim
-    fig = figure(n);
-    setCurrentFigurePosition(2)
-    
-    h(1) = subplot(3,1,1);
-    plot(GroupStim(n).stimTime,GroupStim(n).stimulus,'k')
-    hold on
-    ylabel('Voltage (V)')
-    set(gca,'Box','off','TickDir','out','XTickLabel','')
-    ylim([-1.1 1.1])
-    set(gca,'xtick',[])
-    set(gca,'XColor','white')
-    if n == 1 
-         t = title(h(1),[dateAsString,', ',prefixCode,', ','ExpNum ',num2str(expNum),', FlyNum ',num2str(flyNum),', CellNum ',num2str(cellNum),', CellExpNum ',num2str(cellExpNum)]);
+n = 1; 
+fig = figure(n);
+setCurrentFigurePosition(2)
 
-%         t = title({[dateAsString,', ',prefixCode,', ','ExpNum ',num2str(expNum),', CellNum ',num2str(cellNum),', CellExpNum ',num2str(cellExpNum)];...
-%             ['Membrane Resistance = ',num2str(preExptData.initialMembraneResistance/1000),' G{\Omega}',', Access Resistance = ',num2str(preExptData.initialAccessResistance/1000),' G{\Omega}']});
-%         set(t, 'horizontalAlignment', 'left','units', 'normalized','position', [0 1 0])
-        set(t,'Fontsize',20);    
-    end
+h(1) = subplot(3,1,1);
+plot(GroupStim(n).stimTime,GroupStim(n).stimulus,'k')
+hold on
+ylabel('Voltage (V)')
+set(gca,'Box','off','TickDir','out','XTickLabel','')
+ylim([-1.1 1.1])
+set(gca,'xtick',[])
+set(gca,'XColor','white')
+if n == 1
+    t = title(h(1),[dateAsString,', ',prefixCode,', ','ExpNum ',num2str(expNum),', FlyNum ',num2str(flyNum),', CellNum ',num2str(cellNum),', CellExpNum ',num2str(cellExpNum)]);
     
-    h(3) = subplot(3,1,2);
-    plot(GroupData(n).sampTime,mean(GroupData(n).voltage([1:5,11:17],:)),'r')
-    hold on
-    plot(GroupData(n).sampTime,mean(GroupData(n).voltage(6:10,:)),'k')
-    ylabel('Voltage (mV)')
-    set(gca,'Box','off','TickDir','out','XTickLabel','')
-    axis tight
-    set(gca,'xtick',[])
-    set(gca,'XColor','white')
-    legend({'probe on','probe off'})
-    legend('Location','NorthWest')
-    legend boxoff;
-    
-    h(2) = subplot(3,1,3);
-    plot(GroupData(n).sampTime,GroupData(n).current,'Color',gray)
-    hold on
-    plot(GroupData(n).sampTime,mean(GroupData(n).current),'k')
-    hold on
-    xlabel('Time (s)')
-    ylabel('Current (pA)')
-    set(gca,'Box','off','TickDir','out')
-    axis tight
-    
-    linkaxes(h,'x')
-    
-    if n == 1
-        spaceplots(fig,[0 0 0.025 0])
-    else
-        spaceplots
-    end
-    
-    %% Format and save
-    saveFilename{n} = [saveFolder,'\GroupData_Stim',num2str(n),'.pdf'];
-    set(gcf, 'PaperType', 'usletter');
-    orient landscape
-    export_fig(saveFilename{n},'-pdf','-q50')
-      
-    close all
+    %         t = title({[dateAsString,', ',prefixCode,', ','ExpNum ',num2str(expNum),', CellNum ',num2str(cellNum),', CellExpNum ',num2str(cellExpNum)];...
+    %             ['Membrane Resistance = ',num2str(preExptData.initialMembraneResistance/1000),' G{\Omega}',', Access Resistance = ',num2str(preExptData.initialAccessResistance/1000),' G{\Omega}']});
+    %         set(t, 'horizontalAlignment', 'left','units', 'normalized','position', [0 1 0])
+    set(t,'Fontsize',20);
 end
+
+h(3) = subplot(3,1,2);
+plot(GroupData(1).sampTime,mean(GroupData(1).voltage),'r')
+hold on
+plot(GroupData(2).sampTime,mean(GroupData(2).voltage),'k')
+hold on
+plot(GroupData(3).sampTime,mean(GroupData(3).voltage),'b')
+ylabel('Voltage (mV)')
+set(gca,'Box','off','TickDir','out','XTickLabel','')
+axis tight
+set(gca,'xtick',[])
+set(gca,'XColor','white')
+legend({'probe on left','probe off','probe on right'})
+legend('Location','SouthEast')
+legend boxoff;
+
+h(2) = subplot(3,1,3);
+plot(GroupData(n).sampTime,GroupData(n).current,'Color',gray)
+hold on
+plot(GroupData(n).sampTime,mean(GroupData(n).current),'k')
+hold on
+xlabel('Time (s)')
+ylabel('Current (pA)')
+set(gca,'Box','off','TickDir','out')
+axis tight
+
+linkaxes(h,'x')
+
+if n == 1
+    spaceplots(fig,[0 0 0.025 0])
+else
+    spaceplots
+end
+
+%% Format and save
+saveFilename{n} = [saveFolder,'\GroupData_Stim',num2str(n),'.pdf'];
+set(gcf, 'PaperType', 'usletter');
+orient landscape
+export_fig(saveFilename{n},'-pdf','-q50')
+
+close all
+
 
 figFilename = [saveFolder,idString,'allFigures.pdf'];
 if exist(figFilename,'file')

@@ -6,7 +6,7 @@ function stimSet_009(exptInfo,preExptData)
 archiveExpCode(exptInfo)
 
 %% Set up and acquire with the stimulus set
-numberOfStimuli = 4;
+numberOfStimuli = 5;
 stimRan = randperm(numberOfStimuli);
 
 count = 1;
