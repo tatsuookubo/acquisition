@@ -10,18 +10,24 @@ theta = 0:0.01:2*pi;
 figure
 % Right antenna
 rho = sin(theta-(pi/4));
-polar(theta,rho,'k')
+h1 = polar(theta,rho,'k');
 hold on
 rho = sin(theta-(pi)-(pi/4));
-polar(theta,rho,'k')
+h2 = polar(theta,rho,'k');
 
 % Left antenna
 rho = sin(theta-(pi/4)-(3*pi/2));
-polar(theta,rho,'r')
+h3 = polar(theta,rho,'r');
 rho = sin(theta-(pi/4)-(pi/2));
-polar(theta,rho,'r')
+h4 = polar(theta,rho,'r'); 
 
-set(gca,'LineWidth',2,'XTick',[])
+set(h1,'linewidth',2)
+set(h2,'linewidth',2)
+set(h3,'linewidth',2)
+set(h4,'linewidth',2)
+
+
+set(gca,'LineWidth',4,'XTick',[])
 
 hHiddenText = findall(gca,'type','text');
 Angles = 0 : 30 : 330;
