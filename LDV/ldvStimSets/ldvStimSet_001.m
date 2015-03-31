@@ -6,21 +6,11 @@ function ldvStimSet_001(exptInfo)
 %% Set up and acquire with the stimulus set
 numberOfStimuli = 1;
 stimRan = randperm(numberOfStimuli);
+trialMeta.stimNum = 1; 
 
-count = 1;
-FS = stoploop('Stop Experiment');
-while ~FS.Stop()
-    trialMeta.stimNum = stimRan(count);
-    fprintf(['\nStimNum = ',num2str(trialMeta.stimNum)])
-    stim = pickStimulus(trialMeta.stimNum);
-    switchSpeaker(stim.speaker);
+for n = 1:100
+    stim = pickStimulus(1);
     acquireLDVTrial(stim,exptInfo,trialMeta);
-    if count == numberOfStimuli
-        count = 1;
-        stimRan = randperm(numberOfStimuli);
-    else
-        count = count+1;
-    end
 end
 
 FS.Clear() ;  % Clear up the box

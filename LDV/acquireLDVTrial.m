@@ -19,14 +19,7 @@ fprintf(['\nTrial Number = ',num2str(n)]);
 %% Trial time
 trialMeta(n).trialStartTime = datestr(now,'HH:MM:SS');
 
-%% Code stamp
-exptInfo.codeStamp      = getCodeStamp(1);
-
 %% Create stimulus if needed
-if ~exist('pulseType','var')
-    pulseType = 'none';
-end
-
 if ~exist('stim','var')
     stim = noStimulus;
 end
@@ -61,11 +54,10 @@ start([AI AO]);
 trigger([AI AO]);
 
 % wait for playback/recording to finish
+totalnsampin = settings.sampRate.in*length(stim.stimulus)/settings.sampRate.out;
 nsampin = AI.SamplesAcquired;
-nsampout = AO.SamplesOutput;
-while (nsampin<data(n).nsampin)
-    data(n).nsampin = AI.SamplesAcquired;
-    data(n).nsampout = AO.SamplesOutput;
+while (nsampin<totalnsampin)
+    nsampin = AI.SamplesAcquired;
 end
 
 % stop playback
@@ -75,10 +67,10 @@ stop([AI AO]);
 data(n).trigdiff = AO.InitialTriggerTime-AI.InitialTriggerTime;
 
 % read data from engine
-x = getdata(AI,data(n).nsampin);
+x = getdata(AI,totalnsampin);
 data(n).ldvVoltage = x(:,1);
 data(n).velocity = (settings.ldvGain.*data(n).ldvVoltage)';  % acquire voltage output from LDV and convert to velocity (channel ACH0)
-velocity_subtracted = velocity - mean(velocity);
+velocity_subtracted = data(n).velocity - mean(data(n).velocity);
 data(n).displacement = 10^3.*(1/(settings.sampRate.in).*cumsum(velocity_subtracted));  % displacement is integral of velocity (times 10^6 to get um from mm)
 
 
@@ -90,7 +82,9 @@ save(fileName, 'data','settings','trialMeta','Stim','exptInfo');
 
 
 %% Plot data
-plotLDVData(stim,settings,data)
+t_in= (1:size(data(n).velocity,2))'/settings.sampRate.in;
+t_out = (1:size(stim.stimulus,2))'/settings.sampRate.out;
+plotLDVData(data(n).velocity,data(n).displacement,stim,t_in,t_out)
 
 
 
@@ -98,14 +92,13 @@ plotLDVData(stim,settings,data)
 end
 
 %% plotData
-function plotLDVData(data,velocity,displacement,stim,n)
+function plotLDVData(velocity,displacement,stim,t_in,t_out)
 
 figure(1); 
 scrsz = get(0,'ScreenSize');
 set(gcf,'Position',[50 scrsz(4)/5 scrsz(3)-100 scrsz(4)/1.5]);
 set(gcf,'PaperPositionMode','auto');
-t_in=[1:data(n).nsampin]'/settings.sampRate.in;
-t_out = [1:data(n).nsampout]'/settings.sampRate.out;
+
 
 subplot(3,1,1); 
 plot(t_in,velocity,'r','lineWidth',1); 
@@ -126,12 +119,12 @@ disp(['t_out = ',num2str(length(t_out))]);
 disp(['stim = ',num2str(length(stim))]);
 
 subplot(3,1,3); 
-plot(t_out,stim,'c','lineWidth',2); 
+plot(t_out,stim.stimulus,'c','lineWidth',2); 
 ylabel('stim');
 xlim([0 max(t_out)]);
 box off; 
 set(gca,'TickDir','out');
-set(gca,'Ylim',[min(stim)-(.1*max(stim)) max(stim)+(.1*max(stim))]);
+set(gca,'Ylim',[min(stim.stimulus)-(.1*max(stim.stimulus)) max(stim.stimulus)+(.1*max(stim.stimulus))]);
 xlabel('time (seconds)');
 
 end

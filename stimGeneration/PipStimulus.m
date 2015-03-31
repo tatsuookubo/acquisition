@@ -59,7 +59,7 @@ classdef PipStimulus < AuditoryStimulus
             pip = modEnvelope.*pip;
             
             % generate pip train
-            spacePip = [zeros(obj.ipi-obj.pipDur*obj.sampleRate,1);pip];
+            spacePip = [zeros(round((obj.ipi-obj.pipDur)*obj.sampleRate),1);pip];
             stimulus = [pip;repmat(spacePip,obj.numPips-1,1)];
             
             % Scale the stim to the maximum voltage in the amp

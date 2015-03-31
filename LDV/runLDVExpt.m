@@ -1,5 +1,7 @@
 function runLDVExpt(prefixCode,expNum,flyNum,flyExpNum,stimSetNum)
 
+close all 
+
 %% Set meta data
 exptInfo.prefixCode     = prefixCode;
 exptInfo.expNum         = expNum;
@@ -11,16 +13,13 @@ exptInfo.stimSetNum     = stimSetNum;
 
 %% Make directory 
 dataDir = ['C:\Users\Alex\Documents\Data\',prefixCode,'\expNum',num2str(expNum,'%03d'),...
-    '\flyNum',num2str(flyNum,'%03d'),'\flyExpNum',num2str(flyExpNum,'%03d')];
+    '\flyNum',num2str(flyNum,'%03d')];
 if ~isdir(dataDir)
     mkdir(dataDir)
 end
 
 %% Run experiment with stimulus
-contAns = input('Would you like to start the experiment? ','s');
-if strcmp(contAns,'y')
-    fprintf('**** Running Experiment ****\n')
-    eval(['ldvStimSet_',num2str(stimSetNum,'%03d'),...
+eval(['ldvStimSet_',num2str(stimSetNum,'%03d'),...
         '(','exptInfo',')'])
-end
+
 
