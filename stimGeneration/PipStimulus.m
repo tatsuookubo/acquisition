@@ -8,9 +8,9 @@ classdef PipStimulus < AuditoryStimulus
         modulationFreqHz    = 2;
         carrierFreqHz       = 300;
         envelope            = 'cos-theta';
-        numPips             = 3;%10;
-        pipDur              = 1;%0.015;
-        ipi                 = 0.5;%0.034;
+        numPips             = 10;
+        pipDur              = 0.015;
+        ipi                 = 0.034;
     end
     
     properties (Dependent = true, SetAccess = private)
@@ -59,7 +59,7 @@ classdef PipStimulus < AuditoryStimulus
             pip = modEnvelope.*pip;
             
             % generate pip train
-            spacePip = [zeros(obj.ipi*obj.sampleRate,1);pip];
+            spacePip = [zeros(obj.ipi-obj.pipDur*obj.sampleRate,1);pip];
             stimulus = [pip;repmat(spacePip,obj.numPips-1,1)];
             
             % Scale the stim to the maximum voltage in the amp
