@@ -28,48 +28,47 @@ end
 settings = ldvSettings(stim);
 
 
+%% Specify channels used 
+inChannelsUsed  = 1;
+outChannelsUsed = 0;
+
 %% Configure daq
-daqreset;
+% daqreset;
+devID = 'Dev1';
+
+%% Configure ouput session
+sOut = daq.createSession('ni');
+sOut.Rate = settings.sampRate.out;
+
+% Analog Channels / names for documentation
+sOut.addAnalogOutputChannel(devID,outChannelsUsed,'Voltage');
+sOut.Rate = settings.sampRate.out;
+
+% Add trigger
+sOut.addTriggerConnection('External','Dev1/PFI3','StartTrigger');
+
+%% Configure input session
+sIn = daq.createSession('ni');
+sIn.Rate = settings.sampRate.in;
+sIn.DurationInSeconds = stim.totalDur;
+
+aI = sIn.addAnalogInputChannel(devID,inChannelsUsed,'Voltage');
+aI.InputType = 'SingleEnded';
 
 
-%% Configure analog output
-AO = analogoutput ('nidaq', 'Dev1');
-addchannel (AO, 0);
-set(AO, 'SampleRate', settings.sampRate.out);
-set(AO, 'TriggerType', 'Manual');
-putdata(AO,stim.stimulus)
+% Add Trigger
+sIn.addTriggerConnection('Dev1/PFI1','External','StartTrigger');
 
-%% Configure analog input
-AI = analoginput ('nidaq', 'Dev1');
-addchannel (AI, 0);
-set(AI, 'SampleRate', settings.sampRate.in);
-set(AI, 'SamplesPerTrigger', inf);
-set(AI, 'InputType', 'Differential');
-set(AI, 'TriggerType', 'Manual');
-set(AI, 'ManualTriggerHwOn','Trigger');
+
+
 
 %% Run trials
-% start playback
-start([AI AO]);
-trigger([AI AO]);
+sOut.queueOutputData([stim.stimulus,settings.pulse.Command]);
+sOut.startBackground; % Start the session that receives start trigger first
+rawData = sIn.startForeground;
 
-% wait for playback/recording to finish
-totalnsampin = settings.sampRate.in*length(stim.stimulus)/settings.sampRate.out;
-nsampin = AI.SamplesAcquired;
-while (nsampin<totalnsampin)
-    nsampin = AI.SamplesAcquired;
-end
-
-% stop playback
-stop([AI AO]);
-
-% record difference in AI/AO start times
-data(n).trigdiff = AO.InitialTriggerTime-AI.InitialTriggerTime;
-
-% read data from engine
-x = getdata(AI,totalnsampin);
-data(n).ldvVoltage = x(:,1);
-data(n).velocity = (settings.ldvGain.*data(n).ldvVoltage)';  % acquire voltage output from LDV and convert to velocity (channel ACH0)
+%% Process raw data 
+data(n).velocity = (settings.ldvGain.*rawData)';  % acquire voltage output from LDV and convert to velocity (channel ACH0)
 velocity_subtracted = data(n).velocity - mean(data(n).velocity);
 data(n).displacement = 10^3.*(1/(settings.sampRate.in).*cumsum(velocity_subtracted));  % displacement is integral of velocity (times 10^6 to get um from mm)
 

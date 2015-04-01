@@ -30,7 +30,7 @@ switch pulseType
 end   
 settings.pulse.Command(settings.pulse.Start:settings.pulse.End) = settings.pulse.Amp.*ones(settings.pulse.Dur*settings.sampRate.out,1);
 
-%% Parameters not saved
+%% Specify channels used 
 inChannelsUsed  = 0:5;
 
 %% Configure daq
