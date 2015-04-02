@@ -63,7 +63,7 @@ sIn.addTriggerConnection('Dev1/PFI1','External','StartTrigger');
 
 
 %% Run trials
-sOut.queueOutputData([stim.stimulus,settings.pulse.Command]);
+sOut.queueOutputData([stim.stimulus]);
 sOut.startBackground; % Start the session that receives start trigger first
 rawData = sIn.startForeground;
 
@@ -81,9 +81,7 @@ save(fileName, 'data','settings','trialMeta','Stim','exptInfo');
 
 
 %% Plot data
-t_in= (1:size(data(n).velocity,2))'/settings.sampRate.in;
-t_out = (1:size(stim.stimulus,2))'/settings.sampRate.out;
-plotLDVData(data(n).velocity,data(n).displacement,stim,t_in,t_out)
+plotLDVData(data(n).velocity,data(n).displacement,stim,settings)
 
 
 
@@ -91,39 +89,27 @@ plotLDVData(data(n).velocity,data(n).displacement,stim,t_in,t_out)
 end
 
 %% plotData
-function plotLDVData(velocity,displacement,stim,t_in,t_out)
+function plotLDVData(velocity,displacement,stim,settings)
 
 figure(1); 
-scrsz = get(0,'ScreenSize');
-set(gcf,'Position',[50 scrsz(4)/5 scrsz(3)-100 scrsz(4)/1.5]);
-set(gcf,'PaperPositionMode','auto');
 
-
-subplot(3,1,1); 
-plot(t_in,velocity,'r','lineWidth',1); 
-ylabel('velocity (mm/s)');
-set(gca,'Xlim',[0 max(t_in)]); %ylim([min(voltage)-.33*max(voltage) max(voltage)+.33*max(voltage)]);
-ylim([min(velocity)-.1*max(velocity) max(velocity)+.1*max(velocity)]);
-box off; 
-set(gca,'TickDir','out');
-
-subplot(3,1,2); 
-plot(t_in,displacement,'color',[1 0 .5]); 
-ylabel('displacement (um)');
-xlim([0 max(t_in)]); 
-box off; 
-set(gca,'TickDir','out');
-
-disp(['t_out = ',num2str(length(t_out))]); 
-disp(['stim = ',num2str(length(stim))]);
-
-subplot(3,1,3); 
-plot(t_out,stim.stimulus,'c','lineWidth',2); 
+h(1) = subplot(3,1,1); 
+stimTime = [1/stim.sampleRate:1/stim.sampleRate:stim.totalDur]';
+plot(stimTime,stim.stimulus,'k','lineWidth',2); 
 ylabel('stim');
-xlim([0 max(t_out)]);
-box off; 
-set(gca,'TickDir','out');
-set(gca,'Ylim',[min(stim.stimulus)-(.1*max(stim.stimulus)) max(stim.stimulus)+(.1*max(stim.stimulus))]);
+
+h(2) = subplot(3,1,2); 
+sampTime = [1/settings.sampRate.in:1/settings.sampRate.in:stim.totalDur]';
+plot(sampTime,velocity,'k','lineWidth',1); 
+ylabel('velocity (mm/s)');
+
+
+h(3) = subplot(3,1,3); 
+plot(sampTime,displacement,'k'); 
+ylabel('displacement (um)');
+
 xlabel('time (seconds)');
+
+linkaxes(h,'x') 
 
 end
