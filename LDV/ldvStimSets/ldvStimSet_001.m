@@ -23,7 +23,8 @@ clear FS ;
                 stim.speaker = 2;
                 stim.pipDur = 0.015; 
                 stim.numPips = 10; 
-                stim.ipi = 0.034;                
+                stim.ipi = 0.034;   
+                stim.startPadDur = 1; 
         end
     end
 

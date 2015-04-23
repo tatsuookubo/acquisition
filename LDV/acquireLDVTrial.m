@@ -29,7 +29,7 @@ settings = ldvSettings(stim);
 
 
 %% Specify channels used 
-inChannelsUsed  = 1;
+inChannelsUsed  = 14;%1;
 outChannelsUsed = 0;
 
 %% Configure daq
@@ -111,5 +111,7 @@ ylabel('displacement (um)');
 xlabel('time (seconds)');
 
 linkaxes(h,'x') 
+% xlim([1 1.4])
+% ylim([-2 2])
 
 end
