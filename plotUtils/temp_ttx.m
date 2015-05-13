@@ -1,4 +1,4 @@
-function temp_plotDataGroupedByProbePosition(prefixCode,expNum,flyNum,cellNum,cellExpNum)
+function temp_ttx(prefixCode,expNum,flyNum,cellNum,cellExpNum)
 
 close all
 
@@ -66,17 +66,18 @@ if n == 1
 end
 
 h(3) = subplot(3,1,2);
-plot(GroupData(1).sampTime,mean(GroupData(1).voltage)-mean(GroupData(1).voltage(1:5000)),'r')
+plot(GroupData(1).sampTime,mean(GroupData(1).voltage(1:5,:)),'r')
 hold on
-plot(GroupData(2).sampTime,mean(GroupData(2).voltage)-mean(GroupData(2).voltage(1:5000)),'k')
-hold on
-plot(GroupData(3).sampTime,mean(GroupData(3).voltage(6:10,:))-mean(mean(GroupData(3).voltage(6:10,1:5000))),'b')
+plot(GroupData(2).sampTime,mean(GroupData(2).voltage(end-5:end,:)),'k')
+% plot(GroupData(1).sampTime,mean(GroupData(1).voltage(1:5,:))-mean(mean(GroupData(1).voltage(1:5,1:5000))),'r')
+% hold on
+% plot(GroupData(2).sampTime,mean(GroupData(2).voltage(end-5:end,:))-mean(mean(GroupData(2).voltage(end-5:end,1:5000))),'k')
 ylabel('Voltage (mV)')
 set(gca,'Box','off','TickDir','out','XTickLabel','')
 axis tight
 set(gca,'xtick',[])
 set(gca,'XColor','white')
-legend({'probe on left','probe off','probe on right'})
+legend({'before ttx','after ttx'})
 legend('Location','SouthEast')
 legend boxoff;
 
@@ -91,7 +92,6 @@ set(gca,'Box','off','TickDir','out')
 axis tight
 
 linkaxes(h,'x')
-% xlim([2.8 3.5])
 
 if n == 1
     spaceplots(fig,[0 0 0.025 0])
@@ -108,7 +108,7 @@ export_fig(saveFilename{n},'-pdf','-q50')
 close all
 
 
-figFilename = [saveFolder,idString,'overlay6-10.pdf'];
+figFilename = [saveFolder,idString,'ttx.pdf'];
 if exist(figFilename,'file')
     delete(figFilename)
 end

@@ -6,7 +6,7 @@ function stimSet_009(exptInfo,preExptData)
 archiveExpCode(exptInfo)
 
 %% Set up and acquire with the stimulus set
-numberOfStimuli = 5;
+numberOfStimuli = 4;
 stimRan = randperm(numberOfStimuli);
 
 count = 1;
@@ -41,13 +41,7 @@ clear FS ;
                 stim.speaker = 2;           
             case 4
                 stim = PulseSong;
-                stim.speaker = 2;
-            case 5 
-                stim = PipStimulus;
-                stim.speaker = 2;
-                stim.pipDur = 0.015; 
-                stim.numPips = 10; 
-                stim.ipi = 0.034;                
+                stim.speaker = 2;            
         end
     end
 
