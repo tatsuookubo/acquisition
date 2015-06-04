@@ -22,8 +22,12 @@ fileName = [path,'groupedData.mat'];
 load(fileName);
 
 saveFolder = [path,'figures\'];
+imageFolder = [saveFolder,'Images\'];
 if ~isdir(saveFolder)
     mkdir(saveFolder);
+end
+if ~isdir(imageFolder)
+    mkdir(imageFolder)
 end
 
 %% Load fly details 
@@ -87,6 +91,7 @@ for n = 1:numStim
     axis tight
     
     linkaxes(h,'x')
+    xlim([2.5,4])
     
     if n == 1
         spaceplots(fig,[0 0 0.025 0])
@@ -99,6 +104,8 @@ for n = 1:numStim
     set(gcf, 'PaperType', 'usletter');
     orient landscape
     export_fig(saveFilename{n},'-pdf','-q50')
+    imageFilename = [imageFolder,'stimNum_',num2str(n),'.emf'];
+    print(fig,'-dmeta',imageFilename)
       
     close all
 end

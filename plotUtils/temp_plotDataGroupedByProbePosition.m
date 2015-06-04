@@ -66,11 +66,20 @@ if n == 1
 end
 
 h(3) = subplot(3,1,2);
-plot(GroupData(1).sampTime,mean(GroupData(1).voltage)-mean(GroupData(1).voltage(1:5000)),'r')
+% plot(GroupData(1).sampTime,mean(GroupData(1).voltage)-mean(GroupData(1).voltage(1:5000)),'r')
+% hold on
+% plot(GroupData(2).sampTime,mean(GroupData(2).voltage)-mean(GroupData(2).voltage(1:5000)),'k')
+% hold on
+% plot(GroupData(3).sampTime,mean(GroupData(3).voltage)-mean(GroupData(3).voltage(1:5000)),'b')
+
+plot(GroupData(1).sampTime,mean(GroupData(1).voltage),'r')
 hold on
-plot(GroupData(2).sampTime,mean(GroupData(2).voltage)-mean(GroupData(2).voltage(1:5000)),'k')
+plot(GroupData(2).sampTime,mean(GroupData(2).voltage),'k')
 hold on
-plot(GroupData(3).sampTime,mean(GroupData(3).voltage(6:10,:))-mean(mean(GroupData(3).voltage(6:10,1:5000))),'b')
+plot(GroupData(3).sampTime,mean(GroupData(3).voltage),'b')
+
+
+
 ylabel('Voltage (mV)')
 set(gca,'Box','off','TickDir','out','XTickLabel','')
 axis tight
@@ -91,7 +100,7 @@ set(gca,'Box','off','TickDir','out')
 axis tight
 
 linkaxes(h,'x')
-% xlim([2.8 3.5])
+xlim([2.5 4])
 
 if n == 1
     spaceplots(fig,[0 0 0.025 0])
@@ -104,11 +113,13 @@ saveFilename{n} = [saveFolder,'\GroupData_Stim',num2str(n),'.pdf'];
 set(gcf, 'PaperType', 'usletter');
 orient landscape
 export_fig(saveFilename{n},'-pdf','-q50')
+imageFilename = [saveFolder,'\overlay.emf'];
+print(fig,'-dmeta',imageFilename)
 
 close all
 
 
-figFilename = [saveFolder,idString,'overlay6-10.pdf'];
+figFilename = [saveFolder,idString,'allFigs.pdf'];
 if exist(figFilename,'file')
     delete(figFilename)
 end

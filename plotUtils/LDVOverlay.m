@@ -1,15 +1,24 @@
+function LDVOverlay(expNum,flyNum)
 
-close all
-clear all
+expNum = num2str(expNum,'%03d');
+flyNum = num2str(flyNum,'%03d');
+
 exptNums =[3,4];
 gray = [192 192 192]./255;
 
 colours = {'r','b'};
 figCount = 0;
-saveFolder = 'C:\Users\Alex\Documents\Data\ldv\expNum001\flyNum006\Figures\';
+rootFolder = ['C:\Users\Alex\Documents\Data\ldv\expNum',expNum,'\flyNum',flyNum,'\'];
+saveFolder = [rootFolder,'Figures\'];
+imageFolder = [rootFolder,'Figures\Images\'];
+
 if ~isdir(saveFolder)
     mkdir(saveFolder)
 end
+if ~isdir(imageFolder)
+    mkdir(imageFolder)
+end
+
 count2 = 0;
 for n = exptNums %18:21; %[1:3,5:18,22:27];
     %     close all
@@ -34,7 +43,7 @@ for n = exptNums %18:21; %[1:3,5:18,22:27];
     set(0,'DefaultFigureColor','w')
     set(0,'DefaultAxesBox','off')
     
-    figure(1);
+    fig = figure(1);
     setCurrentFigurePosition(1)
     
     h(1) = subplot(3,1,1);
@@ -63,9 +72,9 @@ for n = exptNums %18:21; %[1:3,5:18,22:27];
     %     end
     %     plot(sampTime,velocity,'Color',gray,'lineWidth',2);
     %     hold on
-    stdVel = std(velocity,1); 
-%     plot(sampTime,mean(velocity),colours{count2},'lineWidth',2);
-%     hold on 
+    stdVel = std(velocity,1);
+    %     plot(sampTime,mean(velocity),colours{count2},'lineWidth',2);
+    %     hold on
     shadedErrorBar(sampTime,mean(velocity),stdVel,colours{count2},1)
     hold on
     plot(sampTime,mean(velocity),colours{count2})
@@ -90,7 +99,7 @@ for n = exptNums %18:21; %[1:3,5:18,22:27];
     %     end
     %     plot(sampTime,displacement,'Color',gray,'lineWidth',2);
     %     hold on
-    stdDisplacement = std(displacement,1); 
+    stdDisplacement = std(displacement,1);
     shadedErrorBar(sampTime,mean(displacement),stdDisplacement,colours{count2},1)
     hold on
     plot(sampTime,mean(displacement),colours{count2})
@@ -114,24 +123,32 @@ end
 
 % legend({['FlyExpNum',num2str(exptNums(1))],['FlyExpNum',num2str(exptNums(2))]});
 figCount = figCount + 1;
-saveFilename{figCount} = [saveFolder,'flyExpNum_zoom1',num2str(n,'%03d'),'.pdf'];
+saveFilename{figCount} = [saveFolder,'overlay_zoom_1.pdf'];
 set(gcf, 'PaperType', 'usletter');
 orient landscape
 export_fig(saveFilename{figCount},'-pdf','-q50','-opengl')
+imageFilename = [imageFolder,'overlay_zoom_1.emf'];
+print(fig,'-dmeta',imageFilename)
 
 xlim([0.9 1.45])
 figCount = figCount + 1;
-saveFilename{figCount} = [saveFolder,'flyExpNum_zoom2',num2str(n,'%03d'),'.pdf'];
+saveFilename{figCount} = [saveFolder,'overlay_zoom_2.pdf'];
 set(gcf, 'PaperType', 'usletter');
 orient landscape
 export_fig(saveFilename{figCount},'-pdf','-q50','-opengl')
+imageFilename = [imageFolder,'overlay_zoom_2.emf'];
+print(fig,'-dmeta',imageFilename)
 
 xlim([0.995 1.025])
 figCount = figCount + 1;
-saveFilename{figCount} = [saveFolder,'flyExpNum_zoom3',num2str(n,'%03d'),'.pdf'];
+saveFilename{figCount} = [saveFolder,'overlay_zoom_3.pdf'];
 set(gcf, 'PaperType', 'usletter');
 orient landscape
 export_fig(saveFilename{figCount},'-pdf','-q50','-opengl')
+imageFilename = [imageFolder,'overlay_zoom_3.emf'];
+print(fig,'-dmeta',imageFilename)
+
+%% Append pdfs
 figFilename = [saveFolder,'allFigures2.pdf'];
 if exist(figFilename,'file')
     delete(figFilename)

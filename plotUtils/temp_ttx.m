@@ -92,6 +92,7 @@ set(gca,'Box','off','TickDir','out')
 axis tight
 
 linkaxes(h,'x')
+xlim([2.5 4])
 
 if n == 1
     spaceplots(fig,[0 0 0.025 0])
@@ -104,6 +105,8 @@ saveFilename{n} = [saveFolder,'\GroupData_Stim',num2str(n),'.pdf'];
 set(gcf, 'PaperType', 'usletter');
 orient landscape
 export_fig(saveFilename{n},'-pdf','-q50')
+imageFilename = [saveFolder,'\ttx.emf'];
+print(fig,'-dmeta',imageFilename)
 
 close all
 
