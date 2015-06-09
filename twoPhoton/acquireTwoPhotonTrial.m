@@ -22,37 +22,47 @@ settings = twoPhotonSettings(stim);
 sOut = daq.createSession('ni');
 sOut.Rate = settings.sampRate.out;
 
-% Add Channels
+% Add analog out channel (speaker)
 sOut.addAnalogOutputChannel(settings.devID,0,'Voltage');
 sOut.Rate = settings.sampRate.out;
 
-% Add Trigger
-sOut.addTriggerConnection('External',[settings.devID,'/',settings.bob.triggerChOut],'StartTrigger');
+% Add digital out channel (external trigger)
+sOut.addDigitalChannel(settings.devID,'port0/line0','OutputOnly');
 
-%% Configure input session
-sIn = daq.createSession('ni');
-sIn.Rate = settings.sampRate.in;
-sIn.DurationInSeconds = stim.totalDur;
-
-% Add Channels
-aI = sIn.addAnalogInputChannel(settings.devID,settings.bob.inChannelsUsed,'Voltage');
-for i = 1+inChannelsUsed
-    aI(i).InputType = settings.bob.aiType;
-end
+extTrig = ones(size(stim.stimulus));
+extTrig(1) = 0;
+extTrig(end) = 0;
 
 % Add Trigger
-sIn.addTriggerConnection([settings.devID,'/',triggerChannelIn],'External','StartTrigger');
+% sOut.addTriggerConnection('External',[settings.devID,'/',settings.bob.triggerChOut],'StartTrigger');
+
+% %% Configure input session
+% sIn = daq.createSession('ni');
+% sIn.Rate = settings.sampRate.in;
+% sIn.DurationInSeconds = stim.totalDur;
+% 
+% % Add Channels
+% aI = sIn.addAnalogInputChannel(settings.devID,settings.bob.inChannelsUsed,'Voltage');
+% for i = 1:length(settings.bob.inChannelsUsed)
+%     aI(i).InputType = settings.bob.aiType;
+% end
+% 
+% % Add Trigger
+% sIn.addTriggerConnection([settings.devID,'/',settings.bob.triggerChIn],'External','StartTrigger');
 
 %% Run trial
-sOut.queueOutputData([stim.stimulus,settings.pulse.Command]);
-sOut.startBackground; % Start the session that receives start trigger first
-rawData = sIn.startForeground;
+% sOut.queueOutputData([stim.stimulus]);
+% sOut.startBackground; % Start the session that receives start trigger first
+% rawData = sIn.startForeground;
+
+sOut.queueOutputData([stim.stimulus extTrig]);
+sOut.startForeground; 
 
 
 %% Process and plot non-scaled data
 % Process
-data.slowMirror = rawData(:,settings.bob.slowMirrorCh+1);
-data.fastMirror = rawData(:,settings.bob.fastMirrorCh+1);
+% data.slowMirror = rawData(:,settings.bob.slowMirrorCol);
+% data.fastMirror = rawData(:,settings.bob.fastMirrorCol);
 
 
 % %% Process scaled data
@@ -95,7 +105,7 @@ data.fastMirror = rawData(:,settings.bob.fastMirrorCh+1);
 
 %% Close daq objects
 sOut.stop;
-sIn.stop;
+
 
 % %% Plot data
 % plotData(stim,settings,data)
