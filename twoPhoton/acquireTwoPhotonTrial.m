@@ -1,5 +1,6 @@
 function acquireTwoPhotonTrial(stim,trialMeta,varargin)
 
+evalin('base','clear all');
 fprintf('\n*********** Acquiring Trial ***********')
 
 %% Trial time
@@ -42,6 +43,9 @@ if nargin ~= 2
     basename = getpref('scimSavePrefs','basename');
     trialMeta.roiNum = getpref('scimSavePrefs','roiNum');
     saveFolder = [folder,'\roiNum',num2str(trialMeta.roiNum,'%03d'),'\'];
+    if ~isdir(saveFolder)
+        mkdir(saveFolder)
+    end
     
     % Put image in correct roiNum folder and rename to include roiNum
     cd(folder)
@@ -49,7 +53,7 @@ if nargin ~= 2
     end
     imageSearchResult = dir('*tif');
     currentImageName = imageSearchResult.name;
-    trialNumStr = regexp(currentImageName,'(?<=basename)\d*(?=.tif)','match');
+    trialNumStr = regexp(currentImageName,'(?<=_)\d*(?=.tif)','match');
     trialNum = str2num(char(trialNumStr));
     
     newImageName = [saveFolder,basename,'roiNum',num2str(trialMeta.roiNum,'%03d'),...
@@ -64,7 +68,7 @@ if nargin ~= 2
     Stim = struct(stim);
     
     % Save data,trialMeta and Stim
-    save(metaFileName, 'data','trialMeta','Stim');
+    save(metaFileName,'trialMeta','Stim');
     
 end
 

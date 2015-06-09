@@ -11,7 +11,7 @@ while( isdir([folder,'\roiNum',num2str(roiNum,'%03d')]) )
     roiNum = roiNum + 1;
 end
 
-if ~strcmp(newRoi,'y')
+if ~strcmp(newRoi,'y') && roiNum ~= 1
     roiNum = roiNum -1; 
 end 
 
