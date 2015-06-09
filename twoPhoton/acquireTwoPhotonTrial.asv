@@ -53,11 +53,10 @@ if nargin ~= 2
     trialNum = str2num(char(trialNumStr));
     
     newImageName = [saveFolder,basename,'roiNum',num2str(trialMeta.roiNum,'%03d'),...
-        '_trialNum',num2str(trialNum,'%03d'),'_image.tif'];
+        '_trialNum',num2str(trialNum,'%03d'),'.tif'];
     movefile(currentImageName,newImageName)
     
-    metaFileName = [saveFolder,basename,'roiNum',num2str(trialMeta.roiNum,'%03d'),...
-        '_trialNum',num2str(trialNum,'%03d'),'.mat'];
+    metaFileName = 
     
     % Convert stim object to structure for saving
     warning('off','MATLAB:structOnObject')

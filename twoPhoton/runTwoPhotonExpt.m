@@ -42,7 +42,7 @@ end
 %% Run stim set if provided
 if exist('stimSetNum','var')
     trialMeta.stimSetNum = stimSetNum;
-    trialMeta.roiNum = getRoiNum;
+    getRoiNum;
     contAns = input('Would you like to start the experiment? ','s');
     if strcmp(contAns,'y')
         fprintf('**** Running Experiment ****\n')
