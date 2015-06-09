@@ -1,11 +1,17 @@
 function runTwoPhotonExpt(prefixCode,expNum,stimSetNum,varargin)
 
-%% Get fly and experiment details from experimenter
-newFly = input('New fly? ','s');
-[flyNum, cellNum, cellExpNum] = getFlyNum(prefixCode,expNum,newFly,newCell);
-fprintf(['Fly Number = ',num2str(flyNum),'\n'])
-fprintf(['Cell Number = ',num2str(cellNum),'\n'])
-fprintf(['Cell Experiment Number = ',num2str(cellExpNum),'\n'])
+%% Get folder and basename
+flyNum = getFlyNumTwoPhoton(prefixCode,expNum);
+
+folder = [dataDirectory,prefixCode,'\expNum',eNum,...
+    '\flyNum',flyNum];
+
+if ~isdir(folder)
+    mkdir(folder)
+end
+
+basename = [prefixCode,'_expNum',eNum,...
+    '_flyNum',flyNum,'_'];
 
 %% Set meta data
 exptInfo.prefixCode     = prefixCode;
@@ -13,31 +19,41 @@ exptInfo.expNum         = expNum;
 exptInfo.flyNum         = flyNum;
 exptInfo.dNum           = datestr(now,'YYmmDD');
 exptInfo.exptStartTime  = datestr(now,'HH:MM:SS');
+exptInfo.codeStamp      = getCodeStamp(1);
 
+%% Save folder and basename to matlab preferences
+addpref('scimSavePrefs',{'folder','basename','roiNum'},{folder,basename,[]})
 
-%% Get fly details
+%% Set Dir and basename in ScanImage
+input(['Set Dir in ScanImage to ''',folder,''' \nthen press Enter\n'])
+
+clipboard('copy',basename);
+input('Paste basename in ScanImage \nthen press Enter\n')
+
+%% Save exptInfo
+filename = [folder,'\',basename,'exptInfo'];
+save(filename,'exptInfo')
+
+%% Get and save fly details
 if strcmp(newFly,'y')
     getFlyDetails(exptInfo)
 end
 
-%% Save expt info 
-
-%% Save prefix code, expt number and fly number to preferences 
-
 %% Run stim set if provided
 if exist('stimSetNum','var')
-    newROI = input('New roi? ','s');
-    exptInfo.roiNum         = roiNum;
-    exptInfo.stimSetNum     = stimSetNum;    
+    trialMeta.stimSetNum = stimSetNum;
+    trialMeta.roiNum = getRoiNum;
     contAns = input('Would you like to start the experiment? ','s');
     if strcmp(contAns,'y')
         fprintf('**** Running Experiment ****\n')
         eval(['twoPhotonStimSet_',num2str(stimSetNum,'%03d'),...
-            '(','exptInfo,','preExptData',')'])
+            '(','trialMeta',')'])
     end
 end
 
-%% 
+%% Run flexible experiment if no stimSet is provided
+if ~exist('stimSetNum','var')
+    edit flexSoundExpt;
+end
 
-%% Backup data
-makeBackup
+

@@ -1,0 +1,20 @@
+function flyNum = getFlyNumTwoPhoton(prefixCode,expNum)
+
+newFly = input('New fly? ','s');
+
+microCzarSettings;   % Loads settings
+flyNum = 1; 
+
+% Make numbers strings
+eNum = num2str(expNum,'%03d');
+
+while( isdir([dataDirectory,prefixCode,'\expNum',eNum,...
+    '\flyNum',num2str(flyNum,'%03d')]) )
+    flyNum = flyNum + 1;
+end
+
+if ~strcmp(newFly,'y')
+    flyNum = flyNum -1; 
+end 
+
+fprintf(['Fly Number = ',num2str(flyNum),'\n'])
