@@ -34,10 +34,8 @@ extTrig(end) = 0;
 sOut.queueOutputData([stim.stimulus extTrig]);
 sOut.startForeground;
 
-%% Wait some time for scanImage to process
-
 %% Save data
-if nargin ~= 2
+if nargin ~= 0
     % Get filenames
     folder = getpref('scimSavePrefs','folder');
     basename = getpref('scimSavePrefs','basename');
@@ -55,6 +53,7 @@ if nargin ~= 2
     currentImageName = imageSearchResult.name;
     trialNumStr = regexp(currentImageName,'(?<=_)\d*(?=.tif)','match');
     trialNum = str2num(char(trialNumStr));
+    fprintf(['\nTrialNum = ',num2str(trialNum)])
     
     newImageName = [saveFolder,basename,'roiNum',num2str(trialMeta.roiNum,'%03d'),...
         '_trialNum',num2str(trialNum,'%03d'),'_image.tif'];

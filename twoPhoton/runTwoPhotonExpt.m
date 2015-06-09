@@ -1,7 +1,7 @@
 function runTwoPhotonExpt(prefixCode,expNum,stimSetNum,varargin)
 
 %% Get folder and basename
-microCzarSettings;
+dataDirectory = getpref('scimSavePrefs','dataDirectory');
 [flyNum, newFly] = getFlyNumTwoPhoton(prefixCode,expNum);
 
 folder = [dataDirectory,prefixCode,'\expNum',num2str(expNum,'%03d'),...
@@ -21,11 +21,10 @@ exptInfo.expNum         = expNum;
 exptInfo.flyNum         = flyNum;
 exptInfo.dNum           = datestr(now,'YYmmDD');
 exptInfo.exptStartTime  = datestr(now,'HH:MM:SS');
-exptInfo.codeStamp      = getCodeStamp(1);
 
 %% Get and save fly details
 if strcmp(newFly,'y')
-    getFlyDetails(exptInfo)
+    getFlyDetails(exptInfo,basename,dataDirectory)
 end
 
 %% Save folder and basename to matlab preferences
@@ -44,6 +43,11 @@ input('')
 %% Save exptInfo
 filename = [folder,'\',basename,'exptInfo'];
 save(filename,'exptInfo')
+
+%% Create diary 
+diaryFilename = [folder,'\',basename,'diary.txt'];
+diary(diaryFilename)
+diary on
 
 %% Run stim set if provided
 if exist('stimSetNum','var')

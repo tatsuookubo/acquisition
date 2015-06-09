@@ -2,7 +2,6 @@ function roiNum = getRoiNum
 
 newRoi = input('New ROI? ','s');
 
-microCzarSettings;   % Loads settings
 roiNum = 1; 
 
 folder = getpref('scimSavePrefs','folder');

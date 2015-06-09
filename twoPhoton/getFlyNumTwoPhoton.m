@@ -2,7 +2,8 @@ function [flyNum,newFly] = getFlyNumTwoPhoton(prefixCode,expNum)
 
 newFly = input('New fly? ','s');
 
-microCzarSettings;   % Loads settings
+dataDirectory = getpref('scimSavePrefs','dataDirectory');
+
 flyNum = 1; 
 
 % Make numbers strings
