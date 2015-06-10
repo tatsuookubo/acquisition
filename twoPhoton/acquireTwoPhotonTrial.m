@@ -40,6 +40,7 @@ if nargin ~= 0
     folder = getpref('scimSavePrefs','folder');
     basename = getpref('scimSavePrefs','basename');
     trialMeta.roiNum = getpref('scimSavePrefs','roiNum');
+    trialMeta.roiDescrip = getpref('scimSavePrefs','roiDescrip');
     saveFolder = [folder,'\roiNum',num2str(trialMeta.roiNum,'%03d'),'\'];
     if ~isdir(saveFolder)
         mkdir(saveFolder)
