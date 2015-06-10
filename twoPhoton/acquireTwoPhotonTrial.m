@@ -10,30 +10,40 @@ if ~exist('stim','var')
     stim = noStimulus;
 end
 
-%% Load settings
-settings = twoPhotonSettings(stim);
-
-%% Configure ouput session
-sOut = daq.createSession('ni');
-sOut.Rate = settings.sampRate.out;
-
-% Add analog out channel (speaker)
-sOut.addAnalogOutputChannel(settings.devID,0,'Voltage');
-sOut.Rate = settings.sampRate.out;
-
-% Add digital out channel (external trigger)
-sOut.addDigitalChannel(settings.devID,settings.bob.trigOut,'OutputOnly');
-
+%% Create ScanImage trigger
 extTrig = ones(size(stim.stimulus));
 extTrig(1) = 0;
 extTrig(end) = 0;
 
+%% Load settings
+settings = twoPhotonSettings(stim);
+
+%% Configure session
+s = daq.createSession('ni');
+s.Rate = settings.sampRate.out;
+
+% Add analog out channel (speaker)
+s.addAnalogOutputChannel(settings.devID,0,'Voltage');
+s.Rate = settings.sampRate.out;
+
+% Add digital out channel (external trigger)
+s.addDigitalChannel(settings.devID,settings.bob.trigOut,'OutputOnly');
+
+% Add analog input channel (for acquiring mirror commands that scanImage
+% sends) 
+s.addAnalogInputChannel(devID,settings.bob.inChannelsUsed,'Voltage');
+for i = 1+settings.bob.inChannelsUsed
+    aI(i).InputType = settings.bob.aiType;
+end
+
 
 %% Run trial
-sOut.queueOutputData([stim.stimulus extTrig]);
-sOut.startForeground;
+s.queueOutputData([stim.stimulus extTrig]);
+rawData = s.startForeground;
 
-%% Wait some time for scanImage to process
+%% Process data 
+data.xMirror = rawData(:,settings.bob.xMirrorCol);
+data.yMirror = rawData(:,settings.bob.yMirrorCol);
 
 %% Save data
 if nargin ~= 2
@@ -69,10 +79,10 @@ if nargin ~= 2
 end
 
 %% Close daq objects
-sOut.stop;
+s.stop;
 
 %% Plot data
-
+plotTwoPhotonDataOnline(newImageName,metaFileName)
 
 
 
