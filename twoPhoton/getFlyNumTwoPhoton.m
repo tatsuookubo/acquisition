@@ -1,8 +1,9 @@
-function flyNum = getFlyNumTwoPhoton(prefixCode,expNum)
+function [flyNum,newFly] = getFlyNumTwoPhoton(prefixCode,expNum)
 
 newFly = input('New fly? ','s');
 
-microCzarSettings;   % Loads settings
+dataDirectory = getpref('scimSavePrefs','dataDirectory');
+
 flyNum = 1; 
 
 % Make numbers strings
@@ -13,7 +14,7 @@ while( isdir([dataDirectory,prefixCode,'\expNum',eNum,...
     flyNum = flyNum + 1;
 end
 
-if ~strcmp(newFly,'y')
+if ~strcmp(newFly,'y') && flyNum ~= 1
     flyNum = flyNum -1; 
 end 
 

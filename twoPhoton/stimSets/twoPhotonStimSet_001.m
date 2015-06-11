@@ -20,6 +20,7 @@ while ~FS.Stop()
     end
 end
 
+diary off
 FS.Clear() ;  % Clear up the box
 clear FS ;
 

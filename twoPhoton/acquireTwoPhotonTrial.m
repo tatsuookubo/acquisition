@@ -1,5 +1,6 @@
 function acquireTwoPhotonTrial(stim,trialMeta,varargin)
 
+evalin('base','clear all');
 fprintf('\n*********** Acquiring Trial ***********')
 
 %% Trial time
@@ -41,17 +42,24 @@ end
 s.queueOutputData([stim.stimulus extTrig]);
 rawData = s.startForeground;
 
+<<<<<<< HEAD
 %% Process data 
 data.xMirror = rawData(:,settings.bob.xMirrorCol);
 data.yMirror = rawData(:,settings.bob.yMirrorCol);
 
+=======
+>>>>>>> origin/master
 %% Save data
-if nargin ~= 2
+if nargin ~= 0
     % Get filenames
     folder = getpref('scimSavePrefs','folder');
     basename = getpref('scimSavePrefs','basename');
     trialMeta.roiNum = getpref('scimSavePrefs','roiNum');
+    trialMeta.roiDescrip = getpref('scimSavePrefs','roiDescrip');
     saveFolder = [folder,'\roiNum',num2str(trialMeta.roiNum,'%03d'),'\'];
+    if ~isdir(saveFolder)
+        mkdir(saveFolder)
+    end
     
     % Put image in correct roiNum folder and rename to include roiNum
     cd(folder)
@@ -59,8 +67,9 @@ if nargin ~= 2
     end
     imageSearchResult = dir('*tif');
     currentImageName = imageSearchResult.name;
-    trialNumStr = regexp(currentImageName,'(?<=basename)\d*(?=.tif)','match');
+    trialNumStr = regexp(currentImageName,'(?<=_)\d*(?=.tif)','match');
     trialNum = str2num(char(trialNumStr));
+    fprintf(['\nTrialNum = ',num2str(trialNum)])
     
     newImageName = [saveFolder,basename,'roiNum',num2str(trialMeta.roiNum,'%03d'),...
         '_trialNum',num2str(trialNum,'%03d'),'_image.tif'];
@@ -74,7 +83,7 @@ if nargin ~= 2
     Stim = struct(stim);
     
     % Save data,trialMeta and Stim
-    save(metaFileName, 'data','trialMeta','Stim');
+    save(metaFileName,'trialMeta','Stim');
     
 end
 
