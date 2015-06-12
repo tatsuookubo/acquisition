@@ -28,15 +28,14 @@ roifig = figure;
 colormap(gray);
 greenAvg = squeeze(nanmean(mov(:,:,2,:),4));
 imagesc(greenAvg);
-if lastRoiNum == currRoiNum
+if 1%lastRoiNum == currRoiNum
     oldRoi = getpref('scimPlotPrefs','roi');
     roi = impoly(gca,oldRoi);
-    mask = createMask(roi);
 else    
     roiObj = imfreehand(gca,'Closed',1);
     roi = wait(roiObj);
-    mask = createMask(roiObj);
 end
+mask = createMask(roi);
 close(roifig)
 
 %% Calculate fluorescence count in ROI
@@ -65,7 +64,7 @@ for i = 1:length(frameDivisions)
     frameEndIdxs(i) = frameDivisions(i) + maxIdx - 1;
 end
 
-frameTimes = Stim.timeVec(frameEndIdxs);
+frameTimes = Stim.stimVec
 
 % % Check 
 % figure
@@ -78,9 +77,9 @@ frameTimes = Stim.timeVec(frameEndIdxs);
 %% Plot
 figure()
 subplot(2,1,1)
-plot(Stim.timeVec,Stim.stimulus)
+plot(Stim.stimVec,Stim.stimulus)
 subplot(2,1,2)
-plot(frameTimes,fCount)
+plot(fCount)
 ylabel('F (counts)')
 xlabel('Time (s)')
 
