@@ -1,21 +1,30 @@
 function data = plotTwoPhotonDataOnline(imageFileName,metaFileName)
 
 
-% imageFolder = 'C:\Users\Alex\Documents\Data\beads\expNum001\flyNum002\roiNum002\';
-% metaFileName = [imageFolder,'beads_expNum001_flyNum002_roiNum002_trialNum001.mat'];
-% imageFileName = [imageFolder,'beads_expNum001_flyNum002_roiNum002_trialNum001_image.tif'];
+imageFolder = 'C:\Users\Alex\Documents\Data\CalciumImagingData\beads\expNum001\flyNum002\roiNum002\';
+metaFileName = [imageFolder,'beads_expNum001_flyNum002_roiNum002_trialNum001.mat'];
+imageFileName = [imageFolder,'beads_expNum001_flyNum002_roiNum002_trialNum001_image.tif'];
 
 %% Load image and meta data
-% Load image
-warning('off','MATLAB:imagesci:tiffmexutils:libtiffWarning')
-[~,mov] = scim_openTif(imageFileName);
-
 % Load meta data 
 load(metaFileName);
 
-% Get number of frames and channels from tiff 
-numFrames = size(mov,4);
-numChans = size(mov,3);
+% Get image info
+imInfo = imfinfo(imageFileName);
+chans = regexp(imInfo(1).ImageDescription,'state.acq.acquiringChannel\d=1');
+numChans = length(chans);
+numFrames = round(length(imInfo)/numChans);
+im1 = imread(imageFileName,'tiff','Index',1,'Info',imInfo);
+numPx = size(im1);
+
+% Read in image 
+mov = zeros([numPx(:); numChans; numFrames]', 'double');  %preallocate 3-D array
+for frame=1:numFrames
+    for chan = 1:numChans
+        [mov(:,:,chan,frame)] = imread(imageFileName,'tiff',...
+            'Index',(2*(frame-1)+chan),'Info',imInfo);
+    end
+end
 
 %% Image processing
 % Remove the last line where the image doesn't change
@@ -42,9 +51,7 @@ close(roifig)
 %% Calculate fluorescence count in ROI
 greenMov = squeeze(mov(:,:,2,:));
 repMask = squeeze(repmat(mask,[1,1,1,numFrames]));
-greenMov(~repMask) = nan;
-figure()
-imagesc(greenMov(:,:,1))
+greenMov(~repMask) = NaN;
 fCount = squeeze(nanmean(nanmean(greenMov,2),1));
 
 %% Save roi
@@ -79,7 +86,7 @@ frameTimes = Stim.timeVec(frameEndIdxs);
 figure()
 ax(1) = subplot(2,1,1);
 plot(Stim.timeVec,Stim.stimulus)
-ylable('Stimulus level (V)') 
+ylabel('Stimulus level (V)') 
 ax(2) = subplot(2,1,2);
 plot(frameTimes,fCount)
 ylabel('F (counts)')
