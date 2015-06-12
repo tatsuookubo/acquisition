@@ -1,11 +1,19 @@
 function data = plotTwoPhotonDataOnline(imageFileName,metaFileName)
 
-%% Load image and meta data
-%load(metaFileName);
 
-imageFileName = 'C:\Users\Alex\Documents\Data\CalciumImagingData\B1\150604\150604_F1_C1\SpeakerStimulus_Images_150604_F1_C1_34\SpeakerStimulus_Image_044.tif';
+imageFolder = 'C:\Users\Alex\Documents\Data\beads\expNum001\flyNum002\roiNum002\';
+metaFileName = [imageFolder,'beads_expNum001_flyNum002_roiNum002_trialNum001.mat'];
+imageFileName = [imageFolder,'beads_expNum001_flyNum002_roiNum002_trialNum001_image.tif'];
+
+%% Load image and meta data
+% Load image
+warning('off','MATLAB:imagesci:tiffmexutils:libtiffWarning')
 [~,mov] = scim_openTif(imageFileName);
 
+% Load meta data 
+load(metaFileName);
+
+% Get number of frames and channels from tiff 
 numFrames = size(mov,4);
 numChans = size(mov,3);
 
@@ -20,14 +28,15 @@ roifig = figure;
 colormap(gray);
 greenAvg = squeeze(nanmean(mov(:,:,2,:),4));
 imagesc(greenAvg);
-if 1%lastRoiNum == currRoiNum
+if lastRoiNum == currRoiNum
     oldRoi = getpref('scimPlotPrefs','roi');
     roi = impoly(gca,oldRoi);
+    mask = createMask(roi);
 else    
     roiObj = imfreehand(gca,'Closed',1);
     roi = wait(roiObj);
+    mask = createMask(roiObj);
 end
-mask = createMask(roi);
 close(roifig)
 
 %% Calculate fluorescence count in ROI
@@ -42,12 +51,36 @@ fCount = squeeze(nanmean(nanmean(greenMov,2),1));
 %setpref('scimPlotPrefs','roi',roi);
 data.roi = roi;
 
+%% Get frame timing data 
+% find(max(data.yMirror),'first',1))
+sampsPerFrame = round(length(Stim.stimulus)/(numFrames + 0.5));
+frameDivisions = round(0.5*sampsPerFrame + sampsPerFrame.*(0:66));
+for i = 1:length(frameDivisions)
+    if i == length(frameDivisions) 
+        yMirrorSubset = data.yMirror(frameDivisions(i):end);
+    else 
+        yMirrorSubset = data.yMirror(frameDivisions(i):frameDivisions(i+1));
+    end
+    [~,maxIdx] = max(yMirrorSubset);
+    frameEndIdxs(i) = frameDivisions(i) + maxIdx - 1;
+end
+
+frameTimes = Stim.timeVec(frameEndIdxs);
+
+% % Check 
+% figure
+% plot(Stim.timeVec,data.yMirror) 
+% hold on 
+% plot(Stim.timeVec(frameDivisions),0,'ro')
+% hold on 
+% plot(Stim.timeVec(frameEndIdxs),2,'go')
+
 %% Plot
 figure()
 subplot(2,1,1)
-%plot(stim.stimulus)
+plot(Stim.timeVec,Stim.stimulus)
 subplot(2,1,2)
-plot(fCount)
+plot(frameTimes,fCount)
 ylabel('F (counts)')
 xlabel('Time (s)')
 

@@ -31,7 +31,7 @@ classdef AuditoryStimulus < handle
         end
         
         function timeVec = get.timeVec(obj) 
-            timeVec = (1/obj.sampleRate):(1/obj.sampleRate):(1*length(obj.stimulus)/obj.sampleRate);
+            timeVec = 
         end
             
         %%------Common Utilities---------------------------------------------------------
@@ -55,8 +55,9 @@ classdef AuditoryStimulus < handle
         function [figHandle,plotHandle] = plot(obj,varargin)
             fontSize = 14;
             lineWidth = 1; 
+            timeInS = (1/obj.sampleRate):(1/obj.sampleRate):(1*length(obj.stimulus)/obj.sampleRate);
             figHandle = figure('Color',[1 1 1],'Name','AuditoryStimulus');
-            plotHandle = plot(obj.timeVec,obj.stimulus);
+            plotHandle = plot(timeInS,obj.stimulus);
             set(plotHandle,'LineWidth',lineWidth)
             
             box off; axis on;
