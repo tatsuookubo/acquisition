@@ -1,10 +1,5 @@
 function data = plotTwoPhotonDataOnline(imageFileName,metaFileName)
 
-
-imageFolder = 'C:\Users\Alex\Documents\Data\CalciumImagingData\beads\expNum001\flyNum002\roiNum002\';
-metaFileName = [imageFolder,'beads_expNum001_flyNum002_roiNum002_trialNum001.mat'];
-imageFileName = [imageFolder,'beads_expNum001_flyNum002_roiNum002_trialNum001_image.tif'];
-
 %% Load image and meta data
 % Load meta data 
 load(metaFileName);
