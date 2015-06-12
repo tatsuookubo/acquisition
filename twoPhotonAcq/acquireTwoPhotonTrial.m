@@ -88,7 +88,7 @@ end
 s.stop;
 
 %% Plot data
-% plotTwoPhotonDataOnline(newImageName,metaFileName)
+plotTwoPhotonDataOnline(newImageName,metaFileName)
 
 
 
