@@ -32,7 +32,7 @@ s.addDigitalChannel(settings.devID,settings.bob.trigOut,'OutputOnly');
 
 % Add analog input channel (for acquiring mirror commands that scanImage
 % sends) 
-s.addAnalogInputChannel(devID,settings.bob.inChannelsUsed,'Voltage');
+s.addAnalogInputChannel(settings.devID,settings.bob.inChannelsUsed,'Voltage');
 for i = 1+settings.bob.inChannelsUsed
     aI(i).InputType = settings.bob.aiType;
 end
@@ -42,13 +42,10 @@ end
 s.queueOutputData([stim.stimulus extTrig]);
 rawData = s.startForeground;
 
-<<<<<<< HEAD
 %% Process data 
 data.xMirror = rawData(:,settings.bob.xMirrorCol);
 data.yMirror = rawData(:,settings.bob.yMirrorCol);
 
-=======
->>>>>>> origin/master
 %% Save data
 if nargin ~= 0
     % Get filenames
@@ -83,7 +80,7 @@ if nargin ~= 0
     Stim = struct(stim);
     
     % Save data,trialMeta and Stim
-    save(metaFileName,'trialMeta','Stim');
+    save(metaFileName,'data','trialMeta','Stim');
     
 end
 
@@ -91,7 +88,7 @@ end
 s.stop;
 
 %% Plot data
-plotTwoPhotonDataOnline(newImageName,metaFileName)
+% plotTwoPhotonDataOnline(newImageName,metaFileName)
 
 
 
