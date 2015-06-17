@@ -1,5 +1,7 @@
 function acquireTwoPhotonTrial(stim,trialMeta,varargin)
 
+close all
+
 evalin('base','clear all');
 fprintf('\n*********** Acquiring Trial ***********')
 
@@ -46,13 +48,19 @@ rawData = s.startForeground;
 data.xMirror = rawData(:,settings.bob.xMirrorCol);
 data.yMirror = rawData(:,settings.bob.yMirrorCol);
 
+%% Close daq objects
+s.stop;
+
 %% Save data
 if nargin ~= 0
-    % Get filenames
-    folder = getpref('scimSavePrefs','folder');
-    basename = getpref('scimSavePrefs','basename');
+    % Get preferences to save 
+    % Save prefs    
     trialMeta.roiNum = getpref('scimSavePrefs','roiNum');
     trialMeta.roiDescrip = getpref('scimSavePrefs','roiDescrip');
+    
+    % Make filename and folder
+    folder = getpref('scimSavePrefs','folder');
+    basename = getpref('scimSavePrefs','basename');
     saveFolder = [folder,'\roiNum',num2str(trialMeta.roiNum,'%03d'),'\'];
     if ~isdir(saveFolder)
         mkdir(saveFolder)
@@ -84,12 +92,11 @@ if nargin ~= 0
     
 end
 
-%% Close daq objects
-s.stop;
-
 %% Plot data
 plotTwoPhotonDataOnline(newImageName,metaFileName)
 
+%% Save lastRoiNum 
+setpref('scimPlotPrefs','lastRoiNum',trialMeta.roiNum);
 
 
 end

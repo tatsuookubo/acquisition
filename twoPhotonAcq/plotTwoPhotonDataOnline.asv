@@ -1,4 +1,4 @@
-function plotTwoPhotonDataOnline(imageFileName,metaFileName)
+function data = plotTwoPhotonDataOnline(imageFileName,metaFileName)
 
 %% Load image and meta data
 % Load meta data 
@@ -36,15 +36,15 @@ greenAvg = squeeze(nanmean(mov(:,:,2,:),4));
 imagesc(greenAvg);
 oldRoi = [];
 if lastRoiNum == currRoiNum
-    roi = getpref('scimPlotPrefs','roi');
-    roiObj = impoly(gca,roi);
-    mask = createMask(roiObj);
+    oldRoi = getpref('scimPlotPrefs','roi');
+    roi = impoly(gca,oldRoi);
+    mask = createMask(roi);
 elseif lastRoiNum ~= currRoiNum || isempty(oldRoi) 
     roiObj = imfreehand(gca,'Closed',1);
     roi = wait(roiObj);
     mask = createMask(roiObj);
 end
-
+close(roifig)
 
 %% Calculate fluorescence count in ROI
 greenMov = squeeze(mov(:,:,2,:));
@@ -93,7 +93,7 @@ setpref('scimPlotPrefs','roi',roi);
 onlinePlot.roi = roi; 
 onlinePlot.fCount = fCount; 
 onlinePlot.frameTime = frameTimes; 
-onlinePlot.frameEndIdxs = frameEndIdxs; 
+onli
 save(metaFileName,'onlinePlot','-append')
 
 end

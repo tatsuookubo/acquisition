@@ -2,7 +2,7 @@
 % AVB 2015/06/09
 
 %% Run at start of experiment
-runTwoPhotonExpt('beads',1)
+runTwoPhotonExpt('test3',1)
 
 %% Pip 
 stim = PipStimulus;

@@ -1,6 +1,8 @@
-function roiNum = getRoiNum
+function roiNum = getRoiNum(newRoi,varargin)
 
-newRoi = input('New ROI? ','s');
+if nargin == 0
+    newRoi = input('New ROI? ','s');
+end
 
 roiNum = 1; 
 
@@ -17,7 +19,7 @@ end
 fprintf(['ROI Number = ',num2str(roiNum),'\n'])
 
 if strcmp(newRoi,'y')
-    setpref('scimSavePrefs','roiNum',roiNum)
+    setpref('scimSavePrefs','roiNum',roiNum);
     roiDescrip = input('Give ROI description: ','s');
     setpref('scimSavePrefs','roiDescrip',roiDescrip);
 end

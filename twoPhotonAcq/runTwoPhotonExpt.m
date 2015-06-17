@@ -25,10 +25,11 @@ exptInfo.exptStartTime  = datestr(now,'HH:MM:SS');
 %% Get and save fly details
 if strcmp(newFly,'y')
     getFlyDetails(exptInfo,basename,dataDirectory)
+    setpref('scimPlotPrefs',{'lastRoiNum','roi'},{[],[]})
 end
 
 %% Save folder and basename to matlab preferences
-setpref('scimSavePrefs',{'folder','basename','roiNum'},{folder,basename,[]})
+setpref('scimSavePrefs',{'folder','basename','roiNum','roiDescrip'},{folder,basename,[],''})
 
 %% Set Dir and basename in ScanImage
 fprintf('*********\nSet directory and basename in ScanImage then press Enter');
