@@ -2,17 +2,24 @@
 % AVB 2015/06/09
 
 %% Run at start of experiment
-runTwoPhotonExpt('test3',1)
+runTwoPhotonExpt('60H03',1)
 
-%% Pip 
-stim = PipStimulus;
-getRoiNum; 
-acquireTwoPhotonTrial(stim); 
+%% Pip
+    stim = PipStimulus;
+    stim.startPadDur = 5; 
+    stim.endPadDur = 5;
+    stim.numPips = 20; 
+for i = 1:5
+    if i == 1
+        getRoiNum;
+    end
+    acquireTwoPhotonTrial(stim);
+end
 
-%% Chirp 
+%% Chirp
 stim = Chirp;
-getRoiNum; 
-acquireTwoPhotonTrial(stim); 
+getRoiNum;
+acquireTwoPhotonTrial(stim);
 
-%% Run at end of experiment 
-diary off 
+%% Run at end of experiment
+diary off

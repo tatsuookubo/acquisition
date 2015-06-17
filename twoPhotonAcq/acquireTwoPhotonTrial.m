@@ -1,8 +1,6 @@
 function acquireTwoPhotonTrial(stim,trialMeta,varargin)
 
 close all
-
-evalin('base','clear all');
 fprintf('\n*********** Acquiring Trial ***********')
 
 %% Trial time
@@ -50,6 +48,7 @@ data.yMirror = rawData(:,settings.bob.yMirrorCol);
 
 %% Close daq objects
 s.stop;
+pause(2) 
 
 %% Save data
 if nargin ~= 0

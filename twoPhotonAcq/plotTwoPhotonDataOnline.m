@@ -5,6 +5,7 @@ function plotTwoPhotonDataOnline(imageFileName,metaFileName)
 load(metaFileName);
 
 % Get image info
+warning('off','MATLAB:imagesci:tiffmexutils:libtiffWarning')
 [header,~] = scim_openTif(imageFileName);
 frameRate = header.acq.frameRate;
 imInfo = imfinfo(imageFileName);
@@ -34,12 +35,11 @@ roifig = figure;
 colormap(gray);
 greenAvg = squeeze(nanmean(mov(:,:,2,:),4));
 imagesc(greenAvg);
-oldRoi = [];
 if lastRoiNum == currRoiNum
     roi = getpref('scimPlotPrefs','roi');
     roiObj = impoly(gca,roi);
     mask = createMask(roiObj);
-elseif lastRoiNum ~= currRoiNum || isempty(oldRoi) 
+elseif lastRoiNum ~= currRoiNum 
     roiObj = imfreehand(gca,'Closed',1);
     roi = wait(roiObj);
     mask = createMask(roiObj);
