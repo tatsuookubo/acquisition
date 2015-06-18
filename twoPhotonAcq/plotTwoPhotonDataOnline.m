@@ -69,13 +69,13 @@ end
 
 frameTimes = Stim.timeVec(frameEndIdxs);
 
-% % Check 
-figure
-plot(Stim.timeVec,data.yMirror) 
-hold on 
-plot(Stim.timeVec(frameDivisions),0,'ro')
-hold on 
-plot(Stim.timeVec(frameEndIdxs),.2,'go')
+% % % Check 
+% figure
+% plot(Stim.timeVec,data.yMirror) 
+% hold on 
+% plot(Stim.timeVec(frameDivisions),0,'ro')
+% hold on 
+% plot(Stim.timeVec(frameEndIdxs),.2,'go')
 
 %% Plot
 figure()
