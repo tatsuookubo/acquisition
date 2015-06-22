@@ -4,29 +4,29 @@
 %% Run at start of experiment
 runTwoPhotonExpt('JO4',1)
 
-%% AMTone 
+%% AMTone
 stim = AmTone;
-stim.waveDur = 20; 
-stim.startPadDur = 20; 
+stim.waveDur = 20;
+stim.startPadDur = 20;
 stim.endPadDur = 20;
 plot(stim)
 
-%% Chirp 
+%% Chirp
 stim = Chirp;
 
-%% Click 
-stim = ClickStimulus; 
+%% Click
+stim = ClickStimulus;
 stim.numClicks = 10;
 stim.ici = 2;
-stim.maxVoltage = 2; 
-stim.startPadDur = 10;  
-stim.endPadDur = 10; 
+stim.maxVoltage = 2;
+stim.startPadDur = 10;
+stim.endPadDur = 10;
 
-%% Courtship Song 
-stim = CourtshipSong; 
+%% Courtship Song
+stim = CourtshipSong;
 
-%% No stimulus 
-stim = noStimulus; 
+%% No stimulus
+stim = noStimulus;
 stim.startPadDur = 60;
 plot(stim)
 
@@ -34,25 +34,26 @@ plot(stim)
 stim = PipStimulus;
 plot(stim)
 
-%% Pulse Song 
-stim = PulseSong; 
+%% Pulse Song
+stim = PulseSong;
 
-%% SineWave 
-stim = SineWave; 
+%% SineWave
+stim = SineWave;
 
 %% Run one trial
 getRoiNum;
-getBlockNum; 
+getBlockNum;
 acquireTwoPhotonTrial('y',stim);
 
 %% Run 5 trials
 for i = 1:10
     if i == 1
         getRoiNum;
-        getBlockNum; 
+        getBlockNum;
     end
-    acquireTwoPhotonTrial('y',stim);
+    metaFileName = acquireTwoPhotonTrial('n',stim);
 end
+postMultTrialPlot(metaFileName)
 
 %% Run at end of experiment
 diary off

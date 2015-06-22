@@ -1,5 +1,7 @@
 function twoPhotonStimSet_001(trialMeta)
 
+blockNum = newBlock;
+
 % Probe experiment
 %% Setup stimulus
 stim = PipStimulus;
@@ -21,10 +23,11 @@ while ~FS.Stop()
         fprintf(['\nMove probe to ',stim.probe,' antenna, then press Enter\n'])
         pause
     end
-    acquireTwoPhotonTrial(stim,trialMeta,'n');
+    metaFileName = acquireTwoPhotonTrial(stim,trialMeta,'n');
     if count == 5
         count = 1;
         stimCount = stimCount + 1; 
+        postMultTrialPlot(metaFileName)
     else
         count = count+1;
     end
@@ -41,10 +44,13 @@ clear FS ;
         switch stimNum
             case 1
                 stim.probe = 'left';
+                switchBlock(blockNum,'probe on left')
             case 2
                 stim.probe = 'off';
+                switchBlock(blockNum+1,'no probe')
             case 3
                 stim.probe = 'right';
+                switchBlock(blockNum+2,'probe on right')
         end
     end
 

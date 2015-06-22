@@ -1,4 +1,4 @@
-function acquireTwoPhotonTrial(plotQ,stim,trialMeta,varargin)
+function metaFileName = acquireTwoPhotonTrial(plotQ,stim,trialMeta,varargin)
 
 close all
 fprintf('\n*********** Acquiring Trial ***********')
