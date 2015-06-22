@@ -79,12 +79,11 @@ if nargin ~= 0
     fprintf(['\nTrialNum = ',num2str(trialNum)])
     
     newImageName = [saveFolder,basename,'roiNum',num2str(trialMeta.roiNum,'%03d'),...
-        '_blockNum',num2str(trialMeta.blockNum,'%03d'),...
+        'roiNum',num2str(trialMeta.roiNum,'%03d'),...
         '_trialNum',num2str(trialNum,'%03d'),'_image.tif'];
     movefile(currentImageName,newImageName)
     
     metaFileName = [saveFolder,basename,'roiNum',num2str(trialMeta.roiNum,'%03d'),...
-        '_blockNum',num2str(trialMeta.blockNum,'%03d'),...
         '_trialNum',num2str(trialNum,'%03d'),'.mat'];
     
     % Convert stim object to structure for saving
@@ -101,7 +100,6 @@ plotTwoPhotonDataOnline(newImageName,metaFileName)
 
 %% Save lastRoiNum 
 setpref('scimPlotPrefs','lastRoiNum',trialMeta.roiNum);
-setpref('scimPlotPrefs','lastBlockNum',trialMeta.roiNum);
 
 
 end
