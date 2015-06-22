@@ -1,22 +1,35 @@
 function twoPhotonStimSet_001(trialMeta)
 
-%% Set up and acquire with the stimulus set
-numberOfStimuli = 4;
-stimRan = randperm(numberOfStimuli);
+% Probe experiment
+%% Setup stimulus
+stim = PipStimulus;
+stim.speaker = 2;
+stim.numPips = 30;
+stim.startPadDur = 10;
+stim.endPadDur = 10;
 
+%% Set up and acquire with the stimulus set
+pause on 
 count = 1;
+stimCount = 1; 
 FS = stoploop('Stop Experiment');
 while ~FS.Stop()
-    trialMeta.stimNum = stimRan(count);
-    fprintf(['\nStimNum = ',num2str(trialMeta.stimNum)])
+    trialMeta.stimNum = stimCount;
     stim = pickStimulus(trialMeta.stimNum);
     switchSpeaker(stim.speaker);
+    if count == 1 
+        fprintf(['\nMove probe to ',stim.probe,' antenna, then press Enter\n'])
+        pause
+    end
     acquireTwoPhotonTrial(stim,trialMeta);
-    if count == numberOfStimuli
+    if count == 5
         count = 1;
-        stimRan = randperm(numberOfStimuli);
+        stimCount = stimCount + 1; 
     else
         count = count+1;
+    end
+    if stimCount == 4; 
+        stimCount = 1; 
     end
 end
 
@@ -27,19 +40,16 @@ clear FS ;
     function stim = pickStimulus(stimNum)
         switch stimNum
             case 1
-                stim = PipStimulus;
-                stim.speaker = 2;           
+                stim.probe = 'left';
             case 2
-                stim = Chirp;
-                stim.speaker = 2;
+                stim.probe = 'off';
             case 3
-                stim = CourtshipSong;
-                stim.speaker = 2;           
-            case 4
-                stim = PulseSong;
-                stim.speaker = 2;            
+                stim.probe = 'right';
         end
     end
 
 
+
 end
+
+
