@@ -1,4 +1,4 @@
-function acquireTwoPhotonTrial(stim,trialMeta,varargin)
+function acquireTwoPhotonTrial(plotQ,stim,trialMeta,varargin)
 
 close all
 fprintf('\n*********** Acquiring Trial ***********')
@@ -31,7 +31,7 @@ s.Rate = settings.sampRate.out;
 s.addDigitalChannel(settings.devID,settings.bob.trigOut,'OutputOnly');
 
 % Add analog input channel (for acquiring mirror commands that scanImage
-% sends) 
+% sends)
 s.addAnalogInputChannel(settings.devID,settings.bob.inChannelsUsed,'Voltage');
 for i = 1+settings.bob.inChannelsUsed
     aI(i).InputType = settings.bob.aiType;
@@ -42,18 +42,19 @@ end
 s.queueOutputData([stim.stimulus extTrig]);
 rawData = s.startForeground;
 
-%% Process data 
+%% Process data
 data.xMirror = rawData(:,settings.bob.xMirrorCol);
 data.yMirror = rawData(:,settings.bob.yMirrorCol);
+data.pockelsCellCommand = rawData(:,settings.bob.pockCol);
 
 %% Close daq objects
 s.stop;
-pause(2) 
+pause(2)
 
 %% Save data
 if nargin ~= 0
-    % Get preferences to save 
-    % Save prefs    
+    % Get preferences to save
+    % Save prefs
     trialMeta.roiNum = getpref('scimSavePrefs','roiNum');
     trialMeta.roiDescrip = getpref('scimSavePrefs','roiDescrip');
     trialMeta.blockNum = getpref('scimSavePrefs','blockNum');
@@ -97,9 +98,11 @@ if nargin ~= 0
 end
 
 %% Plot data
-plotTwoPhotonDataOnline(newImageName,metaFileName)
+if strcmp(plotQ,'y')
+    plotTwoPhotonDataOnlineClicky(imageFileName,metaFileName)
+end
 
-%% Save lastRoiNum 
+%% Save lastRoiNum
 setpref('scimPlotPrefs','lastRoiNum',trialMeta.roiNum);
 setpref('scimPlotPrefs','lastBlockNum',trialMeta.roiNum);
 

@@ -4,14 +4,14 @@
 %% Run at start of experiment
 runTwoPhotonExpt('JO4',1)
 
-%% AMTone
+%% AMTone 
 stim = AmTone;
 stim.waveDur = 20; 
 stim.startPadDur = 20; 
 stim.endPadDur = 20;
 plot(stim)
 
-%% Chirp
+%% Chirp 
 stim = Chirp;
 
 %% Click 
@@ -42,14 +42,16 @@ stim = SineWave;
 
 %% Run one trial
 getRoiNum;
-acquireTwoPhotonTrial(stim);
+getBlockNum; 
+acquireTwoPhotonTrial('y',stim);
 
 %% Run 5 trials
 for i = 1:10
     if i == 1
         getRoiNum;
+        getBlockNum; 
     end
-    acquireTwoPhotonTrial(stim);
+    acquireTwoPhotonTrial('y',stim);
 end
 
 %% Run at end of experiment
