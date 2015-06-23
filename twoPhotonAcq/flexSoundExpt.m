@@ -43,7 +43,7 @@ stim = SineWave;
 %% Run one trial
 getRoiNum;
 getBlockNum;
-acquireTwoPhotonTrial(stim);
+metaFileName = acquireTwoPhotonTrial(stim);
 postMultTrialPlot(metaFileName)
 
 %% Run 5 trials
@@ -52,7 +52,7 @@ for i = 1:2
         getRoiNum;
         getBlockNum;
     end
-    metaFileName = acquireTwoPhotonTrial('n',stim);
+    metaFileName = acquireTwoPhotonTrial(stim);
 end
 postMultTrialPlot(metaFileName)
 

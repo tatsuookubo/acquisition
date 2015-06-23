@@ -19,7 +19,7 @@ while ~FS.Stop()
         fprintf(['\nMove probe to ',stim.probe,' antenna, then press Enter\n'])
         pause
     end
-    metaFileName = acquireTwoPhotonTrial(stim,trialMeta,'n');
+    metaFileName = acquireTwoPhotonTrial(stim,trialMeta);
     if count == 5
         count = 1;
         stimCount = stimCount + 1;
