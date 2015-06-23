@@ -99,7 +99,7 @@ end
 
 %% Plot data
 if strcmp(plotQ,'y')
-    plotTwoPhotonDataOnlineClicky(imageFileName,metaFileName)
+    plotTwoPhotonDataOnlineClicky(newImageName,metaFileName)
 end
 
 %% Save lastRoiNum
