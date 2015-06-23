@@ -1,4 +1,4 @@
-function metaFileName = acquireTwoPhotonTrial(plotQ,stim,trialMeta,varargin)
+function metaFileName = acquireTwoPhotonTrial(stim,trialMeta,varargin)
 
 close all
 fprintf('\n*********** Acquiring Trial ***********')
@@ -95,11 +95,6 @@ if nargin ~= 0
     % Save data,trialMeta and Stim
     save(metaFileName,'data','trialMeta','Stim');
     
-end
-
-%% Plot data
-if strcmp(plotQ,'y')
-    plotTwoPhotonDataOnlineClicky(newImageName,metaFileName)
 end
 
 %% Save lastRoiNum
