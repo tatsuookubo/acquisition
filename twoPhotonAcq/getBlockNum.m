@@ -9,7 +9,7 @@ blockNum = 1;
 folder = getpref('scimSavePrefs','folder');
 roiNum = getpref('scimSavePrefs','roiNum'); 
     
-while( isdir([folder,'\roiNum',roiNum,'\blockNum',num2str(blockNum,'%03d')]) )
+while( isdir([folder,'\roiNum',num2str(roiNum,'%03d'),'\blockNum',num2str(blockNum,'%03d')]) )
     blockNum = blockNum + 1;
 end
 
