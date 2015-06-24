@@ -4,35 +4,31 @@ blockNum = newBlock;
 
 % Probe experiment
 %% Setup stimulus
-stim = PipStimulus;
-stim.speaker = 2;
-stim.numPips = 30;
-stim.startPadDur = 10;
-stim.endPadDur = 10;
+
 
 %% Set up and acquire with the stimulus set
-pause on 
+pause on
 count = 1;
-stimCount = 1; 
+stimCount = 1;
 FS = stoploop('Stop Experiment');
 while ~FS.Stop()
     trialMeta.stimNum = stimCount;
     stim = pickStimulus(trialMeta.stimNum);
     switchSpeaker(stim.speaker);
-    if count == 1 
+    if count == 1
         fprintf(['\nMove probe to ',stim.probe,' antenna, then press Enter\n'])
         pause
     end
-    metaFileName = acquireTwoPhotonTrial(stim,trialMeta,'n');
+    metaFileName = acquireTwoPhotonTrial(stim,trialMeta);
     if count == 5
         count = 1;
-        stimCount = stimCount + 1; 
+        stimCount = stimCount + 1;
         postMultTrialPlot(metaFileName)
     else
         count = count+1;
     end
-    if stimCount == 4; 
-        stimCount = 1; 
+    if stimCount == 4;
+        stimCount = 1;
     end
 end
 
@@ -43,12 +39,27 @@ clear FS ;
     function stim = pickStimulus(stimNum)
         switch stimNum
             case 1
+                stim = PipStimulus;
+                stim.speaker = 2;
+                stim.numPips = 30;
+                stim.startPadDur = 10;
+                stim.endPadDur = 10;
                 stim.probe = 'left';
                 switchBlock(blockNum,'probe on left')
             case 2
+                stim = PipStimulus;
+                stim.speaker = 2;
+                stim.numPips = 30;
+                stim.startPadDur = 10;
+                stim.endPadDur = 10;
                 stim.probe = 'off';
                 switchBlock(blockNum+1,'no probe')
             case 3
+                stim = PipStimulus;
+                stim.speaker = 2;
+                stim.numPips = 30;
+                stim.startPadDur = 10;
+                stim.endPadDur = 10;
                 stim.probe = 'right';
                 switchBlock(blockNum+2,'probe on right')
         end
