@@ -48,7 +48,8 @@ stim = SineWave;
 getRoiNum;
 getBlockNum;
 metaFileName = acquireTwoPhotonTrial(stim);
-postMultTrialPlot(metaFileName)
+figSuffix = 'Online'; 
+postMultTrialPlot(metaFileName,figSuffix)
 
 %% Run 5 trials
 for i = 1:5
@@ -58,7 +59,8 @@ for i = 1:5
     end
     metaFileName = acquireTwoPhotonTrial(stim);
 end
-postMultTrialPlot(metaFileName)
+figSuffix = 'Online'; 
+postMultTrialPlot(metaFileName,figSuffix)
 
 %% Run at end of experiment
 diary off

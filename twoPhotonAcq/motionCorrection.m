@@ -1,28 +1,60 @@
-function motionCorrection 
+function movCorrected = motionCorrection(mov,Stim,frameTimes)
 
-%% Motion correction is not currently changing the image so I'm not going to do it at first
-%{
-% Motion correction only with green channel
-refFrame = mov(:,:,2,1);    % First frame of green channel
+%% Determine refFrame 
+numFrames = size(mov,3);
+refFrameNum = round(numFrames/2);
+refFrame = mov(:,:,refFrameNum,1);    % First frame of green channel
 refFFT = fft2(refFrame);
-mov2(:,:,2,1) = refFrame;
-for frame=2:numFrames
-    [~, Greg] = dftregistration(refFFT,fft2(mov(:,:,2,frame)),1);
-    mov2(:,:,2,frame) = real(ifft2(Greg));
+numMovs = size(mov,4); 
+movCorrected = NaN(size(mov)); 
+for movNum = 1:numMovs
+    for frame=1:numFrames
+        [~, Greg] = dftregistration(refFFT,fft2(mov(:,:,frame,movNum)),1);
+        movCorrected(:,:,frame,movNum) = real(ifft2(Greg));
+    end
 end
 
+% %% Check
+% mov3 = mov - repmat(refFrame,1,1,numFrames);
+% cmax = max(mov3(:));
+% cmin = min(mov3(:)); 
+% 
+% frameInds = round(frameTimes.*Stim.sampleRate); 
+% figure()
+% for j = 1:numMovs
+%     for i = 310:numFrames
+%         h(1) = subplot(2,3,1);
+%         imagesc(mov(:,:,i,j))
+%         axis image
+%         title('Uncorrected')
+%         h(2) = subplot(2,3,2);
+%         imagesc(movCorrected(:,:,i,j))
+%         axis image
+%         title('Corrected')
+%         subplot(2,3,3)
+%         if i == 1
+%             stimBlock = 1:frameInds(i); 
+%         else 
+%             stimBlock = frameInds(i-1:i);
+%         end
+%         plot(Stim.timeVec(stimBlock),Stim.stimulus(stimBlock))
+%         hold on 
+%         h(3) = subplot(2,3,4);
+%         image3 = mov(:,:,i,j) - refFrame;
+%         imagesc(image3);
+%         axis image
+%         title('Difference - uncorrected')
+%         caxis([cmin cmax])
+%         h(4) = subplot(2,3,5);
+%         image3 = movCorrected(:,:,i,j) - movCorrected(:,:,refFrameNum,j);
+%         imagesc(image3);
+%         caxis([cmin cmax])
+%         axis image
+%         colorbar
+%         title('Difference - corrected')
+%         disp(unique(image3))
+%         input('')
+%         linkaxes(h(:),'x')
+%     end
+% end
 
-figure()
-for i = 1:numFrames
-    subplot(3,1,1)
-    imagesc(mov(:,:,2,i))
-    subplot(3,1,2)
-    imagesc(mov2(:,:,2,i))
-    subplot(3,1,3)
-    image3 = mov2(:,:,2,i) - mov2(:,:,2,i);
-    imagesc(image3);
-    disp(unique(image3))
-    input('')
-end
-
-%}

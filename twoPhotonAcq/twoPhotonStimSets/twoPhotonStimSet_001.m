@@ -23,7 +23,7 @@ while ~FS.Stop()
     if count == 5
         count = 1;
         stimCount = stimCount + 1;
-        postMultTrialPlot(metaFileName)
+        postMultTrialPlot(metaFileName,'Online')
     else
         count = count+1;
     end
