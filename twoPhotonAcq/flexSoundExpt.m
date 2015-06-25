@@ -7,9 +7,9 @@ runTwoPhotonExpt('12B10',1)
 %% AMTone
 stim = AmTone;
 stim.waveDur = 10;
-stim.startPadDur = 5;
-stim.endPadDur = 5;
-stim.maxVoltage = 2; 
+stim.startPadDur = 20;
+stim.endPadDur = 10;
+stim.maxVoltage = 1; 
 plot(stim)
 
 %% Chirp
@@ -33,9 +33,10 @@ plot(stim)
 
 %% Pip
 stim = PipStimulus;
-stim.startPadDur = 5; 
+stim.startPadDur = 10; 
 stim.endPadDur = 5; 
-stim.numPips = 30; 
+stim.numPips = 60; 
+stim.maxVoltage = 2; 
 plot(stim)
 
 %% Pulse Song
@@ -50,9 +51,10 @@ getBlockNum;
 metaFileName = acquireTwoPhotonTrial(stim);
 figSuffix = 'Online'; 
 postMultTrialPlot(metaFileName,figSuffix)
+% postMultTrialPlotNumTrials(metaFileName,figSuffix)
 
 %% Run 5 trials
-for i = 1:5
+for i = 1:2
     if i == 1
         getRoiNum;
         getBlockNum;
@@ -61,6 +63,7 @@ for i = 1:5
 end
 figSuffix = 'Online'; 
 postMultTrialPlot(metaFileName,figSuffix)
+% postMultTrialPlotNumTrials(metaFileName,figSuffix)
 
 %% Run at end of experiment
 diary off
