@@ -1,4 +1,4 @@
-function acquireBallTrial(stim,exptInfo,trialMeta)
+function acquireBallTrial(stim)
 
 fprintf('\n*********** Acquiring Trial ***********') 
 
@@ -13,16 +13,23 @@ end
 %% Load settings    
 settings = ballSettings(stim); 
      
+%% Specify channels used 
+inChannelsUsed  = 0:5;
+
+%% Configure daq
+% daqreset;
+devID = 'Dev1';
+
 %% Configure session
 s = daq.createSession('ni');
-s.Rate = settings.sampRate;
+s.Rate = settings.sampRate.out;
 s.DurationInSeconds = stim.totalDur;
 
 % Add analog output channels (speaker)
-s.addAnalogOutputChannel(settings.devID,trialMeta.outputCh,'Voltage');
+s.addAnalogOutputChannel(devID,0:1,'Voltage');
 
 % Add analog input channels (sensor data)
-aI = s.addAnalogInputChannel(devID,settings.inChannelsUsed,'Voltage');
+aI = s.addAnalogInputChannel(devID,inChannelsUsed,'Voltage');
 for i = 1+inChannelsUsed
     aI(i).InputType = settings.bob.aiType;
 end
@@ -36,13 +43,13 @@ s.stop;
 s.stop;
 
 %% Allocate data 
-data.xVel = rawData(:,1);
-data.yVel = rawData(:,2);
+data.xPos = rawData(:,1);
+data.yPos = rawData(:,2);
 
 %% Only if saving data
 if nargin ~= 0 && nargin ~= 1
     % Get filename and save trial data
-    [fileName, path, fileNamePreamble, trialMeta.trialNum] = getDataFileNameBall(exptInfo);
+    [fileName,path,trialMeta.trialNum] = getDataFileName(exptInfo);
     fprintf(['\nTrial Number ', num2str(trialMeta.trialNum)])
     fprintf(['\nStimNum = ',num2str(trialMeta.stimNum)])
     if ~isdir(path)
@@ -55,15 +62,16 @@ if nargin ~= 0 && nargin ~= 1
     
     % Save expt data 
     if trialMeta.trialNum == 1
-        settingsFileName = [path,fileNamePreamble,'exptData.mat'];
-        save(settingsFileName,'settings','exptInfo'); 
+        [~, path, ~, idString] = getDataFileName(exptInfo);
+        settingsFileName = [path,idString,'exptData.mat'];
+        save(settingsFileName,'settings','exptInfo','preExptData'); 
     end
 end
 
 
 
 %% Plot data
-plotBallData(stim,rawData) 
+plotData(stim,settings,data)
 
 
 
