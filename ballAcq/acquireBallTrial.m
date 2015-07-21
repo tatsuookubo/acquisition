@@ -11,7 +11,7 @@ if ~exist('stim','var')
 end
 
 %% Load settings    
-settings = ballSettings(stim); 
+settings = ballSettings; 
      
 %% Configure session
 s = daq.createSession('ni');
@@ -22,9 +22,9 @@ s.DurationInSeconds = stim.totalDur;
 s.addAnalogOutputChannel(settings.devID,trialMeta.outputCh,'Voltage');
 
 % Add analog input channels (sensor data)
-aI = s.addAnalogInputChannel(devID,settings.inChannelsUsed,'Voltage');
-for i = 1+inChannelsUsed
-    aI(i).InputType = settings.bob.aiType;
+aI = s.addAnalogInputChannel(settings.devID,settings.inChannelsUsed,'Voltage');
+for i = 1+settings.inChannelsUsed
+    aI(i).InputType = settings.aiType;
 end
 
 %% Run trials
@@ -63,7 +63,7 @@ end
 
 
 %% Plot data
-plotBallData(stim,rawData) 
+plotBallData(Stim,rawData) 
 
 
 

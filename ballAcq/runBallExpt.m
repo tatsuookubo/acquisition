@@ -19,7 +19,7 @@ exptInfo.aim = input('Aim: ','s');
 
 %% Get fly details 
 if strcmp(newFly,'y')
-    getFlyDetails(exptInfo)
+    getFlyDetailsBall(exptInfo)
 end
 
 %% Run experiment with stimulus

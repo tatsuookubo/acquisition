@@ -3,7 +3,7 @@ function ballStimSet_001(exptInfo)
 % Produces the default pip train while switching between all three speakers
 
 %% Archive this code
-archiveExpCode(exptInfo)
+archiveExpCodeBall(exptInfo)
 
 %% Set up and acquire with the stimulus set
 rng('shuffle');
@@ -16,7 +16,6 @@ count = 1;
 FS = stoploop('Stop Experiment');
 while ~FS.Stop()
     trialMeta.stimNum = stimRan(count);
-    fprintf(['\nStimNum = ',num2str(trialMeta.stimNum)])
     stim = pickStimulus(trialMeta.stimNum);
     trialMeta.outputCh = switchSpeakerBall(stim.speaker);
     acquireBallTrial(stim,exptInfo,trialMeta);

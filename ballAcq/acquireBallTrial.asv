@@ -1,4 +1,4 @@
-function acquireBallTrial(stim)
+function acquireBallTrial(stim,exptInfo,trialMeta)
 
 fprintf('\n*********** Acquiring Trial ***********') 
 
@@ -13,25 +13,18 @@ end
 %% Load settings    
 settings = ballSettings(stim); 
      
-%% Specify channels used 
-inChannelsUsed  = 0:5;
-
-%% Configure daq
-% daqreset;
-devID = 'Dev1';
-
 %% Configure session
 s = daq.createSession('ni');
-s.Rate = settings.sampRate.out;
+s.Rate = settings.sampRate;
 s.DurationInSeconds = stim.totalDur;
 
 % Add analog output channels (speaker)
-s.addAnalogOutputChannel(devID,0:1,'Voltage');
+s.addAnalogOutputChannel(settings.devID,trialMeta.outputCh,'Voltage');
 
 % Add analog input channels (sensor data)
-aI = s.addAnalogInputChannel(devID,inChannelsUsed,'Voltage');
-for i = 1+inChannelsUsed
-    aI(i).InputType = settings.bob.aiType;
+aI = s.addAnalogInputChannel(settings.devID,settings.inChannelsUsed,'Voltage');
+for i = 1+settings.inChannelsUsed
+    aI(i).InputType = settings.aiType;
 end
 
 %% Run trials
@@ -43,13 +36,13 @@ s.stop;
 s.stop;
 
 %% Allocate data 
-data.xPos = rawData(:,1);
-data.yPos = rawData(:,2);
+data.xVel = rawData(:,1);
+data.yVel = rawData(:,2);
 
 %% Only if saving data
 if nargin ~= 0 && nargin ~= 1
     % Get filename and save trial data
-    [fileName,path,trialMeta.trialNum] = getDataFileName(exptInfo);
+    [fileName, path, fileNamePreamble, trialMeta.trialNum] = getDataFileNameBall(exptInfo);
     fprintf(['\nTrial Number ', num2str(trialMeta.trialNum)])
     fprintf(['\nStimNum = ',num2str(trialMeta.stimNum)])
     if ~isdir(path)
@@ -62,16 +55,15 @@ if nargin ~= 0 && nargin ~= 1
     
     % Save expt data 
     if trialMeta.trialNum == 1
-        [~, path, ~, idString] = getDataFileName(exptInfo);
-        settingsFileName = [path,idString,'exptData.mat'];
-        save(settingsFileName,'settings','exptInfo','preExptData'); 
+        settingsFileName = [path,fileNamePreamble,'exptData.mat'];
+        save(settingsFileName,'settings','exptInfo'); 
     end
 end
 
 
 
 %% Plot data
-plotData(stim,settings,data)
+plotBallData(stim,rawData) 
 
 
 

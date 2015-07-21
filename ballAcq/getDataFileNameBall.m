@@ -22,7 +22,7 @@ fileNamePreamble = [prefixCode,'_expNum',eNum,...
 
 % Determine trial number
 trialNum = 1;
-while( size(dir([path,fileNamePreamble,num2str(trialNum,'%03d'),'.mat']),1) > 0)
+while( size(dir([path,fileNamePreamble,'trial',num2str(trialNum,'%03d'),'.mat']),1) > 0)
     trialNum = trialNum + 1;
 end
 

@@ -1,7 +1,8 @@
-function settings = ballSettings
+function settings = ballSettings(stim,varargin)
 
 %% Acquisition settings
-settings.sampRate = 40e3;
+settings.sampRate   = stim.sampleRate;
+
 settings.devID = 'Dev1';
 settings.inChannelsUsed = 0:1;
 
@@ -18,5 +19,5 @@ settings.sensorRes  = 8200;
 settings.mmConv = 25.4;
 settings.mmPerCount = settings.mmConv/settings.sensorRes;
 
-settings.dataDirectory = 'C:\Users\Alex\Documents\Data\ballData\';
+settings.dataDirectory = 'C:\Users\Alex\Documents\Data\ballData';
 
