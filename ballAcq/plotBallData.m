@@ -1,7 +1,7 @@
 function plotBallData(stim,rawData) 
 
 close all
-
+set(0,'DefaultFigureWindowStyle','docked')
 %% Decode
 settings = ballSettings; 
 [procData.vel(:,1),procData.disp(:,1)] = findSeq(rawData(:,1),settings.xMinVal,settings.xMaxVal,settings,'X',stim); 
