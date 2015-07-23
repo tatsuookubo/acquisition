@@ -34,9 +34,13 @@ clear FS ;
         switch stimNum
             case 1
                 stim = PipStimulus;
+                stim.startPadDur = 2; 
+                stim.endPadDur = 2; 
                 stim.speaker = 1;     % Left speaker       
             case 2
                 stim = PipStimulus;
+                stim.startPadDur = 2; 
+                stim.endPadDur = 2; 
                 stim.speaker = 3;       % Right speaker 
         end
     end
