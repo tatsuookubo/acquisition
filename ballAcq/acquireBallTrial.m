@@ -63,7 +63,7 @@ end
 
 
 %% Plot data
-plotBallData(Stim,rawData) 
+plotBallData(Stim,rawData,trialMeta,exptInfo) 
 
 
 

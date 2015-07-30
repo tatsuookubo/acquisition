@@ -11,12 +11,13 @@ settings.xMaxVal = 4.8516;
 settings.yMinVal = 0.0500;
 settings.yMaxVal = 4.4616;
 settings.numInts = 271;
-settings.cutoffFreq = 1000;
+settings.cutoffFreq = 50;
 settings.aiType = 'SingleEnded';
 
-settings.sensorRes  = 8200;
+settings.sensorRes  = 1800;%8200;
 settings.mmConv = 25.4;
 settings.mmPerCount = settings.mmConv/settings.sensorRes;
+settings.sensorPollFreq = 100; 
 
 settings.dataDirectory = 'C:\Users\Alex\Documents\Data\ballData\';
 

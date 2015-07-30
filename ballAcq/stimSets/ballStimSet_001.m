@@ -13,8 +13,8 @@ speakerNonRan = repmat(1:numberOfStimuli,1,trialsPerBlock/numberOfStimuli);
 stimRan = speakerNonRan(randperm(trialsPerBlock));
 
 count = 1;
-FS = stoploop('Stop Experiment');
-while ~FS.Stop()
+stop = 0;
+while stop == 0 
     trialMeta.stimNum = stimRan(count);
     stim = pickStimulus(trialMeta.stimNum);
     trialMeta.outputCh = switchSpeakerBall(stim.speaker);
@@ -26,9 +26,6 @@ while ~FS.Stop()
         count = count+1;
     end
 end
-
-FS.Clear() ;  % Clear up the box
-clear FS ;
 
     function stim = pickStimulus(stimNum)
         switch stimNum
