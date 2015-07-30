@@ -31,7 +31,7 @@ end
 settings.pulse.Command(settings.pulse.Start:settings.pulse.End) = settings.pulse.Amp.*ones(settings.pulse.Dur*settings.sampRate.out,1);
 
 %% Specify channels used 
-inChannelsUsed  = 0:5;
+inChannelsUsed  = 0:6;
 
 %% Configure daq
 % daqreset;
@@ -77,7 +77,7 @@ rawData = sIn.startForeground;
 % Process
 data.voltage = settings.voltage.softGain .* rawData(:,settings.bob.voltCh+1);
 data.current = settings.current.softGain .* rawData(:,settings.bob.currCh+1);
-
+data.speakerCommand = rawData(:,settings.bob.speakerCommandCh+1);
 
 %% Process scaled data
 % Scaled output

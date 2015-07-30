@@ -12,6 +12,7 @@ settings.bob.scalCh = 2;
 settings.bob.gainCh = 3;
 settings.bob.freqCh = 4;
 settings.bob.modeCh = 5;
+settings.bob.speakerCommandCh = 6;
 settings.bob.aiType = 'SingleEnded';
 
 % Current input settings

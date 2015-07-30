@@ -1,4 +1,4 @@
-function getFlyDetails(exptInfo,basename,dataDirectory)
+function getFlyDetails(exptInfo,basename,varargin)
 
 %% Ask user for input
 FlyData.line = input('Line: ','s');
@@ -29,7 +29,11 @@ path = [dataDirectory,prefixCode,'\expNum',eNum,...
 if ~isdir(path)
     mkdir(path)
 end
-filename = [path,'\',basename,'flyData'];
+if exist('basename','var')
+    filename = [path,'\',basename,'flyData'];
+else 
+    filename = [path,'\flyData'];
+end
 
 %% Save
 save(filename,'FlyData')
