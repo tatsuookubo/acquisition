@@ -33,12 +33,14 @@ end
                 stim = PipStimulus;
                 stim.startPadDur = 2; 
                 stim.endPadDur = 2; 
-                stim.speaker = 1;     % Left speaker       
+                stim.speaker = 1;     % Left speaker   
+                stim.maxVoltage = 1.5;
             case 2
                 stim = PipStimulus;
                 stim.startPadDur = 2; 
                 stim.endPadDur = 2; 
                 stim.speaker = 3;       % Right speaker 
+                stim.maxVoltage = 1.5;
         end
     end
 
