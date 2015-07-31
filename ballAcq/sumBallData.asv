@@ -1,0 +1,31 @@
+function sumData = sumBallData(procData,trialMeta,exptInfo)
+
+%% Get summmary data filename 
+trialNum = trialMeta.trialNum;
+[~, path, fileNamePreamble, ~] = getDataFileNameBall(exptInfo);
+fileName = [path,fileNamePreamble,'onlineSumData.mat'];
+
+%% Histogram settings
+bins = -10:0.5:40;
+
+%% Process and save data
+if trialNum == 1
+    [sumData.yVelCounts,sumData.histCenters] = hist(procData.vel(:,2),bins);
+    sumData.xDisp(trialMeta.stimNum,:) = procData.disp(:,1);
+    sumData.yDisp(trialMeta.stimNum,:) = procData.disp(:,2);
+else 
+    load(fileName)
+    [currTrialCounts,sumData.histCenters] = hist(procData.vel(:,2),bins);
+    sumData.yVelCounts = sumData.yVelCounts + currTrialCounts;
+    sumData.xDisp(trialMeta.stimNum,:) = sumData.xDisp(trialMeta.stimNum,:) + procData.disp(:,1);
+    sumData.yDisp(trialMeta.stimNum,:) = sumData.yDisp(trialMeta.stimNum,:) + procData.disp(:,2);
+end
+
+sumData.stimNum(trialNum) = trialMeta.stimNum;
+uniqueStim = unique(sumData.stimNum);
+for i = 1:length(uniqueStim) 
+    numTrials = sum(sumData.stimNum == uniqueStim(i)); 
+    
+end
+
+save(fileName, 'sumData');

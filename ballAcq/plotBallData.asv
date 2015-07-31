@@ -6,8 +6,6 @@ set(0,'DefaultFigureWindowStyle','docked')
 
 subplot = @(m,n,p) subtightplot (m, n, p, [0.01 0.05], [0.1 0.01], [0.1 0.01]);
 
-warning('off','MATLAB:legend:IgnoringExtraEntries')
-
 %% Decode
 settings = ballSettings;
 [procData.vel(:,1),procData.disp(:,1)] = processBallData(rawData(:,1),settings.xMinVal,settings.xMaxVal,settings,stim);
@@ -22,7 +20,6 @@ set(gca,'XTick',[])
 ylabel({'stim';'(V)'})
 set(get(gca,'YLabel'),'Rotation',0,'HorizontalAlignment','right')
 set(gca,'XColor','white')
-symAxisY
 
 h(2) = subplot(6,2,3);
 mySimplePlot(stim.timeVec,procData.vel(:,1))
@@ -31,7 +28,6 @@ ylabel({'Lateral Vel';'(mm/s)'})
 set(get(gca,'YLabel'),'Rotation',0,'HorizontalAlignment','right')
 moveXAxis(stim)
 shadestimArea(stim) 
-symAxisY
 
 h(3) = subplot(6,2,5);
 mySimplePlot(stim.timeVec,procData.vel(:,2))
@@ -40,7 +36,6 @@ ylabel({'Forward Vel';'(mm/s)'})
 set(get(gca,'YLabel'),'Rotation',0,'HorizontalAlignment','right')
 shadestimArea(stim) 
 moveXAxis(stim)
-symAxisY
 
 h(4) = subplot(6,2,7);
 mySimplePlot(stim.timeVec,procData.disp(:,1))
@@ -49,7 +44,6 @@ ylabel({'X Disp';'(mm)'})
 set(get(gca,'YLabel'),'Rotation',0,'HorizontalAlignment','right')
 shadestimArea(stim) 
 moveXAxis(stim)
-symAxisY
 
 h(5) = subplot(6,2,9);
 mySimplePlot(stim.timeVec,procData.disp(:,2))
@@ -59,7 +53,6 @@ line([stim.timeVec(1),stim.timeVec(end)],[0,0],'Color','k')
 shadestimArea(stim) 
 xlabel('Time (s)')
 linkaxes(h(:),'x')
-symAxisY
 
 subplot(6,2,2:2:6)
 plot(procData.disp(:,1),procData.disp(:,2))
@@ -70,7 +63,18 @@ plot(procData.disp(end,1),procData.disp(end,2),'ro')
 text(procData.disp(end,1),procData.disp(end,2),'stop','Color','r','FontSize',12);
 plot(0,0,'bo')
 text(0,0,'stim start','Color','b','Fontsize',12);
-symAxis
+xMax = max(abs(procData.disp(:,1)));
+yMax = max(abs(procData.disp(:,2)));
+overallMax = max([xMax, yMax]);
+if xMax == 0 
+    xMax = 1; 
+end
+if yMax == 0; 
+    yMax = 1; 
+end
+xlim([-xMax,xMax])
+ylim([-yMax,yMax])
+axis square
 ylabel('Y displacement (mm)')
 title('X-Y displacement')
 
@@ -85,13 +89,27 @@ set(gca,'TickDir','out')
 axis tight
 
 subtightplot (6, 2, 8:2:12, [0.1 0.05], [0.1 0.01], [0.1 0.01]);
-numStim = length(unique(sumData.stimNum));
-colorSet = distinguishable_colors(numStim,'w');
-for i = 1:numStim
-    plot(sumData.meanXDisp(i,:),sumData.meanYDisp(i,:),'Color',colorSet(i,:))
+colorSet = distinguishable_colors(size(sumData.meanXDisp,1),'w');
+for i = 1:length(uniqueStim) 
+    plot(sumData.meanXDisp(trialMeta.stimNum,:),sumData.meanXDisp(trialMeta.stimNum,:),'Color',colorSet(i,:))
     hold on 
+    xMax = max(abs(groupedData.xDisp(i,:)));
+    yMax = max(abs(groupedData.yDisp(i,:)));
+    xMaxMat(i) = xMax;
+    yMaxMat(i) = yMax; 
 end
-symAxis
+
+xMax = max(xMaxMat(:));
+yMax = max(yMaxMat(:));
+if xMax == 0 
+    xMax = 1; 
+end
+if yMax == 0; 
+    yMax = 1; 
+end
+xlim([-xMax,xMax])
+ylim([-yMax,yMax])
+axis square
 xlabel('X displacement (mm)')
 ylabel('Y displacement (mm)')
 legend({'Left','Right'})

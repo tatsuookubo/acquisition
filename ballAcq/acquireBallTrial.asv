@@ -1,10 +1,10 @@
 function acquireBallTrial(stim,exptInfo,trialMeta)
 
-fprintf('\n*********** Acquiring Trial ***********') 
+disp('*********** Acquiring Trial ***********') 
 
 %% Trial time 
 trialMeta.trialStartTime = datestr(now,'HH:MM:SS'); 
-fprintf(['\nTrial start time: ',trialMeta.trialStartTime]);
+disp(['\nTrial start time: ',trialMeta.trialStartTime]);
 
 %% Create stimulus if needed  
 if ~exist('stim','var')
@@ -44,7 +44,7 @@ data.yVel = rawData(:,2);
 if nargin ~= 0 && nargin ~= 1
     % Get filename and save trial data
     [fileName, path, fileNamePreamble, trialMeta.trialNum] = getDataFileNameBall(exptInfo);
-    fprintf(['\nTrial Number ', num2str(trialMeta.trialNum)])
+    fprintf(['Trial Number ', num2str(trialMeta.trialNum)])
     fprintf(['\nStimNum = ',num2str(trialMeta.stimNum)])
     if ~isdir(path)
         mkdir(path);
