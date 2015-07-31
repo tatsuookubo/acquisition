@@ -14,7 +14,7 @@ settings.numInts = 271;
 settings.cutoffFreq = 50;
 settings.aiType = 'SingleEnded';
 
-settings.sensorRes  = 1800;%8200;
+settings.sensorRes  = 8200;
 settings.mmConv = 25.4;
 settings.mmPerCount = settings.mmConv/settings.sensorRes;
 settings.sensorPollFreq = 100; 

@@ -63,6 +63,8 @@ plot(procData.disp(end,1),procData.disp(end,2),'ro')
 text(procData.disp(end,1),procData.disp(end,2),'stop','Color','r','FontSize',12);
 plot(0,0,'bo')
 text(0,0,'stim start','Color','b','Fontsize',12);
+axis square
+axis equal
 xMax = max(abs(procData.disp(:,1)));
 yMax = max(abs(procData.disp(:,2)));
 overallMax = max([xMax, yMax]);
@@ -74,7 +76,6 @@ if yMax == 0;
 end
 xlim([-xMax,xMax])
 ylim([-yMax,yMax])
-axis square
 ylabel('Y displacement (mm)')
 title('X-Y displacement')
 
@@ -95,7 +96,7 @@ uniqueStim = unique(groupedData.stimNum);
 colorSet = distinguishable_colors(length(uniqueStim),'w');
 for i = 1:length(uniqueStim) 
     stimNumInd = find(groupedData.stimNum == uniqueStim(i));
-    plot(median(groupedData.xDisp(stimNumInd,:)),median(groupedData.yDisp(stimNumInd,:)),'Color',colorSet(i,:))
+    plot(mean(groupedData.xDisp(stimNumInd,:)),mean(groupedData.yDisp(stimNumInd,:)),'Color',colorSet(i,:))
     hold on 
     xMax = max(abs(groupedData.xDisp(i,:)));
     yMax = max(abs(groupedData.yDisp(i,:)));
@@ -113,11 +114,8 @@ if yMax == 0;
 end
 xlim([-xMax,xMax])
 ylim([-yMax,yMax])
-axis square
 xlabel('X displacement (mm)')
 ylabel('Y displacement (mm)')
-legend({'Left','Right'})
-legend('boxoff')
 
 suptitle(stim.speakerOrder(stim.speaker))
 
