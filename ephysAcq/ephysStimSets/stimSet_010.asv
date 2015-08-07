@@ -39,8 +39,8 @@ switch stimNum
         stim.speaker = 2;
     case 3
         stim = Chirp;
-%         stim.startFrequency  = 1500;
-%         stim.endFrequency    = 90;
+        stim.startFrequency  = 1500;
+        stim.endFrequency    = 90;
     case 4
         stim = CourtshipSong;
         stim.speaker = 2;
@@ -50,11 +50,11 @@ switch stimNum
     case 6
         stim = ClickStimulus;
         stim.speaker = 2;
-    case num2cell(7:17)
+    case {7:17}
         stimNumStart = 7;
         stim = SineWave;
         stim.carrierFreqHz = 25*sqrt(2)^((stimNum-stimNumStart)+1);
-    case num2cell(18:22)
+    case {18:22}
         stimNumStart = 18;
         stim = AmTone;
         stim.carrierFreqHz = 300;
