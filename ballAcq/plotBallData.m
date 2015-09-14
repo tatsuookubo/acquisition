@@ -76,7 +76,7 @@ title('X-Y displacement')
 
 subtightplot (6, 2, 11, [0.1 0.05], [0.1 0.01], [0.1 0.01]);
 bar(sumData.histCenters,sumData.yVelCounts)
-xlim([-10 40])
+xlim([-20 20])
 xlabel('Forward velocity (mm/s)')
 ylabel('Counts')
 set(get(gca,'YLabel'),'Rotation',0,'HorizontalAlignment','right')
