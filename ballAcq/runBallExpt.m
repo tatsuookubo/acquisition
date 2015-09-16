@@ -16,7 +16,7 @@ exptInfo.dNum           = datestr(now,'YYmmDD');
 exptInfo.exptStartTime  = datestr(now,'HH:MM:SS'); 
 exptInfo.stimSetNum     = stimSetNum; 
 if strcmp(newFlyExp,'y')
-    exptInfo.aim = input('Aim: ','s');
+    exptInfo.flyExpNotes = input('Fly Expt Notes: ','s');
 end
 
 %% Get fly details 

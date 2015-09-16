@@ -6,7 +6,7 @@ FlyData.line = input('Line: ','s');
 FlyData.freenessLeft = input('Freeness of left antenna: ','s');
 FlyData.freenessRight = input('Freeness of right antenna: ','s');
 FlyData.notesOnDissection = input('Notes on dissection: ','s');
-FlyData.aim = input('Aim: ','s');
+FlyData.aim = input('AimNotes: ','s');
 
 % Get eclosion date
 set(0,'DefaultFigureWindowStyle','normal')
