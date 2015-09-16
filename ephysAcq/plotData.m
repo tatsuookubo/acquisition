@@ -1,22 +1,33 @@
 function plotData(stim,settings,data)
 
-
 figure(1) 
 setCurrentFigurePosition(2)
 
-stimTime = [1/stim.sampleRate:1/stim.sampleRate:stim.totalDur]';
-h(1) = subplot(3,1,1); 
-plot(stimTime,stim.stimulus) 
+sampTime = (1:length(data.voltage))./settings.sampRate.in;
+
+h(1) = subplot(4,1,1); 
+plot(sampTime,data.speakerCommand) 
 ylabel('Voltage (V)') 
 title('Sound Stimulus') 
 
-sampTime = (1:length(data.voltage))./settings.sampRate.in;
-h(3) = subplot(3,1,2); 
+h(2) = subplot(4,1,2);
+gray = [192 192 192]./255;
+startPadEnd = stim.startPadDur*settings.sampRate.in; 
+DCOffset = mean(data.piezoSG(1:startPadEnd));
+plot(stim.timeVec,DCOffset + stim.stimulus,'Color',gray)
+hold on 
+plot(sampTime,data.piezoSG)
+ylabel('Voltage (V)') 
+title('Piezo stimulus') 
+hold off
+ylim([0 10])
+
+h(3) = subplot(4,1,3); 
 plot(sampTime,data.voltage) 
 title('Voltage') 
 ylabel('Voltage (mV)')
 
-h(2) = subplot(3,1,3); 
+h(4) = subplot(4,1,4); 
 plot(sampTime,data.current)
 xlabel('Time (s)') 
 title('Current') 

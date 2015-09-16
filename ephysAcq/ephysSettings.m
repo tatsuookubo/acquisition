@@ -13,7 +13,9 @@ settings.bob.gainCh = 3;
 settings.bob.freqCh = 4;
 settings.bob.modeCh = 5;
 settings.bob.speakerCommandCh = 6;
+settings.bob.piezoSGReading = 7;
 settings.bob.aiType = 'SingleEnded';
+settings.bob.inChannelsUsed  = 0:7;
 
 % Current input settings
 settings.current.betaRear   = 1; % Rear switch for current output set to beta = 100mV/pA

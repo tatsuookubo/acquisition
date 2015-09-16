@@ -35,7 +35,7 @@ for n = 1:numTrials;
     else
         GroupStim(stimNum).stimTime = [1/Stim.sampleRate:1/Stim.sampleRate:Stim.totalDur]';
         GroupStim(stimNum).stimulus = Stim.stimulus;
-        GroupData(stimNum).sampTime = [1/settings.sampRate.in:1/settings.sampRate.in:Stim.totalDur]';
+        GroupData(stimNum).sampTime = (1:length(data.voltage))./settings.sampRate.in;;
         
     end
     
@@ -44,7 +44,11 @@ for n = 1:numTrials;
     trialInd = sum(stimSequence == stimNum);
     GroupData(stimNum).current(trialInd,:) = data.current;
     GroupData(stimNum).voltage(trialInd,:) = data.voltage;
-    
+    GroupData(stimNum).piezoSG(trialInd,:) = data.piezoSG;
+    GroupData(stimNum).speakerCommand(trialInd,:) = data.speakerCommand;
+    startPadEnd = Stim.startPadDur*settings.sampRate.in; 
+    DCOffset = mean(data.piezoSG(1:startPadEnd));
+    GroupData(stimNum).piezoCommand(trialInd,:) = DCOffset + Stim.stimulus;
     
 end
 

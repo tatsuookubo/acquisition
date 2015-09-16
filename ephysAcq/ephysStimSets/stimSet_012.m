@@ -1,6 +1,6 @@
-function stimSet_010(exptInfo,preExptData)
+function stimSet_012(exptInfo,preExptData)
 
-% Produces the default pip train while switching between all three speakers
+% To play a range of stimuli through the piezo 
 
 %% Archive this code
 archiveExpCode(exptInfo)
@@ -11,7 +11,7 @@ stimRan = randperm(numberOfStimuli);
 
 count = 1;
 repeat = 1;
-while repeat < 4
+while repeat < 2
     trialMeta.stimNum = stimRan(count);
     fprintf(['\nStimNum = ',num2str(trialMeta.stimNum)])
     fprintf(['\nRepeatNum = ',num2str(repeat)])
@@ -34,34 +34,46 @@ switch stimNum
     case 1
         stim = PipStimulus;
         stim.speaker = 2;
+        stim.maxVoltage = 4; 
     case 2
         stim = Chirp;
         stim.speaker = 2;
+        stim.maxVoltage = 4; 
+        stim.startFrequency  = 400;
+        stim.endFrequency    = 17;
+        stim.mode = 'piezo';
     case 3
         stim = Chirp;
-        stim.startFrequency  = 1500;
-        stim.endFrequency    = 90;
+        stim.startFrequency  = 17;
+        stim.endFrequency    = 400;
+        stim.maxVoltage = 4;
+        stim.mode = 'piezo';
     case 4
         stim = CourtshipSong;
         stim.speaker = 2;
+        stim.maxVoltage = 4; 
     case 5
         stim = PulseSong;
         stim.speaker = 2;
+        stim.maxVoltage = 4; 
     case 6
-        stim = ClickStimulus;
+        stim = SquareWave;
         stim.speaker = 2;
-    case {7:17}
-        stimNumStart = 7;
+        stim.maxVoltage = 4; 
+    case num2cell(7:16)
+        freqRange = 25.*sqrt(2).^((-1:8));
+        stimNumStart = 7-1;
+        freqNum = stimNum - stimNumStart;
         stim = SineWave;
-        stim.carrierFreqHz = 25*sqrt(2)^((stimNum-stimNumStart)+1);
-    case {18:22}
-        stimNumStart = 18;
+        stim.carrierFreqHz = freqRange(freqNum);
+        stim.maxVoltage = 4; 
+    case num2cell(17:21)
+        modFreqRange = 2.^(0:4);
+        stimNumStart = 17-1;
+        modFreqNum = stimNum - stimNumStart;
         stim = AmTone;
         stim.carrierFreqHz = 300;
-        stim.modFreqHz = 2^(stimNum - stimNumStart);
+        stim.modFreqHz = modFreqRange(modFreqNum);
+        stim.maxVoltage = 4; 
 end
 end
-
-
-
-

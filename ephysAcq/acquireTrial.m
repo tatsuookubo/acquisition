@@ -30,8 +30,6 @@ switch pulseType
 end   
 settings.pulse.Command(settings.pulse.Start:settings.pulse.End) = settings.pulse.Amp.*ones(settings.pulse.Dur*settings.sampRate.out,1);
 
-%% Specify channels used 
-inChannelsUsed  = 0:6;
 
 %% Configure daq
 % daqreset;
@@ -54,8 +52,8 @@ sIn = daq.createSession('ni');
 sIn.Rate = settings.sampRate.in;
 sIn.DurationInSeconds = stim.totalDur;
 
-aI = sIn.addAnalogInputChannel(devID,inChannelsUsed,'Voltage');
-for i = 1+inChannelsUsed
+aI = sIn.addAnalogInputChannel(devID,settings.bob.inChannelsUsed,'Voltage');
+for i = 1+settings.bob.inChannelsUsed
     aI(i).InputType = settings.bob.aiType;
 end
 
@@ -78,6 +76,7 @@ rawData = sIn.startForeground;
 data.voltage = settings.voltage.softGain .* rawData(:,settings.bob.voltCh+1);
 data.current = settings.current.softGain .* rawData(:,settings.bob.currCh+1);
 data.speakerCommand = rawData(:,settings.bob.speakerCommandCh+1);
+data.piezoSG = rawData(:,settings.bob.piezoSGReading+1);
 
 %% Process scaled data
 % Scaled output
