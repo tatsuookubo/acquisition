@@ -2,14 +2,14 @@
 % AVB 2015/06/09
 
 %% Run at start of experiment
-runTwoPhotonExpt('12B10',1)
+runTwoPhotonExpt('JO4',1)
 
 %% AMTone
 stim = AmTone;
-stim.waveDur = 10;
-stim.startPadDur = 20;
-stim.endPadDur = 10;
-stim.maxVoltage = 1; 
+stim.waveDur = 1;
+stim.startPadDur = 1;
+stim.endPadDur = 1;
+stim.maxVoltage = 2; 
 plot(stim)
 
 %% Chirp
@@ -25,6 +25,8 @@ stim.endPadDur = 10;
 
 %% Courtship Song
 stim = CourtshipSong;
+stim.maxVoltage = 2; 
+plot(stim)
 
 %% No stimulus
 stim = noStimulus;
@@ -33,9 +35,9 @@ plot(stim)
 
 %% Pip
 stim = PipStimulus;
-stim.startPadDur = 10; 
-stim.endPadDur = 5; 
-stim.numPips = 60; 
+stim.startPadDur = 1; 
+stim.endPadDur = 1; 
+stim.numPips = 20; 
 stim.maxVoltage = 2; 
 plot(stim)
 
@@ -54,7 +56,7 @@ postMultTrialPlot(metaFileName,figSuffix)
 % postMultTrialPlotNumTrials(metaFileName,figSuffix)
 
 %% Run 5 trials
-for i = 1:2
+for i = 1:3
     if i == 1
         getRoiNum;
         getBlockNum;

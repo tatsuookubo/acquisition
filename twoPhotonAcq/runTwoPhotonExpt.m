@@ -25,6 +25,7 @@ exptInfo.exptStartTime  = datestr(now,'HH:MM:SS');
 %% Get and save fly details
 if strcmp(newFly,'y')
     getFlyDetails(exptInfo,basename,dataDirectory)
+    setpref('scimPlotPrefs','roiTrialCount', 0);
     setpref('scimPlotPrefs',{'lastRoiNum','roi'},{0,[]})
 end
 
