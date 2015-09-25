@@ -1,4 +1,4 @@
-function blockNum = getBlockNum(newBlock,varargin)
+function blockNum = getBlockNum(newBlock,blockDescrip,varargin)
 
 if nargin == 0
     newBlock = input('New Block? ','s');
@@ -21,6 +21,8 @@ fprintf(['Block Number = ',num2str(blockNum),'\n'])
 
 if strcmp(newBlock,'y')
     setpref('scimSavePrefs','blockNum',blockNum);
-    blockDescrip = input('Give block description: ','s');
+    if ~exist('blockDescrip','var')
+        blockDescrip = input('Give block description: ','s');
+    end
     setpref('scimSavePrefs','blockDescrip',blockDescrip);
 end
