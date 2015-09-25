@@ -2,7 +2,7 @@ function twoPhotonStimSet_003(trialMeta)
 
 % Array of piezo stimuli for the two photon 
 
-blockNum = newBlock;
+blockNum = newBlock('');
 
 %% Set up and acquire with the stimulus set
 pause on 
@@ -15,7 +15,7 @@ while repeat < 2
     trialMeta.stimNum = stimRan(count);
     fprintf(['\nStimNum = ',num2str(trialMeta.stimNum)])
     fprintf(['\nRepeatNum = ',num2str(repeat)])
-    stim = pickStimulus(trialMeta.stimNum);
+    stim = pickStimulus(trialMeta.stimNum,blockNum);
     switchSpeaker(stim.speaker);
     metaFileName = acquireTwoPhotonTrial(stim,trialMeta);
     postMultTrialPlot(metaFileName,'Online')
@@ -30,13 +30,14 @@ end
 
 end
 
-function stim = pickStimulus(stimNum)
+function stim = pickStimulus(stimNum,blockNum)
 switch stimNum
     case 1
         stim = PipStimulus;
         stim.speaker = 2;
         stim.maxVoltage = 4; 
         switchBlock(blockNum+stimNum-1,'pip')
+        stim.endPadDur = 3; 
     case 2
         stim = Chirp;
         stim.speaker = 2;
@@ -45,6 +46,7 @@ switch stimNum
         stim.endFrequency    = 17;
         stim.mode = 'piezo';
         switchBlock(blockNum+stimNum-1,'ascending chirp')
+        stim.endPadDur = 3; 
     case 3
         stim = Chirp;
         stim.startFrequency  = 17;
@@ -52,21 +54,25 @@ switch stimNum
         stim.maxVoltage = 4;
         stim.mode = 'piezo';
         switchBlock(blockNum+stimNum-1,'descending chirp')
+        stim.endPadDur = 3; 
     case 4
         stim = CourtshipSong;
         stim.speaker = 2;
         stim.maxVoltage = 4; 
         switchBlock(blockNum+stimNum-1,'courtship song')
+        stim.endPadDur = 3; 
     case 5
         stim = PulseSong;
         stim.speaker = 2;
         stim.maxVoltage = 4; 
         switchBlock(blockNum+stimNum-1,'pulse song')
+        stim.endPadDur = 3; 
     case 6
         stim = SquareWave;
         stim.speaker = 2;
         stim.maxVoltage = 4; 
         switchBlock(blockNum+stimNum-1,'square wave')
+        stim.endPadDur = 3; 
     case num2cell(7:16)
         freqRange = 25.*sqrt(2).^((-1:8));
         stimNumStart = 7-1;
@@ -75,6 +81,7 @@ switch stimNum
         stim.carrierFreqHz = freqRange(freqNum);
         stim.maxVoltage = 4; 
         switchBlock(blockNum+stimNum-1,['sine wave ',num2str(stim.carrierFreqHz),'Hz'])
+        stim.endPadDur = 3; 
     case num2cell(17:21)
         modFreqRange = 2.^(0:4);
         stimNumStart = 17-1;
@@ -84,5 +91,6 @@ switch stimNum
         stim.modFreqHz = modFreqRange(modFreqNum);
         stim.maxVoltage = 4; 
         switchBlock(blockNum+stimNum-1,['AM Tone, 300Hz carrier, ',num2str(stim.modFreqHz),'Hz mod freq'])
+        stim.endPadDur = 3; 
 end
 end
