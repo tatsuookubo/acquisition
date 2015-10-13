@@ -68,29 +68,19 @@ newBlock;
 %% Run one trial with new roi 
 metaFileName = acquireTwoPhotonTrial(stim);
 figSuffix = 'Online';
-setpref('scimPlotPrefs','newRoi',1)
+% setpref('scimPlotPrefs','newRoi',1)
 postMultTrialPlot(metaFileName,figSuffix)
 
-%% Run one trial without new roi 
-metaFileName = acquireTwoPhotonTrial(stim);
-figSuffix = 'Online';
-postMultTrialPlot(metaFileName,figSuffix)
-
-%% Run multiple trials with new roi 
-numTrials = 3; 
-for i = 1:numTrials
+%% Run 5 trials
+for i = 1:2
+    if i == 1
+        getRoiNum;
+        getBlockNum;
+    end
     metaFileName = acquireTwoPhotonTrial(stim);
 end
 figSuffix = 'Online';
-setpref('scimPlotPrefs','newRoi',1)
-postMultTrialPlot(metaFileName,figSuffix)
-
-%% Run multiple trials without new roi
-numTrials = 3; 
-for i = 1:numTrials
-    metaFileName = acquireTwoPhotonTrial(stim);
-end
-figSuffix = 'Online';
+% setpref('scimPlotPrefs','newRoi',1)
 postMultTrialPlot(metaFileName,figSuffix)
 
 %% Plot all blocks on same graph 
