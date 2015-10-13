@@ -1,9 +1,11 @@
-function movCorrected = motionCorrection(mov,Stim,frameTimes)
+function [movCorrected,refFrame] = motionCorrection(mov,refFrame,varargin)
 
 %% Determine refFrame 
 numFrames = size(mov,3);
-refFrameNum = round(numFrames/2);
-refFrame = mov(:,:,refFrameNum,1);    % First frame of green channel
+if ~exist('refFrame','var')
+    refFrameNum = round(numFrames/2);
+    refFrame = mov(:,:,refFrameNum,1);    % Middle frame of movie 1 
+end
 refFFT = fft2(refFrame);
 numMovs = size(mov,4); 
 movCorrected = NaN(size(mov)); 
