@@ -1,10 +1,15 @@
 function [movCorrected,refFrame] = motionCorrection(mov,refFrame,varargin)
 
 %% Determine refFrame 
+blockNum = getpref('scimSavePrefs','blockNum');
 numFrames = size(mov,3);
 if ~exist('refFrame','var')
-    refFrameNum = round(numFrames/2);
-    refFrame = mov(:,:,refFrameNum,1);    % Middle frame of movie 1 
+    if blockNum == 1
+        refFrameNum = round(numFrames/2);
+        refFrame = mov(:,:,refFrameNum,1);    % Middle frame of movie 1 
+    elseif blockNum > 1 
+        refFrame = getpref('scimPlotPrefs','refFrame');
+    end
 end
 refFFT = fft2(refFrame);
 numMovs = size(mov,4); 
@@ -14,6 +19,10 @@ for movNum = 1:numMovs
         [~, Greg] = dftregistration(refFFT,fft2(mov(:,:,frame,movNum)),1);
         movCorrected(:,:,frame,movNum) = real(ifft2(Greg));
     end
+end
+
+if blockNum == 1
+    setpref('scimPlotPrefs','refFrame',refFrame)
 end
 
 % %% Check

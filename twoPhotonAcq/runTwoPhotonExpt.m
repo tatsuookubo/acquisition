@@ -25,7 +25,7 @@ exptInfo.exptStartTime  = datestr(now,'HH:MM:SS');
 %% Get and save fly details
 if strcmp(newFly,'y')
     getFlyDetails(exptInfo,basename,dataDirectory)
-    setpref('scimPlotPrefs',{'lastRoiNum','roi'},{0,[]})
+    setpref('scimPlotPrefs',{'lastRoiNum','roi','refFrame'},{0,[],[]})
 end
 
 %% Save folder and basename to matlab preferences

@@ -2,7 +2,7 @@
 % AVB 2015/06/09
 
 %% Run at start of experiment
-runTwoPhotonExpt('12B10',1)
+runTwoPhotonExpt('test',1)
 
 %% AMTone
 stim = AmTone;
@@ -59,18 +59,17 @@ stim = PulseSong;
 stim = SineWave;
 
 %% New ROI and new block 
-getRoiNum; 
-getBlockNum; 
+newRoi; 
+newBlock; 
 
 %% Just new Block 
-getBlockNum;
+newBlock;
 
 %% Run one trial
 metaFileName = acquireTwoPhotonTrial(stim);
 figSuffix = 'Online';
-setpref('scimPlotPrefs','newRoi',1)
+% setpref('scimPlotPrefs','newRoi',1)
 postMultTrialPlot(metaFileName,figSuffix)
-% postMultTrialPlotNumTrials(metaFileName,figSuffix)
 
 %% Run 5 trials
 for i = 1:2
