@@ -46,7 +46,10 @@ clear FS ;
                 stim.endPadDur = 10;
                 stim.probe = 'left';
                 switchBlock(blockNum,'probe on left')
+<<<<<<< HEAD
                 stim.maxVoltage = 1; 
+=======
+>>>>>>> origin/master
             case 2
                 stim = PipStimulus;
                 stim.speaker = 2;
@@ -55,7 +58,10 @@ clear FS ;
                 stim.endPadDur = 10;
                 stim.probe = 'off';
                 switchBlock(blockNum+1,'no probe')
+<<<<<<< HEAD
                 stim.maxVoltage = 1; 
+=======
+>>>>>>> origin/master
             case 3
                 stim = PipStimulus;
                 stim.speaker = 2;
@@ -64,7 +70,10 @@ clear FS ;
                 stim.endPadDur = 10;
                 stim.probe = 'right';
                 switchBlock(blockNum+2,'probe on right')
+<<<<<<< HEAD
                 stim.maxVoltage = 1; 
+=======
+>>>>>>> origin/master
         end
     end
 

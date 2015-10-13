@@ -1,3 +1,3 @@
-function blockNum = newBlock(blockDescrip,varargin)
+function blockNum = newBlock
 
-blockNum = getBlockNum('y',blockDescrip);
+blockNum = getBlockNum('y');

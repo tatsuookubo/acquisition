@@ -1,16 +1,6 @@
 function metaFileName = acquireTwoPhotonTrial(stim,trialMeta,varargin)
 
-daqreset; 
-
-%% Delete any leftover tiffs 
-folder = getpref('scimSavePrefs','folder');
-cd(folder) 
-imageSearchResult = dir('*tif');
-if ~isempty(imageSearchResult)
-    delete(imageSearchResult.name);
-end
-
-%% Start trial 
+close all
 fprintf('\n*********** Acquiring Trial ***********')
 
 %% Trial time
@@ -82,7 +72,6 @@ if nargin ~= 0
     % Put image in correct roiNum folder and rename to include roiNum
     cd(folder)
     while isempty(dir('*tif'))
-        disp('searching for tif');
     end
     imageSearchResult = dir('*tif');
     currentImageName = imageSearchResult.name;
@@ -109,13 +98,7 @@ if nargin ~= 0
 end
 
 %% Save lastRoiNum
-roiTrialCount = getpref('scimPlotPrefs','roiTrialCount'); 
-setpref('scimPlotPrefs','roiTrialCount',roiTrialCount + 1);
-if roiTrialCount == 0
-    setpref('scimPlotPrefs','newRoi',1)
-else 
-    setpref('scimPlotPrefs','newRoi',0)
-end
+setpref('scimPlotPrefs','lastRoiNum',trialMeta.roiNum);
 setpref('scimPlotPrefs','lastBlockNum',trialMeta.roiNum);
 
 

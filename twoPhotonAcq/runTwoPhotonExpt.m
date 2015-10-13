@@ -27,12 +27,8 @@ if strcmp(newFly,'y')
     getFlyDetails(exptInfo,basename,dataDirectory)
     setpref('scimPlotPrefs',{'lastRoiNum','roi'},{0,[]})
 end
-%% Ask whether to draw new rois
-newRoi = input('Draw new Rois? ','s');
-if strcmp(newRoi,'y')
-    setpref('scimPlotPrefs','roiTrialCount', 0);
-end
-    %% Save folder and basename to matlab preferences
+
+%% Save folder and basename to matlab preferences
 setpref('scimSavePrefs',{'folder','basename','roiNum','roiDescrip'},{folder,basename,[],''})
 
 %% Set Dir and basename in ScanImage
