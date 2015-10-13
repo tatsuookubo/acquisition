@@ -1,6 +1,6 @@
 function twoPhotonStimSet_001(trialMeta)
 
-blockNum = newBlock;
+blockNum = newBlock('');
 
 % Probe experiment
 %% Setup stimulus
@@ -46,7 +46,7 @@ clear FS ;
                 stim.endPadDur = 10;
                 stim.probe = 'left';
                 switchBlock(blockNum,'probe on left')
-                stim.maxVoltage = 2; 
+                stim.maxVoltage = 1; 
             case 2
                 stim = PipStimulus;
                 stim.speaker = 2;
@@ -55,7 +55,7 @@ clear FS ;
                 stim.endPadDur = 10;
                 stim.probe = 'off';
                 switchBlock(blockNum+1,'no probe')
-                stim.maxVoltage = 2; 
+                stim.maxVoltage = 1; 
             case 3
                 stim = PipStimulus;
                 stim.speaker = 2;
@@ -64,7 +64,7 @@ clear FS ;
                 stim.endPadDur = 10;
                 stim.probe = 'right';
                 switchBlock(blockNum+2,'probe on right')
-                stim.maxVoltage = 2; 
+                stim.maxVoltage = 1; 
         end
     end
 
