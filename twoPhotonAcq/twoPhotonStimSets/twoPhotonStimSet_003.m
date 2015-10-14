@@ -15,7 +15,7 @@ while repeat < 2
     trialMeta.stimNum = stimRan(count);
     fprintf(['\nStimNum = ',num2str(trialMeta.stimNum)])
     fprintf(['\nRepeatNum = ',num2str(repeat)])
-    stim = pickStimulus(trialMeta.stimNum);
+    stim = pickStimulus(trialMeta.stimNum,blockNum);
     switchSpeaker(stim.speaker);
     metaFileName = acquireTwoPhotonTrial(stim,trialMeta);
     postMultTrialPlot(metaFileName,'Online')
@@ -30,7 +30,7 @@ end
 
 end
 
-function stim = pickStimulus(stimNum)
+function stim = pickStimulus(stimNum,blockNum)
 switch stimNum
     case 1
         stim = PipStimulus;
