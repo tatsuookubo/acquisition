@@ -2,7 +2,7 @@
 % AVB 2015/06/09
 
 %% Run at start of experiment
-runTwoPhotonExpt('test',1)
+runTwoPhotonExpt('pan',1)
 
 %% AMTone
 stim = AmTone;
@@ -48,8 +48,8 @@ plot(stim)
 stim = PipStimulus;
 stim.startPadDur = 3;
 stim.endPadDur = 3;
-stim.numPips = 20;
-stim.maxVoltage = 0.5;
+stim.numPips = 30;
+stim.maxVoltage = 1;
 plot(stim)
 
 %% Pulse Song
