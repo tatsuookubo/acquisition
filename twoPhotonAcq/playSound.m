@@ -8,11 +8,6 @@ if ~exist('stim','var')
     stim = noStimulus;
 end
 
-%% Create ScanImage trigger
-extTrig = ones(size(stim.stimulus));
-extTrig(1) = 0;
-extTrig(end) = 0;
-
 %% Load settings
 settings = twoPhotonSettings(stim);
 
@@ -24,12 +19,8 @@ s.Rate = settings.sampRate.out;
 s.addAnalogOutputChannel(settings.devID,0,'Voltage');
 s.Rate = settings.sampRate.out;
 
-% Add digital out channel (external trigger)
-s.addDigitalChannel(settings.devID,settings.bob.trigOut,'OutputOnly');
-
-
 %% Run trial
-s.queueOutputData([stim.stimulus extTrig]);
+s.queueOutputData([stim.stimulus]);
 s.startForeground;
 
 %% Close daq objects

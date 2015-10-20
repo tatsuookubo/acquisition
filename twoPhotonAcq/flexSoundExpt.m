@@ -2,7 +2,7 @@
 % AVB 2015/06/09
 
 %% Run at start of experiment
-runTwoPhotonExpt('pan',1)
+runTwoPhotonExpt('54H01',1)
 
 %% AMTone
 stim = AmTone;

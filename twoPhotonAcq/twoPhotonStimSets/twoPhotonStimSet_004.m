@@ -34,8 +34,9 @@ switch stimNum
     case 1
         stim = PipStimulus;
         stim.speaker = 2;
-        stim.maxVoltage = 0.5; 
+        stim.maxVoltage = 1; 
         stim.endPadDur = 3; 
+        stim.numPips = 60;
         switchBlock(blockNum+stimNum-1,'pip')
     case 2
         stim = Chirp;
