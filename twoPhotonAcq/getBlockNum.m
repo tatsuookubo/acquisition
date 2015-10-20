@@ -21,6 +21,6 @@ fprintf(['Block Number = ',num2str(blockNum),'\n'])
 
 if strcmp(newBlock,'y')
     setpref('scimSavePrefs','blockNum',blockNum);
-    probePos = input('Give block description: ','s');
+    probePos = input('Probe Position: ','s');
     setpref('scimSavePrefs','probePos',probePos);
 end

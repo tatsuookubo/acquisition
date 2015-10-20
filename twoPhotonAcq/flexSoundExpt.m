@@ -2,7 +2,7 @@
 % AVB 2015/06/09
 
 %% Run at start of experiment
-runTwoPhotonExpt('54H01',1)
+runTwoPhotonExpt('67B11',1)
 
 %% AMTone
 stim = AmTone;
@@ -14,7 +14,7 @@ plot(stim)
 
 %% Ascending Chirp
 stim = Chirp;
-stim.maxVoltage = 0.5;
+stim.maxVoltage = 1;
 stim.endPadDur = 3;
 plot(stim)
 
