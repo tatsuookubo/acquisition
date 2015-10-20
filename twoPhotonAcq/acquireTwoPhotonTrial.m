@@ -58,7 +58,7 @@ if nargin ~= 0
     trialMeta.roiNum = getpref('scimSavePrefs','roiNum');
     trialMeta.roiDescrip = getpref('scimSavePrefs','roiDescrip');
     trialMeta.blockNum = getpref('scimSavePrefs','blockNum');
-    trialMeta.blockDescrip = getpref('scimSavePrefs','blockDescrip');
+    trialMeta.probePost = getpref('scimSavePrefs','probePos');
     
     % Make filename and folder
     folder = getpref('scimSavePrefs','folder');
