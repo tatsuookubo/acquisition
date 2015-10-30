@@ -15,6 +15,9 @@ stimRan = speakerNonRan(randperm(trialsPerBlock));
 count = 1;
 stop = 0;
 while stop == 0
+    trialMeta.pauseDur = rand(1,1);
+    pause on 
+    pause(trialMeta.pauseDur);
     trialMeta.stimNum = stimRan(count);
     stim = pickStimulus(trialMeta.stimNum);
     trialMeta.outputCh = switchSpeakerBall(stim.speaker);
