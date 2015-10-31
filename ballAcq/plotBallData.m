@@ -90,13 +90,13 @@ numStim = length(uniqueStim);
 colorSet = distinguishable_colors(trialMeta.totalStimNum,'w');
 for i = 1:numStim
     stimPlotNum = uniqueStim(i);
-    plot(sumData.byStim(stimPlotNum).meanXDisp,sumData.byStim(stimPlotNum).meanYDisp,'Color',colorSet(stimPlotNum,:))
+    p(i) = plot(sumData.byStim(stimPlotNum).meanXDisp,sumData.byStim(stimPlotNum).meanYDisp,'Color',colorSet(stimPlotNum,:),'DisplayName',num2str(stimPlotNum));
     hold on 
 end
 symAxis
 xlabel('X displacement (mm)')
 ylabel('Y displacement (mm)')
-legend({'Left','Right'})
+legend(p(:),'Location','eastoutside')
 legend('boxoff')
 
 suptitle(stim.speakerOrder(stim.speaker))
