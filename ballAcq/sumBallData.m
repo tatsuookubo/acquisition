@@ -21,8 +21,8 @@ else
     end
     [currTrialCounts,sumData.histCenters] = hist(procData.vel(:,2),bins);
     sumData.yVelCounts = sumData.yVelCounts + currTrialCounts;
-    sumData.byStim(trialMeta.stimNum).xDisp = nansum([sumData.byStim(trialMeta.stimNum).xDisp;procData.disp(:,1)]);
-    sumData.byStim(trialMeta.stimNum).yDisp = nansum([sumData.byStim(trialMeta.stimNum).yDisp;procData.disp(:,2)]);
+    sumData.byStim(trialMeta.stimNum).xDisp = nansum([sumData.byStim(trialMeta.stimNum).xDisp,procData.disp(:,1)],2);
+    sumData.byStim(trialMeta.stimNum).yDisp = nansum([sumData.byStim(trialMeta.stimNum).yDisp,procData.disp(:,2)],2);
 end
 
 sumData.stimNum(trialNum) = trialMeta.stimNum;
