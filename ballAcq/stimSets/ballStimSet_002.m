@@ -6,9 +6,9 @@ function ballStimSet_002(exptInfo)
 archiveExpCodeBall(exptInfo)
 
 %% Set up and acquire with the stimulus set
-rng('shuffle');
-numberOfStimuli = 21;
-trialsPerBlock = 20;
+numberOfStimuli = 42;
+trialMeta.totalStimNum = numberOfStimuli;
+trialsPerBlock = numberOfStimuli;
 speakerNonRan = repmat(1:numberOfStimuli,1,trialsPerBlock/numberOfStimuli);
 stimRan = speakerNonRan(randperm(trialsPerBlock));
 
@@ -19,7 +19,13 @@ while stop == 0
     pause on 
     pause(trialMeta.pauseDur);
     trialMeta.stimNum = stimRan(count);
-    stim = pickStimulus(trialMeta.stimNum);
+    pickStimNum = round(trialMeta.stimNum/2);
+    stim = pickStimulus(pickStimNum);
+    if mod(trialMeta.stimNum,2) == 1
+        stim.speaker = 1; 
+    else 
+        stim.speaker = 3; 
+    end
     trialMeta.outputCh = switchSpeakerBall(stim.speaker);
     acquireBallTrial(stim,exptInfo,trialMeta);
     if count == trialsPerBlock
@@ -34,32 +40,15 @@ end
         switch stimNum
             case 1
                 stim = PipStimulus;
-                stim.startPadDur = 2;
-                stim.endPadDur = 2;
-                stim.speaker = 1;     % Left speaker
-                stim.maxVoltage = 1.5;
-            case 2
-                stim = PipStimulus;
-                stim.startPadDur = 2;
-                stim.endPadDur = 2;
-                stim.speaker = 3;       % Right speaker
-                stim.maxVoltage = 1.5;
-        end
-        
-        switch stimNum
-            case 1
-                stim = PipStimulus;
-                stim.speaker = 1;
                 stim.maxVoltage = 1.5;
                 stim.startPadDur = 2;
                 stim.endPadDur = 2;
             case 2
                 stim = Chirp;
-                stim.speaker = 1;
                 stim.maxVoltage = 1.5;
                 stim.startFrequency  = 400;
                 stim.endFrequency    = 17;
-                stim.mode = 'piezo';
+                stim.mode = 'speaker';
                 stim.startPadDur = 2;
                 stim.endPadDur = 2;
             case 3
@@ -67,24 +56,21 @@ end
                 stim.startFrequency  = 17;
                 stim.endFrequency    = 400;
                 stim.maxVoltage = 1.5;
-                stim.mode = 'piezo';
+                stim.mode = 'speaker';
                 stim.startPadDur = 2;
                 stim.endPadDur = 2;
             case 4
                 stim = CourtshipSong;
-                stim.speaker = 1;
                 stim.maxVoltage = 1.5;
                 stim.startPadDur = 2;
                 stim.endPadDur = 2;
             case 5
                 stim = PulseSong;
-                stim.speaker = 1;
                 stim.maxVoltage = 1.5;
                 stim.startPadDur = 2;
                 stim.endPadDur = 2;
             case 6
                 stim = SquareWave;
-                stim.speaker = 1;
                 stim.maxVoltage = 1.5;
                 stim.startPadDur = 2;
                 stim.endPadDur = 2;

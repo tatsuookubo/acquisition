@@ -85,10 +85,12 @@ set(gca,'TickDir','out')
 axis tight
 
 subtightplot (6, 2, 8:2:12, [0.1 0.05], [0.1 0.01], [0.1 0.01]);
-numStim = length(unique(sumData.stimNum));
-colorSet = distinguishable_colors(numStim,'w');
+uniqueStim = unique(sumData.stimNum);
+numStim = length(uniqueStim);
+colorSet = distinguishable_colors(trialMeta.totalStimNum,'w');
 for i = 1:numStim
-    plot(sumData.meanXDisp(i,:),sumData.meanYDisp(i,:),'Color',colorSet(i,:))
+    stimPlotNum = uniqueStim(i);
+    plot(sumData.byStim(stimPlotNum).meanXDisp,sumData.byStim(stimPlotNum).meanYDisp,'Color',colorSet(stimPlotNum,:))
     hold on 
 end
 symAxis
