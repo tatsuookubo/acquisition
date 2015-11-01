@@ -1,10 +1,11 @@
-function getFlyDetails(exptInfo,basename,varargin)
+function FlyData = getFlyDetails(exptInfo,basename,varargin)
 
 %% Ask user for input
 FlyData.line = input('Line: ','s');
 FlyData.freenessLeft = input('Freeness of left antenna: ','s');
 FlyData.freenessRight = input('Freeness of right antenna: ','s');
 FlyData.notesOnDissection = input('Notes on dissection: ','s');
+FlyData.prepType = input('Prep type: ','s');
 
 % Get eclosion date
 h = uicontrol('Style', 'pushbutton', 'Position', [20 150 100 70]);

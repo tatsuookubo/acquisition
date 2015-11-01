@@ -24,7 +24,7 @@ exptInfo.exptStartTime  = datestr(now,'HH:MM:SS');
 
 %% Get and save fly details
 if strcmp(newFly,'y')
-    getFlyDetails(exptInfo,basename,dataDirectory)
+    FlyData = getFlyDetails(exptInfo,basename,dataDirectory);
     setpref('scimPlotPrefs',{'lastRoiNum','roi','refFrame'},{0,[],[]})
 end
 
@@ -49,6 +49,10 @@ save(filename,'exptInfo')
 diaryFilename = [folder,'\',basename,'diary.txt'];
 diary(diaryFilename)
 diary on
+
+%% Create summary doc 
+sumDocFilename = [folder,'\',basename,'sumDoc'];
+sumDoc2P(exptInfo,FlyData,sumDocFilename)
 
 %% Run stim set if provided
 if exist('stimSetNum','var')

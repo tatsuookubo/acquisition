@@ -3,6 +3,14 @@ function metaFileName = acquireTwoPhotonTrial(stim,trialMeta,varargin)
 close all
 fprintf('\n*********** Acquiring Trial ***********')
 
+%% Delete old tiffs 
+folder = getpref('scimSavePrefs','folder');
+cd(folder) 
+tifNames = dir('*tif');
+for i = 1:length(tifNames) % Change to length -1 if this doesn't work 
+    delete(tifNames.name)
+end
+
 %% Trial time
 trialMeta.trialStartTime = datestr(now,'HH:MM:SS');
 
@@ -61,7 +69,6 @@ if nargin ~= 0
     trialMeta.probePost = getpref('scimSavePrefs','probePos');
     
     % Make filename and folder
-    folder = getpref('scimSavePrefs','folder');
     basename = getpref('scimSavePrefs','basename');
     saveFolder = [folder,'\roiNum',num2str(trialMeta.roiNum,'%03d'),...
         '\blockNum',num2str(trialMeta.blockNum,'%03d'),'\'];
