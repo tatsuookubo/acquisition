@@ -90,7 +90,7 @@ numStim = length(uniqueStim);
 colorSet = distinguishable_colors(trialMeta.totalStimNum,'w');
 for i = 1:numStim
     stimPlotNum = uniqueStim(i);
-    p(i) = plot(sumData.byStim(stimPlotNum).meanXDisp,sumData.byStim(stimPlotNum).meanYDisp,'Color',colorSet(stimPlotNum,:),'DisplayName',num2str(stimPlotNum));
+    p(i) = plot(sumData.byStim(stimPlotNum).meanXDisp,sumData.byStim(stimPlotNum).meanYDisp,'Color',colorSet(stimPlotNum,:),'DisplayName',stim.description);
     hold on 
 end
 symAxis
