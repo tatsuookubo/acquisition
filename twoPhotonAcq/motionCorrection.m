@@ -1,16 +1,23 @@
-function [movCorrected,refFrame] = motionCorrection(mov,refFrame,varargin)
+function [movCorrected,refFrame] = motionCorrection(mov,metaFileName,frameTimes,varargin)
 
-%% Determine refFrame 
-blockNum = getpref('scimSavePrefs','blockNum');
+%% Create refFrame filename 
+load(metaFileName)
+roiFolder = char(regexp(metaFileName,'.*(?=\\block)','match'));
+[~, fileName] = fileparts(metaFileName); 
+fileStem = char(regexp(fileName,'.*(?=block)','match'));
+refFrameFileName = [roiFolder,'\',fileStem,'refFrame.mat'];
+
+%% Create or load refFrame
 numFrames = size(mov,3);
-if ~exist('refFrame','var')
-    if blockNum == 1
-        refFrameNum = round(numFrames/2);
-        refFrame = mov(:,:,refFrameNum,1);    % Middle frame of movie 1 
-    elseif blockNum > 1 
-        refFrame = getpref('scimPlotPrefs','refFrame');
-    end
+if exist(refFrameFileName,'file') == 2
+    load(refFrameFileName) 
+else 
+    refFrameNum = round(numFrames/2);
+    refFrame = mov(:,:,refFrameNum,1);
+    save(refFrameFileName,'refFrame');
 end
+
+%% Do motion correction 
 refFFT = fft2(refFrame);
 numMovs = size(mov,4); 
 movCorrected = NaN(size(mov)); 
@@ -21,19 +28,15 @@ for movNum = 1:numMovs
     end
 end
 
-if blockNum == 1
-    setpref('scimPlotPrefs','refFrame',refFrame)
-end
-
 % %% Check
-% mov3 = mov - repmat(refFrame,1,1,numFrames);
+% mov3 = mov - repmat(refFrame,[1,1,numFrames]);
 % cmax = max(mov3(:));
 % cmin = min(mov3(:)); 
 % 
 % frameInds = round(frameTimes.*Stim.sampleRate); 
 % figure()
 % for j = 1:numMovs
-%     for i = 310:numFrames
+%     for i = 1:numFrames
 %         h(1) = subplot(2,3,1);
 %         imagesc(mov(:,:,i,j))
 %         axis image
@@ -57,7 +60,7 @@ end
 %         title('Difference - uncorrected')
 %         caxis([cmin cmax])
 %         h(4) = subplot(2,3,5);
-%         image3 = movCorrected(:,:,i,j) - movCorrected(:,:,refFrameNum,j);
+%         image3 = movCorrected(:,:,i,j) - refFrame;
 %         imagesc(image3);
 %         caxis([cmin cmax])
 %         axis image
