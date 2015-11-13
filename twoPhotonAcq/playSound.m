@@ -25,7 +25,5 @@ s.startForeground;
 
 %% Close daq objects
 s.stop;
-pause(2)
-
 
 end
