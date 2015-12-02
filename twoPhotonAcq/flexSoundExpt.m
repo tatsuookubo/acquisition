@@ -101,6 +101,14 @@ newBlock;
 metaFileName = acquireTwoPhotonTrial(stim);
 figSuffix = 'Online';
 postMultTrialPlot(metaFileName,figSuffix)
+% Work out whether to do post block plot 
+roiFolder = char(regexp(metaFileName,'.*(?=\\blockNum)','match'));
+cd(roiFolder);
+blockFolders = dir('block*');
+numBlocks = length(blockFolders);
+if numBlocks > 1 
+    postMultBlockPlot(metaFileName,figSuffix)
+end
 
 %% Run multiple trials
 numTrials = 5; 
@@ -109,6 +117,14 @@ for i = 1:numTrials
 end
 figSuffix = 'Online';
 postMultTrialPlot(metaFileName,figSuffix)
+% Work out whether to do post block plot 
+roiFolder = char(regexp(metaFileName,'.*(?=\\blockNum)','match'));
+cd(roiFolder);
+blockFolders = dir('block*');
+numBlocks = length(blockFolders);
+if numBlocks > 1 
+    postMultBlockPlot(metaFileName,figSuffix)
+end
 
 %% Plot all blocks on same graph 
 postMultBlockPlot(metaFileName,figSuffix)

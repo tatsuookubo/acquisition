@@ -51,8 +51,8 @@ diary(diaryFilename)
 diary on
 
 %% Create summary doc 
-% sumDocFilename = [folder,'\',basename,'sumDoc'];
-% sumDoc2P(exptInfo,FlyData,sumDocFilename)
+sumDocFilename = [folder,'\',basename,'sumDoc'];
+sumDoc2P(exptInfo,FlyData,sumDocFilename)
 
 %% Run stim set if provided
 if exist('stimSetNum','var')
