@@ -2,20 +2,22 @@
 % AVB 2015/06/09
 
 %% Run at start of experiment
-runTwoPhotonExpt('dsx',1)
+runTwoPhotonExpt('30G06',1)
 
 %% AMTone
 stim = AmTone;
 stim.waveDur = 1;
 stim.startPadDur = 1;
 stim.endPadDur = 1;
-stim.maxVoltage = 2;
+stim.maxVoltage = 1;
+stim.carrierFreqHz = 150; 
+stim.waveDur = 10; 
 plot(stim)
 
 %% Pure tone 
 stim = SineWave; 
 stim.carrierFreqHz = 50; 
-stim.maxVoltage = 3; 
+stim.maxVoltage = 2; 
 plot(stim) 
 
 %% Ascending Chirp
@@ -55,8 +57,9 @@ plot(stim)
 stim = PipStimulus;
 stim.startPadDur = 3;
 stim.endPadDur = 3;
-stim.numPips = 60;
-stim.maxVoltage = 2;
+stim.numPips = 10;
+stim.maxVoltage = 0.1;
+% stim.pipDur = 1*(0.005/3*2); 
 plot(stim)
 
 %% Pulse Song
@@ -89,7 +92,7 @@ stim = SineWave;
 
 %% New ROI and new block 
 newRoi; 
-newBlock; 
+newBlock;
 
 %% Just new Block 
 newBlock;
@@ -100,7 +103,7 @@ figSuffix = 'Online';
 postMultTrialPlot(metaFileName,figSuffix)
 
 %% Run multiple trials
-numTrials = 3; 
+numTrials = 5; 
 for i = 1:numTrials
     metaFileName = acquireTwoPhotonTrial(stim);
 end
