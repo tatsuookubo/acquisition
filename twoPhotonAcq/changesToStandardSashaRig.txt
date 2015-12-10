@@ -1,0 +1,7 @@
+Changes to standard when starting on Sasha's old rig: 
+
+nextTrigBoardID=''	>	nextTrigBoardID='Dev2'         
+nextTrigCtrID=[]	>	nextTrigCtrID=1
+pockelsBoardID1='Dev3'  >	pockelsBoardID1='Dev2'
+shutterBoardID='Dev3'   >	shutterBoardID='Dev2'  
+shutterLineIndex=1      >	shutterLineIndex=0                                             

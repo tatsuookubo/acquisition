@@ -51,6 +51,7 @@ s.queueOutputData([stim.stimulus extTrig]);
 rawData = s.startForeground;
 
 %% Process data
+data.piezoSensor = rawData(:,settings.bob.piezoSensorCol);
 data.xMirror = rawData(:,settings.bob.xMirrorCol);
 data.yMirror = rawData(:,settings.bob.yMirrorCol);
 data.pockelsCellCommand = rawData(:,settings.bob.pockCol);
