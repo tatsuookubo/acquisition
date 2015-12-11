@@ -20,7 +20,7 @@ if ~exist('stim','var')
 end
 
 %% Create ScanImage trigger
-extTrig = ones(size(stim.stimulus));
+extTrig = 5*ones(size(stim.stimulus));
 extTrig(1) = 0;
 extTrig(end) = 0;
 
@@ -32,11 +32,11 @@ s = daq.createSession('ni');
 s.Rate = settings.sampRate.out;
 
 % Add analog out channel (speaker)
-s.addAnalogOutputChannel(settings.devID,0,'Voltage');
+s.addAnalogOutputChannel(settings.devID,0:1,'Voltage');
 s.Rate = settings.sampRate.out;
 
 % Add digital out channel (external trigger)
-s.addDigitalChannel(settings.devID,settings.bob.trigOut,'OutputOnly');
+% s.addDigitalChannel(settings.devID,settings.bob.trigOut,'OutputOnly');
 
 % Add analog input channel (for acquiring mirror commands that scanImage
 % sends)
