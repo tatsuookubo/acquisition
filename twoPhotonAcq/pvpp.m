@@ -45,6 +45,10 @@ for i = 1:numMovies
     %% Image processing
     % Remove the last line where the image doesn't change
     mov(64,:,:,:,:)=[];
+
+    
+    %% Remove the first frame due to shutter problem 
+    mov(:,:,:,1) = [];    
     
     %% Separate channels
     greenMov = squeeze(mov(:,:,2,:,:));
@@ -53,11 +57,21 @@ for i = 1:numMovies
     movieVars(i) = var(greenMov(:));
     
 end
-    
+
+close all
 figure
-plot(movieMeans,movieVars)
+plot(movieMeans,movieVars,'o')
 xlabel('mean')
 ylabel('variance')
 a = powerLevels'; b = num2str(a); c = cellstr(b);
-dx = 0.01; dy = 0.1; % displacement so the text does not overlay the data points
+dx = 0; dy = 0; % displacement so the text does not overlay the data points
 text(movieMeans+dx, movieVars+dy, c);
+
+figure 
+plot(movieMeans.^2,movieVars,'o')
+xlabel('mean squared')
+ylabel('variance')
+meanN = (movieMeans.^2)./movieVars; 
+a = [powerLevels;meanN]'; b = num2str(a); c = cellstr(b);
+dx = 0; dy = 0; % displacement so the text does not overlay the data points
+text(movieMeans.^2+dx, movieVars+dy, c);

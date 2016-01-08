@@ -2,7 +2,7 @@
 % AVB 2015/06/09
 
 %% Run at start of experiment
-runTwoPhotonExpt('30G06',1)
+runTwoPhotonExpt('test',1)
 
 %% AMTone
 stim = AmTone;
@@ -17,14 +17,14 @@ plot(stim)
 %% Pure tone 
 stim = SineWave; 
 stim.carrierFreqHz = 50; 
-stim.maxVoltage = 2; 
+stim.maxVoltage = 1; 
 plot(stim) 
 
 %% Ascending Chirp
 stim = Chirp;
 stim.maxVoltage = 1;
-stim.startPadDur = 5; 
-stim.endPadDur = 10;
+stim.startPadDur = 3; 
+stim.endPadDur = 3;
 plot(stim)
 
 %% Descending chirp
@@ -45,7 +45,7 @@ stim.endPadDur = 10;
 
 %% Courtship Song
 stim = CourtshipSong;
-stim.maxVoltage = 2;
+stim.maxVoltage = 1;
 plot(stim)
 
 %% No stimulus
@@ -57,8 +57,8 @@ plot(stim)
 stim = PipStimulus;
 stim.startPadDur = 3;
 stim.endPadDur = 3;
-stim.numPips = 10;
-stim.maxVoltage = 0.1;
+stim.numPips = 30;
+stim.maxVoltage = 0.5;
 % stim.pipDur = 1*(0.005/3*2); 
 plot(stim)
 
