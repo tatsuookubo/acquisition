@@ -6,12 +6,12 @@ function stimSet_012(exptInfo,preExptData)
 archiveExpCode(exptInfo)
 
 %% Set up and acquire with the stimulus set
-numberOfStimuli = 22;
+numberOfStimuli = 21;
 stimRan = randperm(numberOfStimuli);
 
 count = 1;
 repeat = 1;
-while repeat < 2
+while repeat < 3
     trialMeta.stimNum = stimRan(count);
     fprintf(['\nStimNum = ',num2str(trialMeta.stimNum)])
     fprintf(['\nRepeatNum = ',num2str(repeat)])

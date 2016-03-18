@@ -49,7 +49,11 @@ for n = 1:numTrials;
     startPadEnd = Stim.startPadDur*settings.sampRate.in; 
     DCOffset = mean(data.piezoSG(1:startPadEnd));
     GroupData(stimNum).piezoCommand(trialInd,:) = DCOffset + Stim.stimulus;
-    
+    if isfield(Stim,'description')
+        GroupData(stimNum).description = Stim.description;
+    else 
+        GroupData(stimNum).description = 'no stim description';
+    end
 end
 
 %% save processed data
