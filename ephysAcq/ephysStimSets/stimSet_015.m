@@ -1,6 +1,6 @@
-function stimSet_012(exptInfo,preExptData)
+function stimSet_015(exptInfo,preExptData)
 
-% To play a range of stimuli for 15um piezo
+% To play a range of stimuli for 90um piezo
 
 %% Archive this code
 archiveExpCode(exptInfo)
@@ -34,11 +34,11 @@ switch stimNum
     case 1
         stim = PipStimulus;
         stim.speaker = 2;
-        stim.maxVoltage = 4; 
+        stim.maxVoltage = 1; 
     case 2
         stim = Chirp;
         stim.speaker = 2;
-        stim.maxVoltage = 4; 
+        stim.maxVoltage = 1; 
         stim.startFrequency  = 400;
         stim.endFrequency    = 17;
         stim.mode = 'piezo';
@@ -46,27 +46,27 @@ switch stimNum
         stim = Chirp;
         stim.startFrequency  = 17;
         stim.endFrequency    = 400;
-        stim.maxVoltage = 4;
+        stim.maxVoltage = 1;
         stim.mode = 'piezo';
     case 4
         stim = CourtshipSong;
         stim.speaker = 2;
-        stim.maxVoltage = 4; 
+        stim.maxVoltage = 1; 
     case 5
         stim = PulseSong;
         stim.speaker = 2;
-        stim.maxVoltage = 4; 
+        stim.maxVoltage = 1; 
     case 6
         stim = SquareWave;
         stim.speaker = 2;
-        stim.maxVoltage = 4; 
+        stim.maxVoltage = 1; 
     case num2cell(7:16)
         freqRange = 25.*sqrt(2).^((-1:8));
         stimNumStart = 7-1;
         freqNum = stimNum - stimNumStart;
         stim = SineWave;
         stim.carrierFreqHz = freqRange(freqNum);
-        stim.maxVoltage = 4; 
+        stim.maxVoltage = 1; 
     case num2cell(17:21)
         modFreqRange = 2.^(0:4);
         stimNumStart = 17-1;
@@ -74,6 +74,6 @@ switch stimNum
         stim = AmTone;
         stim.carrierFreqHz = 300;
         stim.modFreqHz = modFreqRange(modFreqNum);
-        stim.maxVoltage = 4; 
+        stim.maxVoltage = 1; 
 end
 end

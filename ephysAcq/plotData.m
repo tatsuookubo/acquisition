@@ -18,7 +18,7 @@ plot(stim.timeVec,DCOffset + stim.stimulus,'Color',gray)
 hold on 
 plot(sampTime,data.piezoSG)
 ylabel('Voltage (V)') 
-title('Piezo stimulus') 
+title(['Piezo: ',stim.description]) 
 hold off
 ylim([0 10])
 

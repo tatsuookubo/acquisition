@@ -1,6 +1,9 @@
 function settings = ephysSettings(stim)
 
 %% Parameters
+% Device
+settings.devID = 'Dev1';
+
 % Samp Rate
 settings.sampRate.out   = stim.sampleRate;
 settings.sampRate.in    = 10E3;

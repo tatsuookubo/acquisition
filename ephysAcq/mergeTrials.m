@@ -35,7 +35,7 @@ for n = 1:numTrials;
     else
         GroupStim(stimNum).stimTime = [1/Stim.sampleRate:1/Stim.sampleRate:Stim.totalDur]';
         GroupStim(stimNum).stimulus = Stim.stimulus;
-        GroupData(stimNum).sampTime = (1:length(data.voltage))./settings.sampRate.in;;
+        GroupData(stimNum).sampTime = (1:length(data.voltage))./settings.sampRate.in;
         
     end
     
