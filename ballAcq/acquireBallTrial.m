@@ -1,5 +1,7 @@
 function acquireBallTrial(stim,exptInfo,trialMeta)
 
+%% This is Tots' version 
+
 fprintf('\n*********** Acquiring Trial ***********') 
 
 %% Trial time 
