@@ -1,25 +1,29 @@
 function ballStimSet_004(exptInfo)
 %%% Tatsuo Okubo
-%%% 2016/05/16
+%%% 2016/05/08
 
 %% Archive this code
 archiveExpCodeBall(exptInfo)
 
 %% Set up and acquire with the stimulus set
 tic
-trialMeta.totalStimNum = 1; 
-while toc<3600 % run for an hour (habituation)
-    trialMeta.pauseDur = rand(1,1); % random pause duration
-    pause on 
-    pause(trialMeta.pauseDur);
-    trialMeta.stimNum = 1;
-    %stim = noStimulus;
-    %stim.startPadDur = 5;
-    %stim.endPadDur = 5;
-    %stim.speaker = 1; 
-    %trialMeta.outputCh = switchSpeakerBall(stim.speaker); % output channel (either 0 or 1)
-    
-    stim = olfactometerPulse;
-    acquireBallTrial(stim,exptInfo,trialMeta);
-end
+trialMeta.totalStimNum = 4; % total number of trial types
+while toc<3600
+    In = inputdlg('Wind direction (1:headwind, 2:R 90deg, 3:tailwind, 4:L 90deg)','Type trial type'); % type in trial type
+    trialMeta.stimNum = eval(In{1});
+    trialMeta.trialPerType = 10;
+    for k=1:trialMeta.trialPerType
+        trialMeta.pauseDur = 5*rand(1,1); % random pause duration
+        pause on
+        pause(trialMeta.pauseDur);
+                
+        trialMeta.windPre = 3; % [s] before wind on
+        trialMeta.odorPre = 3; % [s] after wind on, before odor on
+        trialMeta.odorDur = 3; % [s] pinch valve for odor delivery
+        trialMeta.odorPost = 3; % [s] after odor off, before wind off
+        trialMeta.windPost = 3; % [s] after wind off
+        
+        stim = olfactometerPulse(trialMeta);
+        acquireBallTrial_TO(stim,exptInfo,trialMeta);
+    end
 end

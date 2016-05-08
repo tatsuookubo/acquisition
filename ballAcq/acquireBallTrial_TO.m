@@ -1,4 +1,4 @@
-function acquireBallTrial(stim,exptInfo,trialMeta)
+function acquireBallTrial_TO(stim,exptInfo,trialMeta)
 %%% modified by Tatsuo Okubo
 %%% 2015/05/06
 
@@ -22,8 +22,8 @@ s.Rate = settings.sampRate;
 s.DurationInSeconds = stim.totalDur;
 
 %% Add digital output channels (olfactometer)
-s.addAnalogOutputChannel(settings.devID,trialMeta.outputCh,'Voltage');
-% trialMeta and not settings since speaker being used changes every trial
+s.addDigitalChannel(settings.devID, {['Port0/Line' num2str(settings.outChannelsUsed(1))]}, 'OutputOnly'); % red (24V)
+s.addDigitalChannel(settings.devID, {['Port0/Line' num2str(settings.outChannelsUsed(2))]}, 'OutputOnly'); % blue (24V)
 
 % Add analog input channels (sensor data)
 aI = s.addAnalogInputChannel(settings.devID,settings.inChannelsUsed,'Voltage');
@@ -66,5 +66,6 @@ if nargin ~= 0 && nargin ~= 1
 end
 
 %% Plot data
-plotBallData(Stim,rawData,trialMeta,exptInfo) 
+plotBallData_TO(Stim,rawData,trialMeta,exptInfo)
+%plotBallData(Stim,rawData,trialMeta,exptInfo) 
 end

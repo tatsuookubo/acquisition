@@ -9,8 +9,8 @@ fileName = [path,fileNamePreamble,'onlineSumData.mat'];
 bins = -10:0.5:40;
 
 %% Process and save data
-if trialNum == 1
-    [sumData.yVelCounts,sumData.histCenters] = hist(procData.vel(:,2),bins);
+if trialNum == 1 % first trial
+    [sumData.yVelCounts,sumData.histCenters] = hist(procData.vel(:,2),bins); % forsward velocity histogram
     sumData.byStim(trialMeta.stimNum).xDisp(:,1) = procData.disp(:,1);
     sumData.byStim(trialMeta.stimNum).yDisp(:,1) = procData.disp(:,2);
 else
@@ -19,10 +19,10 @@ else
         sumData.byStim(trialMeta.stimNum).xDisp = NaN(size(procData.disp(:,1)));
         sumData.byStim(trialMeta.stimNum).yDisp = NaN(size(procData.disp(:,1)));
     end
-    [currTrialCounts,sumData.histCenters] = hist(procData.vel(:,2),bins);
-    sumData.yVelCounts = sumData.yVelCounts + currTrialCounts;
-    sumData.byStim(trialMeta.stimNum).xDisp = nansum([sumData.byStim(trialMeta.stimNum).xDisp,procData.disp(:,1)],2);
-    sumData.byStim(trialMeta.stimNum).yDisp = nansum([sumData.byStim(trialMeta.stimNum).yDisp,procData.disp(:,2)],2);
+    [currTrialCounts,sumData.histCenters] = hist(procData.vel(:,2),bins); % histogram of current trial
+    sumData.yVelCounts = sumData.yVelCounts + currTrialCounts; % cumulative histogram
+    sumData.byStim(trialMeta.stimNum).xDisp = nansum([sumData.byStim(trialMeta.stimNum).xDisp,procData.disp(:,1)],2); % cumulative x-displacement
+    sumData.byStim(trialMeta.stimNum).yDisp = nansum([sumData.byStim(trialMeta.stimNum).yDisp,procData.disp(:,2)],2); % cumulative y-displacement
 end
 
 sumData.stimNum(trialNum) = trialMeta.stimNum;
