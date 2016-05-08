@@ -11,7 +11,7 @@ path = [dataDirectory,prefixCode,'\expNum',eNum,'\flyNum'];
 
 % Determine fly number
 flyNum = 1;
-while( isdir([path,num2str(flyNum,'%03d')]) )
+while( isdir([path,num2str(flyNum,'%03d')]) ) 
     flyNum = flyNum + 1;
 end
 

@@ -1,6 +1,6 @@
-function ballStimSet_003(exptInfo)
-
-% Produces the default pip train while switching between all three speakers
+function ballStimSet_004(exptInfo)
+%%% Tatsuo Okubo
+%%% 2016/05/16
 
 %% Archive this code
 archiveExpCodeBall(exptInfo)
@@ -13,12 +13,13 @@ while toc<3600 % run for an hour (habituation)
     pause on 
     pause(trialMeta.pauseDur);
     trialMeta.stimNum = 1;
-    stim = noStimulus;
-    stim.startPadDur = 5;
-    stim.endPadDur = 5;
-    stim.speaker = 1; 
-    trialMeta.outputCh = switchSpeakerBall(stim.speaker); % output channel (either 0 or 1)
+    %stim = noStimulus;
+    %stim.startPadDur = 5;
+    %stim.endPadDur = 5;
+    %stim.speaker = 1; 
+    %trialMeta.outputCh = switchSpeakerBall(stim.speaker); % output channel (either 0 or 1)
+    
+    stim = olfactometerPulse;
     acquireBallTrial(stim,exptInfo,trialMeta);
 end
-
 end

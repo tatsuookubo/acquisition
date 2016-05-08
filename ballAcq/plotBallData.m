@@ -99,7 +99,7 @@ ylabel('Y displacement (mm)')
 legend(p(:),'Location','eastoutside')
 legend('boxoff')
 
-suptitle(stim.speakerOrder(stim.speaker))
+%suptitle(stim.speakerOrder(stim.speaker))
 
 end
 

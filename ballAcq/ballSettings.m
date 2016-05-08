@@ -4,6 +4,7 @@ function settings = ballSettings
 settings.sampRate = 40e3;
 settings.devID = 'Dev1';
 settings.inChannelsUsed = 0:1;
+settings.outChannelsUsed = 6:7; % digital output for the olfactometer (TO)
 
 %% Processing settings
 settings.xMinVal = 0.0490;
@@ -19,5 +20,5 @@ settings.mmConv = 25.4;
 settings.mmPerCount = settings.mmConv/settings.sensorRes;
 settings.sensorPollFreq = 100; 
 
-settings.dataDirectory = 'C:\Users\Alex\Documents\Data\ballData\';
+settings.dataDirectory = 'C:\Users\Tots.NBWILSON-5WH6D4\Documents\PostdocWork\ballData\';
 

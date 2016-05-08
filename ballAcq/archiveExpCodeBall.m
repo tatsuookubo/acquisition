@@ -1,5 +1,6 @@
 function archiveExpCodeBall(exptInfo)
-    
+%%% save the stimulus code (.m) in the same folder as the ball data    
+
     [~, path, fileNamePreamble, ~] = getDataFileNameBall(exptInfo);
     scriptFileName = [path,fileNamePreamble,'stimSetCode.m'];
 

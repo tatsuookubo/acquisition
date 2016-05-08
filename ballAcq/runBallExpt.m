@@ -8,7 +8,7 @@ fprintf(['Fly Number = ',num2str(flyNum),'\n'])
 fprintf(['Fly Experiment Number = ',num2str(flyExpNum),'\n'])
 
 %% Set meta data
-exptInfo.prefixCode     = prefixCode;
+exptInfo.prefixCode     = prefixCode; % e.g. 'tots'
 exptInfo.expNum         = expNum;
 exptInfo.flyNum         = flyNum;
 exptInfo.flyExpNum      = flyExpNum;

@@ -1,6 +1,6 @@
 function acquireBallTrial(stim,exptInfo,trialMeta)
-
-%% This is Tots' version 
+%%% modified by Tatsuo Okubo
+%%% 2015/05/06
 
 fprintf('\n*********** Acquiring Trial ***********') 
 
@@ -21,18 +21,22 @@ s = daq.createSession('ni');
 s.Rate = settings.sampRate;
 s.DurationInSeconds = stim.totalDur;
 
-% Add analog output channels (speaker)
-s.addAnalogOutputChannel(settings.devID,trialMeta.outputCh,'Voltage');
+%% Add digital output channels (olfactometer)
+%s.addAnalogOutputChannel(settings.devID,trialMeta.outputCh,'Voltage');
+% trialMeta and not settings since speaker being used changes every trial
+
+s.addDigitalChannel(settings.devID, {['Port0/Line' num2str(settings.outChannelsUsed(1))]}, 'OutputOnly'); % master valve (TO)
+s.addDigitalChannel(settings.devID, {['Port0/Line' num2str(settings.outChannelsUsed(2))]}, 'OutputOnly'); % pinch valve (TO)
 
 % Add analog input channels (sensor data)
 aI = s.addAnalogInputChannel(settings.devID,settings.inChannelsUsed,'Voltage');
 for i = 1+settings.inChannelsUsed
-    aI(i).InputType = settings.aiType;
+    aI(i).InputType = settings.aiType; % single-ended for all channels
 end
 
 %% Run trials
-s.queueOutputData([stim.stimulus]);
-rawData = s.startForeground;
+s.queueOutputData([stim.stimulus]); % output
+rawData = s.startForeground; % acquire data
 
 %% Close daq objects
 s.stop;
@@ -63,12 +67,6 @@ if nargin ~= 0 && nargin ~= 1
     end
 end
 
-
-
 %% Plot data
 plotBallData(Stim,rawData,trialMeta,exptInfo) 
-
-
-
-
 end
