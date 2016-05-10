@@ -66,36 +66,56 @@ symAxisY
 
 subplot(6,2,2:2:6)
 % define time points in the trial
+% T1 = round((stim.startPadDur+stim.windPre)*settings.sampRate); % [samples]
+% T2 = round((stim.startPadDur+stim.windPre+stim.odorPre)*settings.sampRate); % [samples]
+% T3 = round((stim.startPadDur+stim.windPre+stim.odorPre+stim.odorDur)*settings.sampRate); % [samples]
+% T4 = round((stim.startPadDur+stim.windPre+stim.odorPre+stim.odorDur+stim.odorPost)*settings.sampRate); % [samples]
+% A1 = procData.disp(1:T1,:);
+% A2 = procData.disp((T1+1):T2,:);
+% A3 = procData.disp((T2+1):T3,:);
+% A4 = procData.disp((T3+1):T4,:);
+% A5 = procData.disp((T4+1):end,:);
+% 
+% plot(A1(1,1),A1(1,2),'ko')
+% hold on
+% text(A1(1,1),A1(1,2),'trial on','Color','k','FontSize',10);
+% plot(A1(:,1),A1(:,2),'k:')
+% 
+% plot(A2(1,1),A2(1,2),'bo')
+% text(A2(1,1),A2(1,2),'wind on','Color','b','FontSize',10);
+% plot(A2(:,1),A2(:,2),'b:')
+% 
+% plot(A3(1,1),A3(1,2),'ro')
+% text(A3(1,1),A3(1,2),'odor on','Color','r','FontSize',10);
+% plot(A3(:,1),A3(:,2),'r-')
+% 
+% plot(A4(1,1),A4(1,2),'bo')
+% text(A4(1,1),A4(1,2),'odor off','Color','b','FontSize',10);
+% plot(A4(:,1),A4(:,2),'b-')
+% 
+% plot(A5(1,1),A5(1,2),'ko')
+% text(A5(1,1),A5(1,2),'wind off','Color','b','FontSize',10);
+% plot(A5(:,1),A5(:,2),'k:')
+
 T1 = round((stim.startPadDur+stim.windPre)*settings.sampRate); % [samples]
-T2 = round((stim.startPadDur+stim.windPre+stim.odorPre)*settings.sampRate); % [samples]
-T3 = round((stim.startPadDur+stim.windPre+stim.odorPre+stim.odorDur)*settings.sampRate); % [samples]
-T4 = round((stim.startPadDur+stim.windPre+stim.odorPre+stim.odorDur+stim.odorPost)*settings.sampRate); % [samples]
+T2 = round((stim.startPadDur+stim.windPre+stim.odorDur)*settings.sampRate); % [samples]
 A1 = procData.disp(1:T1,:);
 A2 = procData.disp((T1+1):T2,:);
-A3 = procData.disp((T2+1):T3,:);
-A4 = procData.disp((T3+1):T4,:);
-A5 = procData.disp((T4+1):end,:);
+A3 = procData.disp((T2+1):end,:);
 
 plot(A1(1,1),A1(1,2),'ko')
 hold on
 text(A1(1,1),A1(1,2),'trial on','Color','k','FontSize',10);
 plot(A1(:,1),A1(:,2),'k:')
 
-plot(A2(1,1),A2(1,2),'bo')
-text(A2(1,1),A2(1,2),'wind on','Color','b','FontSize',10);
-plot(A2(:,1),A2(:,2),'b:')
+plot(A2(1,1),A2(1,2),'ro')
+text(A2(1,1),A2(1,2),'wind on','Color','r','FontSize',10);
+plot(A2(:,1),A2(:,2),'r-')
 
-plot(A3(1,1),A3(1,2),'ro')
-text(A3(1,1),A3(1,2),'odor on','Color','r','FontSize',10);
-plot(A3(:,1),A3(:,2),'r-')
+plot(A3(1,1),A3(1,2),'bo')
+text(A3(1,1),A3(1,2),'wind off','Color','b','FontSize',10);
+plot(A3(:,1),A3(:,2),'b-')
 
-plot(A4(1,1),A4(1,2),'bo')
-text(A4(1,1),A4(1,2),'odor off','Color','b','FontSize',10);
-plot(A4(:,1),A4(:,2),'b-')
-
-plot(A5(1,1),A5(1,2),'ko')
-text(A5(1,1),A5(1,2),'wind off','Color','b','FontSize',10);
-plot(A5(:,1),A5(:,2),'k:')
 symAxis
 ylabel('Y displacement (mm)')
 title('X-Y displacement')
