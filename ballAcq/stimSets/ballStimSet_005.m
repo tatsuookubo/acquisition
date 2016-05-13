@@ -8,11 +8,11 @@ archiveExpCodeBall(exptInfo)
 
 %% Set up and acquire with the stimulus set
 tic
-trialMeta.totalStimNum = 6; % total number of trial types
+trialMeta.totalStimNum = 8; % total number of trial types
 for k=1:trialMeta.totalStimNum
-    In = inputdlg('Wind direction (1:headwind, 2:R 90deg, 3:tailwind, 4:L 90deg, 5:R 45deg, 6:L 45 deg)','Type trial type'); % type in trial type
+    In = inputdlg('Wind direction (1:0, 2:R 45, 3:R 90, 4:R 135, 5:180, 6:L 135 7:L 90 8:L 45)','Type trial type'); % type in trial type
     trialMeta.stimNum = eval(In{1});
-    trialMeta.trialPerType = 20;
+    trialMeta.trialPerType = 10;
     for n=1:trialMeta.trialPerType
         trialMeta.pauseDur = 5*rand(1,1); % random pause duration
         pause on
