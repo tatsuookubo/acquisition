@@ -21,5 +21,5 @@ settings.mmPerCount = settings.mmConv/settings.sensorRes;
 settings.sensorPollFreq = 100; 
 
 settings.dataDirectory = 'C:\Users\Tots.NBWILSON-5WH6D4\Documents\PostdocWork\ballData\';
-%settings.dataDirectory = 'Z:\Tots\Behavior\Tethered_walking\ballData\';
+settings.serverDirectory = 'Z:\Tots\Behavior\Tethered_walking\ballData\';
 
